@@ -6,8 +6,10 @@ import sub_func_inp as sfi
 def main():
     # Cerate top-level parser
     parser = argparse.ArgumentParser(description=
-                """Use *.xyz file to wirte the input
-                files needed for QM4D calculations""")
+                """Use f_name.xyz file to wirte the input
+                files needed for QM calculations.
+                {qm4d: f_name.inp, slurm},
+                {g09 : f_name.com, slurm}""")
     # Create sub-level parser for command {dft, losc, hf}
     subparser = parser.add_subparsers(help= "Calculation method choices")
     
@@ -53,6 +55,6 @@ def main():
     args.func(args)
 
 
-
+#***************************************
 if __name__ == "__main__":
     main()
