@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH --job-name H
+#SBATCH --time=100
+#SBATCH --nodes=1
+#SBATCH --mem=2G
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=mei2
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-user=ym95
+qm4d_git 1.inp > 1.out

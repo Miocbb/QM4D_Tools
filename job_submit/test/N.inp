@@ -1,0 +1,27 @@
+ $qm
+ xyz Cs.xyz 
+ spin            2
+ charge         -1
+ mult            2
+ iter          300
+ method dft
+ xcfunc b3lyp
+ LOSC_r0    2.70000000000000     
+ LOSC_eta    3.00000000000000     
+ LOSC_eps    2.50000000000000     
+ LOSC_gamma    2.00000000000000     
+ LOSC_exf    1.23780000000000     
+ LOSC_pow 2.0
+ Boys Anal 20
+ LOEnergy -30 10
+ dentol   1.000000000000000E-004
+ etol   1.000000000000000E-008
+ print            1
+ guess read *.txt
+ directvee
+ diis           12  0.300000000000000     
+ basis Be Be.cc-pVTZ
+ fitbasis Be Be.aug-cc-pVTZ
+ POSTSCF LMOSC Boys 1000 1.e-10
+ end
+ $doqm
