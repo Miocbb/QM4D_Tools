@@ -116,14 +116,14 @@ parent_parser.add_argument('-spin',   default = '2',
                 help = 'Default=2 [2:Unrestricted; 1:restricted]')
 parent_parser.add_argument('-charge', default = '0',
                 help = 'Default=0')
-parent_parser.add_argument('-mult',  default = '-1',
-                help = 'Default=auto_set [based on elec_num]')
 parent_parser.add_argument('-basis', default = 'cc-pVTZ',
                 help='Default="cc-pVTZ"')
 parent_parser.add_argument('-guess',  default='atom',
                 help='Default=atom [inital guess option]',)
 parent_parser.add_argument('-cpu', default='8',
-                help='[Default: qm4d=1 g09=8]')
+                help='Default=1(qm4d), 8(g09)')
 parent_parser.add_argument('-mem', default='-1',
                 help='Default=auto_set [based on elec_num]')
- 
+parent_parser.add_argument('-mult',  default = '-1',
+                help = 'Default=auto_set [based on elec_num]')
+
