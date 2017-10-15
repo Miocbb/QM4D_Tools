@@ -19,7 +19,7 @@ def main():
                     help='Default=b3lyp')
     parser_dft.add_argument('-g09', action='store_true',
                     help='[calculation package: g09]')
-    parser_dft.set_defaults(func=sfi.dft_inp, method='dft')
+    parser_dft.set_defaults(func=sfi.dft_main, method='dft')
 
     # Create parser for "losc" command
     parser_losc = subparser.add_parser('losc', parents=[sub_claims.parent_parser],
@@ -32,14 +32,14 @@ def main():
                     help='Default="-30 10", [set LOSC calculation wimdow]')
     parser_losc.add_argument('-postSCF', default = '1',
                     help='Default=1 [1:POSTSCF  0:SCF]')
-    parser_losc.set_defaults(func=sfi.losc_inp, method='losc')
+    parser_losc.set_defaults(func=sfi.losc_main, method='losc')
 
     # Create parser for "hf" command
     parser_hf = subparser.add_parser('hf', help='HF calculation',
                     parents=[sub_claims.parent_parser])
     parser_hf.add_argument('-g09', action='store_true',
                     help='[calculation package: g09]')
-    parser_hf.set_defaults(func=sfi.hf_inp, method='hf')
+    parser_hf.set_defaults(func=sfi.hf_main, method='hf')
 
     args = parser.parse_args()
     print args
@@ -47,6 +47,7 @@ def main():
     sfi.check_arg(args)
     # Start writing the input file
     args.func(args)
+
 
 
 if __name__ == "__main__":

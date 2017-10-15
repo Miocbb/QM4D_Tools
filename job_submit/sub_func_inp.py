@@ -3,26 +3,36 @@ import sys
 import os.path
 import os
 import sub_claims
+import sub_func_slurm as sfs #supporting funcs for writing slurm file
 
 
 def hf_main(args):
+    """
+    hf calculation main function
+    """
     hf_inp(args)
-    hf_slurm(args)
-    sbatch(args)
+    sfs.hf_slurm(args)
+    sfs.sbatch(args)
     print 'job submitted.'
 
 
 def dft_main(args):
+    """
+    standard dft calculation main function
+    """
     dft_inp(args)
-    dft_slurm(args)
-    sbatch(args)
+    sfs.dft_slurm(args)
+    sfs.sbatch(args)
     print 'job submitted.'
 
 
 def losc_main(args):
+    """
+    DFT with losc functional main function
+    """
     losc_inp(args)
-    losc_slurm(args)
-    sbatch(args)
+    sfs.losc_slurm(args)
+    sfs.sbatch(args)
     print 'job submitted.'
 
 
