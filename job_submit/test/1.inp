@@ -2,8 +2,9 @@ $qm
 xyz    1.xyz
 spin   2
 charge 0
-mult   1
-method  hf
+mult   2
+method  dft
+xcfunc b3lyp
 guess  atom
 iter      300
 dentol    1.0E-004

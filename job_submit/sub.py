@@ -42,6 +42,10 @@ def main():
     parser_hf.set_defaults(func=sfi.hf_main, method='hf')
 
     args = parser.parse_args()
+    # get total system elec_num
+    elec_num = sfi.count_elec_num(args)
+    sfi.auto_set_mem(args, elec_num) # auto_set arg[mem]
+    sfi.auto_set_mult(args, elec_num) # auto_set arg[mult]
     print args
     # Check if all the args are valid
     sfi.check_arg(args)
