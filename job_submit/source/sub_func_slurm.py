@@ -17,6 +17,7 @@ def hf_slurm(args):
     f_com_name   = args._f_com_name
     f_slurm_name = args._f_slurm_name
     job_name = args._job_name
+    partition = s_claims.partition_name[args.partition]
     # create slurm file
     if args.g09 == True:
         f = open('g09/' + f_com_name, 'w')
@@ -31,7 +32,7 @@ def hf_slurm(args):
     print >>f, '#SBATCH --nodes=1'
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
     print >>f, '#SBATCH --cpus-per-task=1'
-    print >>f, '#SBATCH --partition=' + args.partition
+    print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
     # write slurm command line
@@ -52,6 +53,7 @@ def dft_slurm(args):
     f_com_name   = args._f_com_name
     f_slurm_name = args._f_slurm_name
     job_name = args._job_name
+    partition = s_claims.partition_name[args.partition]
     # create slurm file
     if args.g09 == True:
         f = open('g09/' + f_slurm_name, 'w')
@@ -66,7 +68,7 @@ def dft_slurm(args):
     print >>f, '#SBATCH --nodes=1'
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
     print >>f, '#SBATCH --cpus-per-task=1'
-    print >>f, '#SBATCH --partition=' + args.partition
+    print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
     # write slurm command line
@@ -85,6 +87,7 @@ def losc_slurm(args):
     f_out_name   = args._f_out_name
     f_slurm_name = args._f_slurm_name
     job_name = args._job_name
+    partition = s_claims.partition_name[args.partition]
     # create slurm file
     f = open(f_slurm_name, 'w')
     # start writing slurm
@@ -95,14 +98,14 @@ def losc_slurm(args):
     print >>f, '#SBATCH --nodes=1'
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
     print >>f, '#SBATCH --cpus-per-task=1'
-    print >>f, '#SBATCH --partition=' + args.partition
+    print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
     print >>f, 'qm4d_git ' + f_inp_name + ' > ' + f_out_name
     # finished wrting slurm
 
 
-def sbatch(args):
+def real_sbatch(args):
     """
     brief:  submit jobs with external command 'sbatch'.
 
@@ -116,18 +119,29 @@ def sbatch(args):
     job_name = args._job_name
     if args.nosub: # require no job submit
         return 0
-    if args.g09 == True: # sbatch g09
-        if os.path.isfile('g09/' + f_slurm_name) == True:
-            os.chdir('g09')
-            subprocess.call(['sbatch', f_slurm_name])
-            os.chdir('..')
-        else:
-            SigExit('Terminated:No slurm file in g09 dir to sbatch')
-    else: # sbatch qm4d
+    if args._method == 'losc':
         if os.path.isfile(f_slurm_name) == True:
             subprocess.call(['sbatch', f_slurm_name])
         else:
             SigExit('Terminated: No slurm file to sbatch')
+    else:
+        if args.g09 == True: # sbatch g09
+            if os.path.isfile('g09/' + f_slurm_name) == True:
+                os.chdir('g09')
+                subprocess.call(['sbatch', f_slurm_name])
+                os.chdir('..')
+            else:
+                SigExit('Terminated:No slurm file in g09 dir to sbatch')
+        else: # sbatch qm4d
+            if os.path.isfile(f_slurm_name) == True:
+                subprocess.call(['sbatch', f_slurm_name])
+            else:
+                SigExit('Terminated: No slurm file to sbatch')
     return 1
 
-
+def sbatch(args):
+    if args._sys_warning:
+        SigExit("Status: Check before submit jobs")
+    status = real_sbatch(args)
+    if status == 0:
+        print 'Status: created inp files'

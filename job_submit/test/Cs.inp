@@ -1,0 +1,17 @@
+$qm
+xyz    Cs.xyz
+spin   2
+charge 0
+mult   1
+method  dft
+xcfunc b3lyp
+guess  atom
+iter      300
+dentol    1.0E-004
+etol      1.0E-008
+print     1
+directvee
+diis      12  0.30
+basis    B B.CC-PVTZ
+end
+$doqm

@@ -5,6 +5,7 @@ import argparse
 import sub_claims as s_claims
 import sub_func_slurm as sf_slurm
 import sub_func_inp as sf_inp
+from sub_func_support import SigExit
 
 
 def hf_main(args):
@@ -13,9 +14,7 @@ def hf_main(args):
     """
     sf_inp.hf_inp(args)
     sf_slurm.hf_slurm(args)
-    if not sf_slurm.sbatch(args):
-        print 'successfully create inp files'
-
+    sf_slurm.sbatch(args)
 
 def dft_main(args):
     """
@@ -23,8 +22,7 @@ def dft_main(args):
     """
     sf_inp.dft_inp(args)
     sf_slurm.dft_slurm(args)
-    if not sf_slurm.sbatch(args):
-        print 'successfully create inp files'
+    sf_slurm.sbatch(args)
 
 
 def losc_main(args):
@@ -33,8 +31,7 @@ def losc_main(args):
     """
     sf_inp.losc_inp(args)
     sf_slurm.losc_slurm(args)
-    if not sf_slurm.sbatch(args):
-        print 'successfully create inp files'
+    sf_slurm.sbatch(args)
 
 def Parser():
     # Cerate top-level parser

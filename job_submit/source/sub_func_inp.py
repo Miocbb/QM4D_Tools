@@ -26,6 +26,8 @@ def losc_inp(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
+    basis = s_claims.basis_command_qm4d[args.basis]
+    fitbasis = s_claims.basis_command_qm4d[args.fitbasis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -53,8 +55,8 @@ def losc_inp(args):
     f.close()
     # write 'basis' and 'fitbasis' command
     element = sf_support.read_elements(f_xyz)
-    sf_support.write_basis(f_inp, element, args.basis)
-    sf_support.write_fitbasis(f_inp, element, args.fitbasis)
+    sf_support.write_basis(f_inp, element, basis)
+    sf_support.write_fitbasis(f_inp, element, fitbasis)
     f = open(f_inp, 'a')
     print >>f, 'end'
     print >>f, '$doqm'
@@ -67,6 +69,7 @@ def dft_inp_qm4d(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
+    basis = s_claims.basis_command_qm4d[args.basis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -86,7 +89,7 @@ def dft_inp_qm4d(args):
     f.close()
     # write 'basis' command
     element = sf_support.read_elements(f_xyz)
-    sf_support.write_basis(f_inp, element, args.basis)
+    sf_support.write_basis(f_inp, element, basis)
     f = open(f_inp, 'a')
     print >>f, 'end'
     print >>f, '$doqm'
@@ -101,11 +104,12 @@ def dft_inp_g09(args):
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = f_xyz[0:-4]
+    basis = s_claims.basis_command_g09[args.basis]
     # match 'dfa' command for g09 inp file
     dfa =  s_claims.dfa_xcfunc_g09[args.dfa]
     # generator command line in g09 inp file
     command  = '# ' + dfa + '/'
-    command += args.basis
+    command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # put all g09 ralted files in g09 dir
     if not os.path.isdir('g09'):
@@ -132,6 +136,7 @@ def hf_inp_qm4d(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
+    basis = s_claims.basis_command_qm4d[args.basis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -149,7 +154,7 @@ def hf_inp_qm4d(args):
     f.close()
     # write 'basis' command
     element = sf_support.read_elements(args.f_xyz)
-    sf_support.write_basis(f_inp, element, args.basis)
+    sf_support.write_basis(f_inp, element, basis)
     f = open(f_inp, 'a')
     print >>f, 'end'
     print >>f, '$doqm'
@@ -164,9 +169,10 @@ def hf_inp_g09(args):
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = args.f_xyz[0:-4]
+    basis = s_claims.basis_command_g09[args.basis]
     # generate command line in g09 inp file
     command  = '# ' + 'hf/'
-    command += args.basis
+    command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # collect all g09 related files in g09 dir
     if not os.path.isdir('g09'):

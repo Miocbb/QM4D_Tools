@@ -6,6 +6,78 @@ dfa_qm4d={'b3lyp', 'blyp', 'lda', 'pbe'}
 # g09 supported  functionals
 dfa_g09={'b3lyp', 'blyp', 'lda', 'pbe'}
 
+# input option for basis of fitbasis
+basis_input_option={
+'STO-3G', '6-31G', '6-31GS', '6-31GSS',
+'6-311GS', '6-311++G_3DF_3PD',
+'CC-PVDZ', 'CC-PVTZ', 'CC-PVQZ',
+'CC-PV5Z', 'CC-PV6Z',
+'AUG-CC-PVDZ', 'AUG-CC-PVTZ',
+'AUG-CC-PVQZ', 'AUG-CC-PV5Z',
+'AUG-CC-PV6Z'
+}
+
+# basis or fitbasis command for qm4d
+basis_command_qm4d={
+'STO-3G':  'STO-3G',
+'6-31G':   '6-31G',
+'6-31GS':  '6-31GS',
+'6-31GSS': '6-31GSS',
+'6-311GS': '6-311GS',
+'6-311++G_3DF_3PD': '6-311++G_3df_3pd',
+'CC-PVDZ': 'cc-pVDZ',
+'CC-PVTZ': 'cc-pVTZ',
+'CC-PVQZ': 'cc-pQTZ',
+'CC-PV5Z': 'cc-p5TZ',
+'CC-PV6Z': 'cc-p6TZ',
+'AUG-CC-PVDZ': 'aug-cc-pVDZ',
+'AUG-CC-PVTZ': 'aug-cc-pVTZ',
+'AUG-CC-PVQZ': 'aug-cc-pVQZ',
+'AUG-CC-PV5Z': 'aug-cc-pV5Z',
+'AUG-CC-PV6Z': 'aug-cc-pV6Z'
+}
+
+# basis command for g09
+basis_command_g09={
+'STO-3G':  'sto-3g',
+'6-31G':   '6-31g',
+'6-31GS':  '6-31g*',
+'6-31GSS': '6-31g**',
+'6-311GS': '6-311g*',
+'6-311++G_3DF_3PD': '6-311++g(3df,3pd)',
+'CC-PVDZ': 'cc-pVDZ',
+'CC-PVTZ': 'cc-pVTZ',
+'CC-PVQZ': 'cc-pQTZ',
+'CC-PV5Z': 'cc-p5TZ',
+'CC-PV6Z': 'cc-p6TZ',
+'AUG-CC-PVDZ': 'aug-cc-pVDZ',
+'AUG-CC-PVTZ': 'aug-cc-pVTZ',
+'AUG-CC-PVQZ': 'aug-cc-pVQZ',
+'AUG-CC-PV5Z': 'aug-cc-pV5Z',
+'AUG-CC-PV6Z': 'aug-cc-pV6Z'
+}
+
+# basis level for mem request
+# mem = default_mem * basis_mem_level[basis]
+basis_mem_level={
+'STO-3G':  1,
+'6-31G':   1,
+'6-31GS':  1,
+'6-31GSS': 1,
+'6-311GS': 1,
+'6-311++G_3DF_3PD': 2,
+'CC-PVDZ': 1,
+'CC-PVTZ': 1,
+'CC-PVQZ': 2,
+'CC-PV5Z': 2,
+'CC-PV6Z': 2,
+'AUG-CC-PVDZ': 2,
+'AUG-CC-PVTZ': 2,
+'AUG-CC-PVQZ': 3,
+'AUG-CC-PV5Z': 3,
+'AUG-CC-PV6Z': 3
+}
+
 # For qm4d inp file
 # {args.dfa : dfa_command}
 dfa_xcfunc_qm4d = {
@@ -145,5 +217,6 @@ parent_parser.add_argument('-mult',  default = '-1', dest='mult',
 parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
                            _f_com_name=None, _f_chk_name=None,
                            _f_slurm_name=None, _job_name=None,
-                           _func=None, _method=None)
+                           _func=None, _method=None,
+                           _sys_warning=0)
 

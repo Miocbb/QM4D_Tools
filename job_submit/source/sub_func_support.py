@@ -25,11 +25,16 @@ def check_optional_arg(args):
     """
     if args.spin not in {'1','2'}:
         SigExit("Terminated: arg[spin] not in {1,2}\n")
+    if not (args.charge.isdigit() or args.charge[1:].isdigit()):
+        SigExit("Terminated: arg[charge] not an integer\n")
     if args.mult.isdigit() != True:
         SigExit("Terminated: arg[mult] not non-negative\n")
+    if args.basis not in s_claims.basis_input_option:
+        SigWarring(args, "Warning: arg[basis] not a normal basis")
+        print "normal basis option:\n", s_claims.basis_input_option
     if args.guess != 'atom' and \
        os.path.isfile(args.guess) != True:
-            SigExit("Terminated: guess file not existed!\n")
+            SigExit("Terminated: guess density file not existed!\n")
     if args.cpu.isdigit() != True:
         SigExit("Terminated: arg[cpu] not a non-negative integer\n")
     elif int(args.cpu) >16:
@@ -39,16 +44,21 @@ def check_optional_arg(args):
     else:
         check_mem(args)
 
-    # DFT and LOSC DFT args check
-    if args._method in {'dft', 'losc'}:
+    # DFT args check
+    if args._method == 'dft':
         if not args.g09: # choose qm4d
             if args.dfa not in s_claims.dfa_qm4d:
                 SigExit("Terminated: functional not supported in qm4d\n")
         else: # choose g09
             if args.dfa not in s_claims.dfa_g09:
-                SigExit("Terminated: functional not supported in g09\n")
+                SigWarring(args, "Terminated: functional not supported in g09\n")
     # LOSC args check
     if args._method == 'losc':
+        if args.dfa not in s_claims.dfa_qm4d:
+            SigExit("Terminated: functional not supported in qm4d\n")
+        if args.fitbasis not in s_claims.basis_input_option:
+            SigWarring(args, "Warning: fitbasis not a normal basis")
+            print "normal fitbasis option:\n", s_claims.basis_input_option
         if args.postSCF not in {'0', '1'}:
             SigExit("Terminated: arg[postSCF] not in {0, 1}\n")
         if len( args.window.split() ) > 2:
@@ -86,6 +96,12 @@ def init_args_slurm_val(args):
     else:
         args._job_name = args.job_name
 
+
+def init_optional_args(args):
+    # init basis from input basis choice
+    args.basis = args.basis.upper()
+    if args._method == 'losc':
+        args.fitbasis = args.fitbasis.upper()
 
 def check_mem(args):
     """
@@ -207,10 +223,20 @@ def count_elec_num(args):
     return elec_num
 
 def auto_set_mem(args, elec_num):
-    if elec_num > 560:
-        print "warning: system too large, 30G mem required, use mei2_medmem or above"
+    """
+    memory requst is based on the total number of
+    system electron and used basis set.
+    40 electron is request 2G memory with cc-pVTZ basis.
+    With other customized basis, the request memory has
+    to time a corresponding factor.
+    """
     if args.mem == '-1': # using default mem setting
-        args.mem = str( (elec_num/40) * 2 + 2 )
+        memory = (elec_num/40) * 2 + 2
+        memory *= s_claims.basis_mem_level[args.basis]
+        args.mem = str( memory )
+    if int(args.mem) > 30:
+        SigWarring(args, "Warning: request mem {} > 30G".
+                    format(args.mem))
 
 
 def auto_set_mult(args, elec_num):
@@ -227,4 +253,7 @@ def SigExit(string):
     print string
     sys.exit()
 
+def SigWarring(args, string):
+    print string
+    args._sys_warning = 1
 

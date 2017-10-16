@@ -7,9 +7,10 @@ def main():
     args = sf_main.Parser()
     # check position args validity
     sf_support.check_position_args(args)
-    # init args[f_*_name, slurm_val]
+    # init args
     sf_support.init_args_f_name(args)
     sf_support.init_args_slurm_val(args)
+    sf_support.init_optional_args(args)
     # get total system elec_num
     elec_num = sf_support.count_elec_num(args)
     # auto set some args
@@ -20,8 +21,8 @@ def main():
     # Start writing the input file
     args._func(args)
 
-    print args
 
-#***************************************
+
+
 if __name__ == "__main__":
     main()
