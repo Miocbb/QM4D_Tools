@@ -11,7 +11,8 @@ def hf_main(args):
     """
     hf_inp(args)
     sub_func_slurm.hf_slurm(args)
-    sub_func_slurm.sbatch(args)
+    if not sub_func_slurm.sbatch(args):
+        print 'successfully create inp files'
 
 
 def dft_main(args):
@@ -20,7 +21,8 @@ def dft_main(args):
     """
     dft_inp(args)
     sub_func_slurm.dft_slurm(args)
-    sub_func_slurm.sbatch(args)
+    if not sub_func_slurm.sbatch(args):
+        print 'successfully create inp files'
 
 
 def losc_main(args):
@@ -29,7 +31,8 @@ def losc_main(args):
     """
     losc_inp(args)
     sub_func_slurm.losc_slurm(args)
-    sub_func_slurm.sbatch(args)
+    if not sub_func_slurm.sbatch(args):
+        print 'successfully create inp files'
 
 
 def hf_inp(args):

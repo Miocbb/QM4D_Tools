@@ -91,6 +91,14 @@ def losc_slurm(args):
 
 
 def sbatch(args):
+    """
+    brief:  submit jobs with external command 'sbatch'.
+
+    return: 1 (submitted jobs)
+            0 (only create inp files)
+    """
+    if args.nosub: # require no job submit
+        return 0
     if args.method != 'losc':
         if args.g09 == True: # sbatch g09
             if os.path.isfile('g09/slurm') == True:
@@ -112,5 +120,6 @@ def sbatch(args):
         else:
             print 'Terminated: No slurm file'
             sys.exit()
+    return 1
  
 

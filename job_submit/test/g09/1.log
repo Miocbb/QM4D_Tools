@@ -2,8 +2,8 @@
  Input=1.com
  Output=1.log
  Initial command:
- /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-29873.inp" -scrdir="/scr/"
- Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     29874.
+ /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-33970.inp" -scrdir="/scr/"
+ Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     33971.
   
  Copyright (c) 1988,1990,1992,1993,1995,1998,2003,2009,2013,
             Gaussian, Inc.  All Rights Reserved.
@@ -223,8 +223,8 @@
  ole=0.,0.,0.\Quadrupole=0.,0.,0.,0.,0.,0.\PG=OH [O(H1)]\\@
 
 
- BLESSED ARE THOSE WHO NOUGHT EXPECT,
- FOR THEY SHALL NOT BE DISAPPOINTED..  WALCOT - ODE TO PITT
- Job cpu time:       0 days  0 hours  0 minutes  6.4 seconds.
+ The most important thing in communication is to hear what isn't being said.
+ -- Peter F. Drucker
+ Job cpu time:       0 days  0 hours  0 minutes  6.9 seconds.
  File lengths (MBytes):  RWF=      5 Int=      0 D2E=      0 Chk=      2 Scr=      1
- Normal termination of Gaussian 09 at Sun Oct 15 21:02:45 2017.
+ Normal termination of Gaussian 09 at Sun Oct 15 21:39:17 2017.

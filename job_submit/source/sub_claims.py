@@ -112,6 +112,8 @@ diis      12  0.30""")
 parent_parser = argparse.ArgumentParser(add_help=False)
 parent_parser.add_argument('f_xyz',  help = 'coordinate file')
 parent_parser.add_argument('partition', help='choose partition')
+parent_parser.add_argument('-nosub', '-no', action='store_true',
+                help='no job submission, only create inp')
 parent_parser.add_argument('-spin',   default = '2',
                 help = 'Default=2 [2:Unrestricted; 1:restricted]')
 parent_parser.add_argument('-charge', default = '0',
