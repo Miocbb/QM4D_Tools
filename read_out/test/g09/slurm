@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH --job-name 1.b3lyp.g09
+#SBATCH --time=10000
+#SBATCH --nodes=1
+#SBATCH --mem=2G
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=mei2
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-user=ym95
+#SBATCH --ntasks-per-node=8
+g09 1.com
