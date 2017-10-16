@@ -7,16 +7,18 @@ import subprocess as subp
 from subprocess import Popen, PIPE
 
 def main():
+    # setting argument parser
     parser = argparse.ArgumentParser(description=
             """Exact the density file from g09
             output file.
             """)
     parser.add_argument('f_chk', help='g09.chk file')
-    parser.add_argument('-name', default='-1',
+    parser.add_argument('-name', '-n', default='-1',
                         help='density.txt file name')
     parser.set_defaults(f_chk_name=None, f_log_name=None,
                         f_txt_name=None)
     args = parser.parse_args()
+
     # initial default valuable based on args
     init_default_var(args)
     # check existence of g09 out file
