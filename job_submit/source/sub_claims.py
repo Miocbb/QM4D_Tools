@@ -1,5 +1,11 @@
 import argparse
 
+# qm4d supported functionals
+dfa_qm4d={'b3lyp', 'blyp', 'lda', 'pbe'}
+
+# g09 supported  functionals
+dfa_g09={'b3lyp', 'blyp', 'lda', 'pbe'}
+
 # For qm4d inp file
 # {args.dfa : dfa_command}
 dfa_xcfunc_qm4d = {
@@ -112,20 +118,32 @@ diis      12  0.30""")
 parent_parser = argparse.ArgumentParser(add_help=False)
 parent_parser.add_argument('f_xyz',  help = 'coordinate file')
 parent_parser.add_argument('partition', help='choose partition')
-parent_parser.add_argument('-nosub', '-no', action='store_true',
+parent_parser.add_argument('-in', default='-1', dest='inp_name',
+                help='Default=f_xyz.inp(.com) [customized inp file name]')
+parent_parser.add_argument('-on', default='-1', dest='out_name',
+                help='Default=inp_name.out [customized out file name]')
+parent_parser.add_argument('-sn', default='-1', dest='slurm_name',
+                help='Default=slurm [customized slurm file name]')
+parent_parser.add_argument('-jn', default='-1', dest='job_name',
+                help='Default=f_xyz.method [customized job_name in slurm]')
+parent_parser.add_argument('-no', action='store_true', dest='nosub',
                 help='no job submission, only create inp')
-parent_parser.add_argument('-spin',   default = '2',
+parent_parser.add_argument('-spin',   default = '2', dest='spin',
                 help = 'Default=2 [2:Unrestricted; 1:restricted]')
-parent_parser.add_argument('-charge', default = '0',
+parent_parser.add_argument('-charge', default = '0', dest='charge',
                 help = 'Default=0')
-parent_parser.add_argument('-basis', default = 'cc-pVTZ',
+parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
                 help='Default="cc-pVTZ"')
-parent_parser.add_argument('-guess',  default='atom',
+parent_parser.add_argument('-guess',  default='atom', dest='guess',
                 help='Default=atom [inital guess option]',)
-parent_parser.add_argument('-cpu', default='8',
+parent_parser.add_argument('-cpu', default='8', dest='cpu',
                 help='Default=1(qm4d), 8(g09)')
-parent_parser.add_argument('-mem', default='-1',
+parent_parser.add_argument('-mem', default='-1', dest='mem',
                 help='Default=auto_set [based on elec_num]')
-parent_parser.add_argument('-mult',  default = '-1',
-                help = 'Default=auto_set [based on elec_num]')
+parent_parser.add_argument('-mult',  default = '-1', dest='mult',
+                help ='Default=auto_set [based on elec_num]')
+parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
+                           _f_com_name=None, _f_chk_name=None,
+                           _f_slurm_name=None, _job_name=None,
+                           _func=None, _method=None)
 

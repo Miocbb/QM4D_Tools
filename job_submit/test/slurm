@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name 1.b3lyp
+#SBATCH --job-name 1.dft
 #SBATCH --time=10000
 #SBATCH --nodes=1
 #SBATCH --mem=2G
