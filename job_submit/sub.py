@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import argparse
-import sub_claims
-import sub_func_inp as sfi
+import source.sub_claims as sub_claims
+import source.sub_func_inp as sfi
 
 def main():
     # Cerate top-level parser
@@ -48,7 +48,6 @@ def main():
     elec_num = sfi.count_elec_num(args)
     sfi.auto_set_mem(args, elec_num) # auto_set arg[mem]
     sfi.auto_set_mult(args, elec_num) # auto_set arg[mult]
-    print args
     # Check if all the args are valid
     sfi.check_arg(args)
     # Start writing the input file

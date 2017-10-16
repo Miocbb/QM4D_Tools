@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name 1.hf
+#SBATCH --job-name 1.hf.g09
 #SBATCH --time=10000
 #SBATCH --nodes=1
 #SBATCH --mem=2G
 #SBATCH --cpus-per-task=1
-#SBATCH --partition=mei3
+#SBATCH --partition=mei2
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=ym95
-#SBATCH --ntasks-per-node=1
-qm4d_git 1.inp > 1.out
+#SBATCH --ntasks-per-node=8
+g09 1.com

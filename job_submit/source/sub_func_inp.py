@@ -1,9 +1,8 @@
-
 import sys
 import os.path
 import os
 import sub_claims
-import sub_func_slurm as sfs #supporting funcs for writing slurm file
+import sub_func_slurm #supporting funcs for writing slurm file
 
 
 def hf_main(args):
@@ -11,9 +10,8 @@ def hf_main(args):
     hf calculation main function
     """
     hf_inp(args)
-    sfs.hf_slurm(args)
-    sfs.sbatch(args)
-    print 'job submitted.'
+    sub_func_slurm.hf_slurm(args)
+    sub_func_slurm.sbatch(args)
 
 
 def dft_main(args):
@@ -21,9 +19,8 @@ def dft_main(args):
     standard dft calculation main function
     """
     dft_inp(args)
-    sfs.dft_slurm(args)
-    sfs.sbatch(args)
-    print 'job submitted.'
+    sub_func_slurm.dft_slurm(args)
+    sub_func_slurm.sbatch(args)
 
 
 def losc_main(args):
@@ -31,9 +28,8 @@ def losc_main(args):
     DFT with losc functional main function
     """
     losc_inp(args)
-    sfs.losc_slurm(args)
-    sfs.sbatch(args)
-    print 'job submitted.'
+    sub_func_slurm.losc_slurm(args)
+    sub_func_slurm.sbatch(args)
 
 
 def hf_inp(args):
@@ -348,7 +344,16 @@ def write_xyz_g09(f_inp, f_xyz):
             if line_split[0].startswith('#') != True:
                 count += 1
             if count >= 3: # start write coordinates
-                f1.write(line)
+                # check if coordinate is complete
+                if len(line_split) != 4:
+                    print "terminated: xyz file missing data for coordinates"
+                    sys.exit()
+                # screen coordinate data to be float
+                # required by g09 inp file
+                line = '{:<3} {:<10f} {:<10f} {:<10f}'.format(line_split[0],\
+                        float(line_split[1]), float(line_split[2]),
+                        float(line_split[3]))
+                f1.write(line + '\n')
     f1.close()
     f2.close()
 

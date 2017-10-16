@@ -1,4 +1,7 @@
 import sub_claims
+import subprocess
+import os.path
+import os
 
 def hf_slurm(args):
     job_name = args.f_xyz[0:-4] + '.hf'
@@ -88,5 +91,26 @@ def losc_slurm(args):
 
 
 def sbatch(args):
-    pass
+    if args.method != 'losc':
+        if args.g09 == True: # sbatch g09
+            if os.path.isfile('g09/slurm') == True:
+                os.chdir('g09')
+                subprocess.call(['sbatch', 'slurm'])
+                os.chdir('..')
+            else:
+                print 'Terminated: No slurm file in g09 dir'
+                sys.exit()
+        else: # sbatch qm4d
+            if os.path.isfile('slurm') == True:
+                subprocess.call(['sbatch', 'slurm'])
+            else:
+                print 'Terminated: No slurm file'
+                sys.exit()
+    else:
+        if os.path.isfile('slurm') == True:
+            subprocess.call(['sbatch', 'slurm'])
+        else:
+            print 'Terminated: No slurm file'
+            sys.exit()
+ 
 

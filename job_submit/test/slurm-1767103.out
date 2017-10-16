@@ -1,6 +1,0 @@
-QM4D compiling date/time: 10:58:12 // Sep 26 2017
-QM4D running host: node019
-QM4D starting time: Sun Oct 15 15:17:32 2017
-
-Fatal error message printed at file "/home/ym95/program/qm4d/source/BASIS/set_atom_basis.c" line "638"
-The electron number should be integer. The input multiplicity could be wrong!
