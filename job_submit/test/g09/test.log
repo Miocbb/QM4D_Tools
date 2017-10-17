@@ -1,9 +1,9 @@
  Entering Gaussian System, Link 0=g09
- Input=1.com
- Output=1.log
+ Input=test.com
+ Output=test.log
  Initial command:
- /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-41242.inp" -scrdir="/scr/"
- Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     41243.
+ /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-40350.inp" -scrdir="/scr/"
+ Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     40351.
   
  Copyright (c) 1988,1990,1992,1993,1995,1998,2003,2009,2013,
             Gaussian, Inc.  All Rights Reserved.
@@ -78,16 +78,16 @@
  Gaussian 09:  ES64L-G09RevD.01 24-Apr-2013
                 16-Oct-2017 
  ******************************************
- %chk=1.chk
+ %chk=test.chk
  %nprocshared=8
  Will use up to    8 processors via shared memory.
  %mem=4gb
- -----------------------------------------------------
- # blyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
- -----------------------------------------------------
+ ---------------------------------------------------
+ # hf/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
+ ---------------------------------------------------
  1/38=1/1;
  2/12=2,15=1,17=6,18=5,40=1/2;
- 3/5=16,6=1,7=10,8=22,11=2,16=1,25=1,30=1,60=-1,74=402/1,2,3;
+ 3/5=16,6=1,7=10,8=22,11=9,16=1,25=1,30=1,60=-1/1,2,3;
  4//1;
  5/5=2,38=5/2;
  6/7=2,8=2,9=2,10=2,28=1/1;
@@ -123,8 +123,8 @@
  NBasis=    25 RedAO= T EigKep=  6.12D-03  NBF=    25
  NBsUse=    25 1.00D-06 EigRej= -1.00D+00 NBFU=    25
  ExpMin= 2.53D-02 ExpMax= 3.39D+01 ExpMxC= 3.39D+01 IAcc=3 IRadAn=         5 AccDes= 0.00D+00
- Harris functional with IExCor=  402 and IRadAn=       5 diagonalized for initial guess.
- HarFok:  IExCor=  402 AccDes= 0.00D+00 IRadAn=         5 IDoV= 1 UseB2=F ITyADJ=14
+ Harris functional with IExCor=  205 and IRadAn=       5 diagonalized for initial guess.
+ HarFok:  IExCor=  205 AccDes= 0.00D+00 IRadAn=         5 IDoV= 1 UseB2=F ITyADJ=14
  ICtDFT=  3500011 ScaDFX=  1.000000  1.000000  1.000000  1.000000
  FoFCou: FMM=F IPFlag=           0 FMFlag=      100000 FMFlg1=           0
          NFxFlg=           0 DoJE=T BraDBF=F KetDBF=T FulRan=T
@@ -132,17 +132,18 @@
          NMat0=    1 NMatS0=      1 NMatT0=    0 NMatD0=    1 NMtDS0=    0 NMtDT0=    0
  Symmetry not used in FoFCou.
  Initial guess <Sx>= 0.0000 <Sy>= 0.0000 <Sz>= 0.5000 <S**2>= 0.7500 S= 0.5000
- Keep J ints in memory in canonical form, NReq=933300.
+ Keep R1 and R2 ints in memory in canonical form, NReq=949445.
  Requested convergence on RMS density matrix=1.00D-08 within 128 cycles.
  Requested convergence on MAX density matrix=1.00D-06.
  Requested convergence on             energy=1.00D-06.
  No special actions if energy rises.
- SCF Done:  E(UB-LYP) = -0.329340978949     A.U. after   11 cycles
-            NFock= 11  Conv=0.28D-08     -V/T= 1.5368
- <Sx>= 0.0000 <Sy>= 0.0000 <Sz>= 0.5000 <S**2>= 0.7586 S= 0.5043
+ Rare condition: small coef for last iteration:  0.000D+00
+ SCF Done:  E(UHF) = -0.285362471482     A.U. after   14 cycles
+            NFock= 14  Conv=0.86D-09     -V/T= 1.4829
+ <Sx>= 0.0000 <Sy>= 0.0000 <Sz>= 0.5000 <S**2>= 0.7790 S= 0.5144
  <L.S>= 0.000000000000E+00
  Annihilation of the first spin contaminant:
- S**2 before annihilation     0.7586,   after     0.7500
+ S**2 before annihilation     0.7790,   after     0.7500
 
  **********************************************************************
 
@@ -150,18 +151,18 @@
 
  **********************************************************************
 
- Alpha  occ. eigenvalues --    0.17527   0.24449
- Alpha virt. eigenvalues --    0.47316   0.47316   0.47316   0.58056   1.04297
- Alpha virt. eigenvalues --    1.04297   1.04297   1.04297   1.04297   1.20512
- Alpha virt. eigenvalues --    1.21486   1.21486   1.21486   3.02191   3.95711
- Alpha virt. eigenvalues --    3.95711   3.95711   3.95711   3.95711   4.12183
- Alpha virt. eigenvalues --    4.12183   4.12183   5.55616
-  Beta  occ. eigenvalues --    0.20786
-  Beta virt. eigenvalues --    0.27755   0.46314   0.46314   0.46314   0.58393
-  Beta virt. eigenvalues --    1.05276   1.05276   1.05276   1.05276   1.05276
-  Beta virt. eigenvalues --    1.23100   1.25083   1.25083   1.25083   3.08389
-  Beta virt. eigenvalues --    4.02759   4.02759   4.02759   4.02759   4.02759
-  Beta virt. eigenvalues --    4.21757   4.21757   4.21757   5.63144
+ Alpha  occ. eigenvalues --   -0.08028   0.19977
+ Alpha virt. eigenvalues --    0.55889   0.55889   0.55889   0.65204   1.18933
+ Alpha virt. eigenvalues --    1.18933   1.18933   1.18933   1.18933   1.35480
+ Alpha virt. eigenvalues --    1.38170   1.38170   1.38170   3.30124   4.25882
+ Alpha virt. eigenvalues --    4.25882   4.25882   4.25882   4.25882   4.47193
+ Alpha virt. eigenvalues --    4.47193   4.47193   5.88836
+  Beta  occ. eigenvalues --    0.15839
+  Beta virt. eigenvalues --    0.39864   0.56087   0.56087   0.56087   0.73816
+  Beta virt. eigenvalues --    1.19891   1.19891   1.19891   1.19891   1.19891
+  Beta virt. eigenvalues --    1.43222   1.45096   1.45096   1.45096   3.36280
+  Beta virt. eigenvalues --    4.29960   4.29960   4.29960   4.29960   4.29960
+  Beta virt. eigenvalues --    4.54144   4.54144   4.54144   5.93054
           Condensed to atoms (all electrons):
                1
      1  H    3.000000
@@ -174,12 +175,12 @@
  Sum of Mulliken charges =  -2.00000   1.00000
  Mulliken charges and spin densities with hydrogens summed into heavy atoms:
                1          2
- Electronic spatial extent (au):  <R**2>=             79.1624
+ Electronic spatial extent (au):  <R**2>=             84.3999
  Charge=             -2.0000 electrons
  Dipole moment (field-independent basis, Debye):
     X=              0.0000    Y=              0.0000    Z=              0.0000  Tot=              0.0000
  Quadrupole moment (field-independent basis, Debye-Ang):
-   XX=            -35.4920   YY=            -35.4920   ZZ=            -35.4920
+   XX=            -37.8402   YY=            -37.8402   ZZ=            -37.8402
    XY=              0.0000   XZ=              0.0000   YZ=              0.0000
  Traceless Quadrupole moment (field-independent basis, Debye-Ang):
    XX=              0.0000   YY=              0.0000   ZZ=              0.0000
@@ -189,14 +190,14 @@
   XXY=              0.0000  XXZ=              0.0000  XZZ=              0.0000  YZZ=              0.0000
   YYZ=              0.0000  XYZ=              0.0000
  Hexadecapole moment (field-independent basis, Debye-Ang**3):
- XXXX=           -343.6155 YYYY=           -343.6155 ZZZZ=           -343.6155 XXXY=              0.0000
+ XXXX=           -365.9518 YYYY=           -365.9518 ZZZZ=           -365.9518 XXXY=              0.0000
  XXXZ=              0.0000 YYYX=              0.0000 YYYZ=              0.0000 ZZZX=              0.0000
- ZZZY=              0.0000 XXYY=           -114.5385 XXZZ=           -114.5385 YYZZ=           -114.5385
+ ZZZY=              0.0000 XXYY=           -121.9839 XXZZ=           -121.9839 YYZZ=           -121.9839
  XXYZ=              0.0000 YYXZ=              0.0000 ZZXY=              0.0000
- N-N= 0.000000000000D+00 E-N=-1.524867174785D+00  KE= 6.134789256372D-01
+ N-N= 0.000000000000D+00 E-N=-1.439517610034D+00  KE= 5.909094421360D-01
                           Isotropic Fermi Contact Couplings
         Atom                 a.u.       MegaHertz       Gauss      10(-4) cm-1
-     1  H(1)               0.15990     714.71160     255.02686     238.40213
+     1  H(1)               0.23729    1060.64241     378.46357     353.79223
  --------------------------------------------------------
        Center         ----  Spin Dipole Couplings  ----
                       3XX-RR        3YY-RR        3ZZ-RR
@@ -216,30 +217,22 @@
        Atom             a.u.   MegaHertz   Gauss  10(-4) cm-1        Axes
 
               Baa     0.0000     0.000     0.000     0.000  1.0000  0.0000  0.0000
-     1 H(1)   Bbb     0.0000     0.000     0.000     0.000  0.0000  0.0000  1.0000
-              Bcc     0.0000     0.000     0.000     0.000  0.0000  1.0000  0.0000
+     1 H(1)   Bbb     0.0000     0.000     0.000     0.000  0.0000  1.0000  0.0000
+              Bcc     0.0000     0.000     0.000     0.000  0.0000  0.0000  1.0000
  
 
  ---------------------------------------------------------------------------------
 
- 1\1\GINC-NODE011\SP\UBLYP\Aug-CC-pVTZ\H1(2-,2)\YM95\16-Oct-2017\0\\# b
- lyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm\\1\\-2,2\H,0,0.,0.,
- 0.\\Version=ES64L-G09RevD.01\HF=-0.329341\S2=0.758648\S2-1=0.\S2A=0.75
- \RMSD=2.758e-09\Dipole=0.,0.,0.\Quadrupole=0.,0.,0.,0.,0.,0.\PG=OH [O(
- H1)]\\@
+ 1\1\GINC-NODE011\SP\UHF\Aug-CC-pVTZ\H1(2-,2)\YM95\16-Oct-2017\0\\# hf/
+ aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm\\1\\-2,2\H,0,0.,0.,0.\\
+ Version=ES64L-G09RevD.01\HF=-0.2853625\S2=0.779039\S2-1=0.\S2A=0.75\RM
+ SD=8.590e-10\Dipole=0.,0.,0.\Quadrupole=0.,0.,0.,0.,0.,0.\PG=OH [O(H1)
+ ]\\@
 
 
- THE ENLIGHTENED ONE, BECAUSE HE SAW MANKIND DROWNING  
- IN THE GREAT SEA OF BIRTH, DEATH, AND SORROW, LONGED TO SAVE 
- THEM, FOR THIS HE WAS MOVED TO PITY.                         
- BECAUSE HE SAW MEN OF THE WORLD STRAYING IN FALSE PATHS, AND 
- NONE TO GUIDE THEM, FOR THIS HE WAS MOVED TO PITY.           
-                     ..................                       
- BECAUSE HE SAW THE MEN OF THE WORLD PLOUGHING THEIR FIELDS,  
- SOWING THE SEED, TRAFFICKING, HUCKSTERING, BUYING, SELLING,  
- AND AT THE END WINNOWING NOTHING BUT BITTERNESS,             
- FOR THIS HE WAS MOVED TO PITY......                   
-                   BUDAH'S PITY - UPSAKA SILA SUTRA           
- Job cpu time:       0 days  0 hours  0 minutes  7.2 seconds.
+ THERE IS NO CURE FOR BIRTH AND DEATH SAVE TO ENJOY THE INTERVAL.
+
+                               -- GEORGE SANTAYANA
+ Job cpu time:       0 days  0 hours  0 minutes 10.0 seconds.
  File lengths (MBytes):  RWF=      5 Int=      0 D2E=      0 Chk=      2 Scr=      1
- Normal termination of Gaussian 09 at Mon Oct 16 23:39:55 2017.
+ Normal termination of Gaussian 09 at Mon Oct 16 23:32:55 2017.

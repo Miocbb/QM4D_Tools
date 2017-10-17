@@ -26,8 +26,8 @@ def losc_inp(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
-    basis = s_claims.basis_command_qm4d[args.basis]
-    fitbasis = s_claims.basis_command_qm4d[args.fitbasis]
+    basis = s_claims.basis_command_qm4d[args._basis]
+    fitbasis = s_claims.basis_command_qm4d[args._fitbasis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -69,7 +69,7 @@ def dft_inp_qm4d(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
-    basis = s_claims.basis_command_qm4d[args.basis]
+    basis = s_claims.basis_command_qm4d[args._basis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -104,7 +104,7 @@ def dft_inp_g09(args):
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = f_xyz[0:-4]
-    basis = s_claims.basis_command_g09[args.basis]
+    basis = s_claims.basis_command_g09[args._basis]
     # match 'dfa' command for g09 inp file
     dfa =  s_claims.dfa_xcfunc_g09[args.dfa]
     # generator command line in g09 inp file
@@ -136,7 +136,7 @@ def hf_inp_qm4d(args):
     #f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
-    basis = s_claims.basis_command_qm4d[args.basis]
+    basis = s_claims.basis_command_qm4d[args._basis]
     f = open(f_inp, 'w')
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
@@ -169,7 +169,7 @@ def hf_inp_g09(args):
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = args.f_xyz[0:-4]
-    basis = s_claims.basis_command_g09[args.basis]
+    basis = s_claims.basis_command_g09[args._basis]
     # generate command line in g09 inp file
     command  = '# ' + 'hf/'
     command += basis

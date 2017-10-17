@@ -1,13 +1,13 @@
 $qm
 xyz    1.xyz
 spin   2
-charge 0
+charge -2
 mult   2
 method  dft
-xcfunc b3lyp
+xfunc  xb88
+cfunc  clyp
 guess  atom
 POSTSCF LMOSC Boys 1000 1.e-10
-LOEnergy  -30  10
 iter        300
 LOSC_r0     2.7
 LOSC_eta    3.0
@@ -21,7 +21,7 @@ etol        1.0E-008
 print       1
 directvee
 diis        12  0.30
-basis    H H.cc-pVTZ
+basis    H H.aug-cc-pVTZ
 fitbasis H H.aug-cc-pVTZ
 end
 $doqm

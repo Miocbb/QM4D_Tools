@@ -1,10 +1,9 @@
 $qm
-xyz    Cs.xyz
+xyz    1.xyz
 spin   2
-charge 0
-mult   1
-method  dft
-xcfunc b3lyp
+charge -2
+mult   2
+method  hf
 guess  atom
 iter      300
 dentol    1.0E-004
@@ -12,6 +11,6 @@ etol      1.0E-008
 print     1
 directvee
 diis      12  0.30
-basis    B B.CC-PVTZ
+basis    H H.aug-cc-pVTZ
 end
 $doqm

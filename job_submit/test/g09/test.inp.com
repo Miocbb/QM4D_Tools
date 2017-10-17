@@ -1,7 +1,7 @@
-%chk=1.chk
+%chk=test.inp.chk
 %nprocshared=8
 %mem=4gb
-# blyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
+# hf/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
 
 1
 

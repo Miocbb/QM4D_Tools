@@ -25,22 +25,19 @@ def check_optional_arg(args):
     """
     if args.spin not in {'1','2'}:
         SigExit("Terminated: arg[spin] not in {1,2}\n")
-    if not (args.charge.isdigit() or args.charge[1:].isdigit()):
-        SigExit("Terminated: arg[charge] not an integer\n")
-    if args.mult.isdigit() != True:
+    if not is_number(args.charge):
+        SigExit("Terminated: arg[charge] not number\n")
+    if not args.mult.isdigit():
         SigExit("Terminated: arg[mult] not non-negative\n")
-    if args.basis not in s_claims.basis_input_option:
-        SigWarring(args, "Warning: arg[basis] not a normal basis")
-        print "normal basis option:\n", s_claims.basis_input_option
     if args.guess != 'atom' and \
        os.path.isfile(args.guess) != True:
             SigExit("Terminated: guess density file not existed!\n")
-    if args.cpu.isdigit() != True:
+    if not args.cpu.isdigit():
         SigExit("Terminated: arg[cpu] not a non-negative integer\n")
     elif int(args.cpu) >16:
-        SigExit("Terminated: arg[cpu] bigger than 16\n")
-    if args.mem.isdigit() != True:
-        SigExit("Terminated: arg[mem] not a non-negative integer\n")
+        SigWarring(args, "Terminated: arg[cpu] > 16\n")
+    if not is_positive_int(args.mem):
+        SigExit("Terminated: arg[mem] not a positive integer\n")
     else:
         check_mem(args)
 
@@ -48,24 +45,24 @@ def check_optional_arg(args):
     if args._method == 'dft':
         if not args.g09: # choose qm4d
             if args.dfa not in s_claims.dfa_qm4d:
-                SigExit("Terminated: functional not supported in qm4d\n")
+                SigExit("Terminated: functional not supported in qm4d",
+                        "functional choice:", s_claims.dfa_qm4d)
         else: # choose g09
             if args.dfa not in s_claims.dfa_g09:
-                SigWarring(args, "Terminated: functional not supported in g09\n")
+                SigWarring(args, "Warning: functional not supported in g09",
+                        "functional choice:", s_claims.dfa_g09)
     # LOSC args check
     if args._method == 'losc':
         if args.dfa not in s_claims.dfa_qm4d:
-            SigExit("Terminated: functional not supported in qm4d\n")
-        if args.fitbasis not in s_claims.basis_input_option:
-            SigWarring(args, "Warning: fitbasis not a normal basis")
-            print "normal fitbasis option:\n", s_claims.basis_input_option
+            SigExit("Terminated: functional not supported in qm4d",
+                    "functional choice:", s_claims.dfa_qm4d)
         if args.postSCF not in {'0', '1'}:
             SigExit("Terminated: arg[postSCF] not in {0, 1}\n")
         if len( args.window.split() ) > 2:
             SigExit("Terminated: arg[window] at most 2 nums\n")
         elif len( args.window.split() ) == 1\
                 and args.window != '0':
-            SigExit("Terminated: arg[window]=0 to disable LOEnergy\n")
+            SigExit("Terminated: arg[window] has to be 0 to disable LOEnergy\n")
 
 def init_args_f_name(args):
     f_xyz_name = args.f_xyz[0:-4]
@@ -97,20 +94,27 @@ def init_args_slurm_val(args):
         args._job_name = args.job_name
 
 
-def init_optional_args(args):
-    # init basis from input basis choice
-    args.basis = args.basis.upper()
+def init_args_basis(args):
+    args._basis = args.basis.upper()
+    if args._basis not in s_claims.basis_input_option:
+        SigWarring(args, "Warning: basis not in normal options")
+        s_claims.basis_command_qm4d.update({args._basis:args.basis})
+        s_claims.basis_command_g09.update({args._basis:args.basis})
+        s_claims.basis_mem_level.update({args._basis:1})
     if args._method == 'losc':
-        args.fitbasis = args.fitbasis.upper()
+        args._fitbasis = args.fitbasis.upper()
+        if args._fitbasis not in s_claims.basis_input_option:
+            SigWarring(args, "Warning: fitbasis not in normal options")
+            s_claims.basis_command_qm4d.update({args._fitbasis:args.fitbasis})
+
 
 def check_mem(args):
     """
     check if args[mem] is valid or not
     """
     if int(args.mem) > s_claims.partition_mem[args.partition]:
-        SigExit('Terminated: arg[mem] oversize, max={}G\n'.\
-             format(s_claims.partition_mem[args.partition]))
-
+        SigExit('Terminated: arg[mem] oversize, mem={}, max_mem={}G\n'
+                .format(args.mem, s_claims.partition_mem[args.partition]))
 
 
 def read_elements(f_xyz):
@@ -219,7 +223,7 @@ def count_elec_num(args):
     elec_num = 0
     for i in element:
         elec_num += s_claims.element_table[i]
-    elec_num += int(args.charge)
+    elec_num -= float(args.charge)
     return elec_num
 
 def auto_set_mem(args, elec_num):
@@ -231,8 +235,8 @@ def auto_set_mem(args, elec_num):
     to time a corresponding factor.
     """
     if args.mem == '-1': # using default mem setting
-        memory = (elec_num/40) * 2 + 2
-        memory *= s_claims.basis_mem_level[args.basis]
+        memory = (int(elec_num)/40) * 2 + 2
+        memory *= s_claims.basis_mem_level[args._basis]
         args.mem = str( memory )
     if int(args.mem) > 30:
         SigWarring(args, "Warning: request mem {} > 30G".
@@ -246,14 +250,45 @@ def auto_set_mult(args, elec_num):
     even: mult=1
     """
     if args.mult == '-1': # using default mult setting
-        args.mult = str(elec_num % 2 + 1)
+        args.mult = str(int(elec_num) % 2 + 1)
+    if elec_num != int(elec_num):
+        SigWarring(args, "Warning: fractional charged case, reset '-mult'")
 
 
-def SigExit(string):
-    print string
+def SigExit(*string):
+    for i in string:
+        print i
     sys.exit()
 
-def SigWarring(args, string):
-    print string
+def SigWarring(args, *string):
+    for i in string:
+        print i
     args._sys_warning = 1
 
+def is_number(string):
+    """
+    check string represent number or not.
+    +3.14: True
+    -3.14: True
+    3: True
+    """
+    test = string.replace('+','',1).replace('-','',1).\
+            replace('.','',1)
+    return test.isdigit()
+
+def is_positive_int(string):
+    """
+    check string represents non negative integer or not.
+    +3 (3): True;
+    +3.0 (3.0): False
+    """
+    if not is_number(string):
+        return False
+    test = string.replace('+','',1)
+    if test.isdigit():
+        if int(test)>0:
+            return True
+        else:
+            return False
+    else:
+        return False 

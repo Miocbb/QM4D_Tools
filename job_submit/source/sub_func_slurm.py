@@ -20,7 +20,7 @@ def hf_slurm(args):
     partition = s_claims.partition_name[args.partition]
     # create slurm file
     if args.g09 == True:
-        f = open('g09/' + f_com_name, 'w')
+        f = open('g09/' + f_slurm_name, 'w')
         job_name += '.g09'
     else:
         f = open(f_slurm_name, 'w')
@@ -131,7 +131,7 @@ def real_sbatch(args):
                 subprocess.call(['sbatch', f_slurm_name])
                 os.chdir('..')
             else:
-                SigExit('Terminated:No slurm file in g09 dir to sbatch')
+                SigExit('Terminated: No slurm file in g09 dir to sbatch')
         else: # sbatch qm4d
             if os.path.isfile(f_slurm_name) == True:
                 subprocess.call(['sbatch', f_slurm_name])
@@ -141,7 +141,7 @@ def real_sbatch(args):
 
 def sbatch(args):
     if args._sys_warning:
-        SigExit("Status: Check before submit jobs")
+        SigExit("Create inp files. Check before submit jobs!")
     status = real_sbatch(args)
     if status == 0:
-        print 'Status: created inp files'
+        print 'Created inp files. Green to submit manually!'

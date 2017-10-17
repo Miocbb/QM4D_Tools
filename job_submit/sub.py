@@ -10,7 +10,7 @@ def main():
     # init args
     sf_support.init_args_f_name(args)
     sf_support.init_args_slurm_val(args)
-    sf_support.init_optional_args(args)
+    sf_support.init_args_basis(args)
     # get total system elec_num
     elec_num = sf_support.count_elec_num(args)
     # auto set some args
@@ -19,6 +19,7 @@ def main():
     # Check if all the args are valid
     sf_support.check_optional_arg(args)
     # Start writing the input file
+    print args
     args._func(args)
 
 

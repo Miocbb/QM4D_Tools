@@ -209,7 +209,7 @@ parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
 parent_parser.add_argument('-guess',  default='atom', dest='guess',
                 help='Default=atom [inital guess option]',)
 parent_parser.add_argument('-cpu', default='8', dest='cpu',
-                help='Default=1(qm4d), 8(g09)')
+        help='Default=1(qm4d), 8(g09)')
 parent_parser.add_argument('-mem', default='-1', dest='mem',
                 help='Default=auto_set [based on elec_num]')
 parent_parser.add_argument('-mult',  default = '-1', dest='mult',
@@ -217,6 +217,7 @@ parent_parser.add_argument('-mult',  default = '-1', dest='mult',
 parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
                            _f_com_name=None, _f_chk_name=None,
                            _f_slurm_name=None, _job_name=None,
+                           _basis=None, _fitbasis=None,
                            _func=None, _method=None,
                            _sys_warning=0)
 
