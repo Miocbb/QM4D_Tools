@@ -79,7 +79,7 @@ def init_args_f_name(args):
     if args.out_name == '-1': # init default name for out file
         args._f_out_name = args._f_inp_name[0:-4] + '.out'
     else:
-        args._f_out_name = args.out_name
+        args._f_out_name = args.out_name + '.out'
     # slurm file name initial
     if args.slurm_name == '-1': # init defaul name for slurm file
         args._f_slurm_name = 'slurm'
@@ -89,7 +89,7 @@ def init_args_f_name(args):
 def init_args_slurm_val(args):
     f_xyz_name = args.f_xyz[0:-4]
     if args.job_name == '-1': # init default job_name in slurm
-        args._job_name = f_xyz_name + '.' + args._method
+        args._job_name = f_xyz_name + '.' + args._method + '.' + args.dfa
     else:
         args._job_name = args.job_name
 

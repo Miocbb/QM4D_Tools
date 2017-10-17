@@ -2,8 +2,8 @@
  Input=1.com
  Output=1.log
  Initial command:
- /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-41242.inp" -scrdir="/scr/"
- Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     41243.
+ /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-81914.inp" -scrdir="/scr/"
+ Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     81917.
   
  Copyright (c) 1988,1990,1992,1993,1995,1998,2003,2009,2013,
             Gaussian, Inc.  All Rights Reserved.
@@ -76,7 +76,7 @@
  
  ******************************************
  Gaussian 09:  ES64L-G09RevD.01 24-Apr-2013
-                16-Oct-2017 
+                17-Oct-2017 
  ******************************************
  %chk=1.chk
  %nprocshared=8
@@ -215,31 +215,22 @@
 
        Atom             a.u.   MegaHertz   Gauss  10(-4) cm-1        Axes
 
-              Baa     0.0000     0.000     0.000     0.000  1.0000  0.0000  0.0000
-     1 H(1)   Bbb     0.0000     0.000     0.000     0.000  0.0000  0.0000  1.0000
-              Bcc     0.0000     0.000     0.000     0.000  0.0000  1.0000  0.0000
+              Baa     0.0000     0.000     0.000     0.000  0.0000  0.0000  1.0000
+     1 H(1)   Bbb     0.0000     0.000     0.000     0.000  0.0000  1.0000  0.0000
+              Bcc     0.0000     0.000     0.000     0.000  1.0000  0.0000  0.0000
  
 
  ---------------------------------------------------------------------------------
 
- 1\1\GINC-NODE011\SP\UBLYP\Aug-CC-pVTZ\H1(2-,2)\YM95\16-Oct-2017\0\\# b
+ 1\1\GINC-NODE018\SP\UBLYP\Aug-CC-pVTZ\H1(2-,2)\YM95\17-Oct-2017\0\\# b
  lyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm\\1\\-2,2\H,0,0.,0.,
  0.\\Version=ES64L-G09RevD.01\HF=-0.329341\S2=0.758648\S2-1=0.\S2A=0.75
  \RMSD=2.758e-09\Dipole=0.,0.,0.\Quadrupole=0.,0.,0.,0.,0.,0.\PG=OH [O(
  H1)]\\@
 
 
- THE ENLIGHTENED ONE, BECAUSE HE SAW MANKIND DROWNING  
- IN THE GREAT SEA OF BIRTH, DEATH, AND SORROW, LONGED TO SAVE 
- THEM, FOR THIS HE WAS MOVED TO PITY.                         
- BECAUSE HE SAW MEN OF THE WORLD STRAYING IN FALSE PATHS, AND 
- NONE TO GUIDE THEM, FOR THIS HE WAS MOVED TO PITY.           
-                     ..................                       
- BECAUSE HE SAW THE MEN OF THE WORLD PLOUGHING THEIR FIELDS,  
- SOWING THE SEED, TRAFFICKING, HUCKSTERING, BUYING, SELLING,  
- AND AT THE END WINNOWING NOTHING BUT BITTERNESS,             
- FOR THIS HE WAS MOVED TO PITY......                   
-                   BUDAH'S PITY - UPSAKA SILA SUTRA           
- Job cpu time:       0 days  0 hours  0 minutes  7.2 seconds.
+ SOME PEOPLE TRY TO PULL THE WOOL OVER YOUR EYES
+ USING THE WRONG YARN.
+ Job cpu time:       0 days  0 hours  0 minutes 10.8 seconds.
  File lengths (MBytes):  RWF=      5 Int=      0 D2E=      0 Chk=      2 Scr=      1
- Normal termination of Gaussian 09 at Mon Oct 16 23:39:55 2017.
+ Normal termination of Gaussian 09 at Tue Oct 17 01:57:22 2017.
