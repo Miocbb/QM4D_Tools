@@ -32,8 +32,11 @@ def losc_inp(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    print >>f, 'charge ' + args.charge
-    print >>f, 'mult   ' + args.mult
+    if args.aelec == [0,1] and args.belec == [0,1]:
+        print >>f, 'charge ' + args.charge
+        print >>f, 'mult   ' + args.mult
+    else:
+        sf_support.write_occ(f, args)
     print >>f, 'method  dft'
     # write 'dfa' command
     print >>f, s_claims.dfa_xcfunc_qm4d[args.dfa]
@@ -74,8 +77,11 @@ def dft_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    print >>f, 'charge ' + args.charge
-    print >>f, 'mult   ' + args.mult
+    if args.aelec == [0,1] and args.belec == [0,1]:
+        print >>f, 'charge ' + args.charge
+        print >>f, 'mult   ' + args.mult
+    else:
+        sf_support.write_occ(f, args)
     print >>f, 'method  dft'
     # write 'xcfunc' command
     print >>f, s_claims.dfa_xcfunc_qm4d[args.dfa]
@@ -141,8 +147,11 @@ def hf_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    print >>f, 'charge ' + args.charge
-    print >>f, 'mult   ' + args.mult
+    if args.aelec == [0,1] and args.belec == [0,1]:
+        print >>f, 'charge ' + args.charge
+        print >>f, 'mult   ' + args.mult
+    else:
+        sf_support.write_occ(f, args)
     print >>f, 'method  hf'
     # write 'guess' command
     if args.guess == 'atom':

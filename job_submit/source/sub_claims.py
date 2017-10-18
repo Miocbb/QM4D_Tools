@@ -204,6 +204,12 @@ parent_parser.add_argument('-spin',   default = '2', dest='spin',
                 help = 'Default=2 [2:Unrestricted; 1:restricted]')
 parent_parser.add_argument('-charge', default = '0', dest='charge',
                 help = 'Default=0')
+parent_parser.add_argument('-aelec', default=[0,1], dest='aelec',
+                help = 'alpha elec, e.g: [position, occ_num]', 
+                nargs=2)
+parent_parser.add_argument('-belec', default=[0,1], dest='belec',
+                help = 'beta  elec, e.g: [position, occ_num]', 
+                nargs=2)
 parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
                 help='Default="cc-pVTZ"')
 parent_parser.add_argument('-guess',  default='atom', dest='guess',

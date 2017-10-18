@@ -29,6 +29,10 @@ def check_optional_arg(args):
         SigExit("Terminated: arg[charge] not integer\n")
     elif float(args.charge) > (args._elec_num + float(args.charge)):
         SigExit("Terminated: arg[charge] too large\n")
+    if not args.aelec[1] <= 1:
+        SigExit("Terminated: arg[aelec] not <= 1\n")
+    if not args.belec[1] <= 1:
+        SigExit("Terminated: arg[belec] not <= 1\n")
     if not args.mult.isdigit():
         SigExit("Terminated: arg[mult] not non-negative\n")
     if args.guess != 'atom' and \
@@ -91,7 +95,9 @@ def init_args_f_name(args):
 def init_args_slurm_val(args):
     f_xyz_name = args.f_xyz[0:-4]
     if args.job_name == '-1': # init default job_name in slurm
-        args._job_name = f_xyz_name + '.' + args._method + '.' + args.dfa
+        args._job_name = f_xyz_name + '.' + args._method
+        if args._method in {'dft', 'losc'}:
+            args._job_name = args._job_name + '.' + args.dfa
     else:
         args._job_name = args.job_name
 
@@ -108,6 +114,20 @@ def init_args_basis(args):
         if args._fitbasis not in s_claims.basis_input_option:
             SigWarring(args, "Warning: fitbasis not in normal options")
             s_claims.basis_command_qm4d.update({args._fitbasis:args.fitbasis})
+
+def init_args_abelec(args):
+    aelec = args.aelec
+    belec = args.belec
+    try:
+        aelec[0] = int(aelec[0])
+        aelec[1] = float(aelec[1])
+    except:
+        SigExit("Terminated: arg[aelec] invalid. aelec=[int, float]\n")
+    try:
+        belec[0] = int(belec[0])
+        belec[1] = float(belec[1])
+    except:
+        SigExit("Terminated: arg[aelec] invalid. aelec=[int, float]\n")
 
 
 def check_mem(args):
@@ -141,7 +161,88 @@ def read_elements(f_xyz):
                     element.append(line_split[0])
     return list(set(element))
 
-
+def write_occ(f, args):
+    """
+    f: the opened inp file
+    write 'guess occ' command for QM4D inp file
+    """
+    elec_num = args._elec_num
+    aelec_num = elec_num/2 + elec_num % 2
+    belec_num = elec_num/2
+    aelec = args.aelec
+    belec = args.belec
+    # set real elec_num for spin alpha and beta
+    if aelec[0] <= 0:
+        real_aelec_num = aelec_num -1 + aelec[1]
+    else:
+        real_aelec_num = aelec_num + aelec[1]
+    if belec[0] <= 0:
+        real_belec_num = belec_num -1 + belec[1]
+    else:
+        real_belec_num = belec_num + belec[1]
+    if real_aelec_num < real_belec_num:
+        SigExit("Terminated: aelec < belec\n")
+    a_occ = aelec_num
+    b_occ = belec_num
+    # check aelec and belec
+    if (a_occ+aelec[0]) <= 0:
+        SigExit("Terminated: aelec[position] too negative, a_occ<=0\n")
+    if (b_occ+belec[0]) <= 0:
+        SigExit("Terminated: belec[position] too negative, b_occ<=0\n")
+    # set alpha and beta occupation
+    if aelec[0] > 0: # occ at LUMO or above
+        a_occ += aelec[0]
+    if belec[0] > 0: # occ at LUMO or above
+        b_occ += belec[0]
+    # write 'aelec' and 'belec' command
+    print >>f, 'aelec  ' + str(real_aelec_num)
+    print >>f, 'belec  ' + str(real_belec_num)
+    # print ruler line for alpha occ
+    string = ''
+    for i in range(10):
+        if i == aelec_num + aelec[0] - 1:
+            length = len(str(aelec[1]))
+            string += str(i)
+            for j in range(length):
+                string += ' '
+        else:
+            string += str(i) + ' '
+    print >>f, '#************************'+string
+    # write 'guess occ set alpha' command
+    string = ''
+    for i in range(a_occ):
+        if i == aelec_num + aelec[0] - 1:
+            string = string + str(aelec[1]) + ' '
+        elif i > aelec_num - 1:
+            string += '0 '
+        else:
+            string += '1 '
+    print >>f, 'guess occ set alpha {:<5d}'.format(a_occ)\
+            + string
+   # write 'guess occ set beta' command
+    string = ''
+    for i in range(b_occ):
+        if i == belec_num + belec[0] - 1:
+            string = string + str(belec[1]) + ' '
+        elif i > belec_num - 1:
+            string += '0 '
+        else:
+            string += '1 '
+    print >>f, 'guess occ set beta  {:<5d}'.format(b_occ)\
+            + string
+    # print ruler line for beta occ
+    string = ''
+    for i in range(10):
+        if i == belec_num + belec[0] - 1:
+            length = len(str(belec[1]))
+            string += str(i)
+            for j in range(length):
+                string += ' '
+            #string += str(belec[1]) + ' '
+        else:
+            string += str(i) + ' '
+    print >>f, '#************************'+string
+ 
 
 def write_basis(f_inp, element, basis):
     """
@@ -226,7 +327,7 @@ def count_elec_num(args):
     for i in element:
         elec_num += s_claims.element_table[i]
     elec_num -= float(args.charge)
-    args._elec_num = elec_num
+    args._elec_num = int(elec_num)
 
 def auto_set_mem(args):
     """
