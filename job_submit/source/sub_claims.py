@@ -191,35 +191,35 @@ parent_parser = argparse.ArgumentParser(add_help=False)
 parent_parser.add_argument('f_xyz',  help = 'coordinate file')
 parent_parser.add_argument('partition', help='choose partition')
 parent_parser.add_argument('-in', default='-1', dest='inp_name',
-                help='Default=f_xyz.inp(.com) [customized inp file name]')
+                help='Default=f_xyz.inp(.com); [customized inp file name]')
 parent_parser.add_argument('-on', default='-1', dest='out_name',
-                help='Default=inp_name.out [customized out file name]')
+                help='Default=inp_name.out; [customized out file name]')
 parent_parser.add_argument('-sn', default='-1', dest='slurm_name',
-                help='Default=slurm [customized slurm file name]')
+                help='Default=slurm; [customized slurm file name]')
 parent_parser.add_argument('-jn', default='-1', dest='job_name',
-                help='Default=f_xyz.method [customized job_name in slurm]')
+                help='Default=f_xyz.method[.dfa]; [customized job_name in slurm]')
 parent_parser.add_argument('-no', action='store_true', dest='nosub',
-                help='no job submission, only create inp')
+                help='Only create inp files with no job submission')
 parent_parser.add_argument('-spin',   default = '2', dest='spin',
-                help = 'Default=2 [2:Unrestricted; 1:restricted]')
+                help = 'Default=2; [2:Unrestricted; 1:restricted]')
 parent_parser.add_argument('-charge', default = '0', dest='charge',
                 help = 'Default=0')
-parent_parser.add_argument('-aelec', default=[0,1], dest='aelec',
-                help = 'alpha elec, e.g: [position, occ_num]', 
+parent_parser.add_argument('-aocc', default=[0,1], dest='aocc',
+                help = 'Default=[0,1]; [position, occ_num] guess alpha occ',
                 nargs=2)
-parent_parser.add_argument('-belec', default=[0,1], dest='belec',
-                help = 'beta  elec, e.g: [position, occ_num]', 
+parent_parser.add_argument('-bocc', default=[0,1], dest='bocc',
+                help = 'Default=[0,1]; [position, occ_num] guess beta  occ',
                 nargs=2)
 parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
                 help='Default="cc-pVTZ"')
 parent_parser.add_argument('-guess',  default='atom', dest='guess',
-                help='Default=atom [inital guess option]',)
+                help='Default=atom; [inital guess option]',)
 parent_parser.add_argument('-cpu', default='8', dest='cpu',
         help='Default=1(qm4d), 8(g09)')
 parent_parser.add_argument('-mem', default='-1', dest='mem',
-                help='Default=auto_set [based on elec_num]')
+                help='Default=auto_set; [based on elec_num and basis]')
 parent_parser.add_argument('-mult',  default = '-1', dest='mult',
-                help ='Default=auto_set [based on elec_num]')
+                help ='Default=auto_set; [based on elec_num]')
 parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
                            _f_com_name=None, _f_chk_name=None,
                            _f_slurm_name=None, _job_name=None,

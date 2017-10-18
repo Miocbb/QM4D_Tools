@@ -32,7 +32,7 @@ def losc_inp(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aelec == [0,1] and args.belec == [0,1]:
+    if args.aocc == [0,1] and args.bocc == [0,1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:
@@ -77,7 +77,7 @@ def dft_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aelec == [0,1] and args.belec == [0,1]:
+    if args.aocc == [0,1] and args.bocc == [0,1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:
@@ -147,7 +147,7 @@ def hf_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aelec == [0,1] and args.belec == [0,1]:
+    if args.aocc == [0,1] and args.bocc == [0,1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:

@@ -11,7 +11,7 @@ def main():
     sf_support.init_args_f_name(args)
     sf_support.init_args_slurm_val(args)
     sf_support.init_args_basis(args)
-    sf_support.init_args_abelec(args)
+    sf_support.init_args_abocc(args)
     # get total system elec_num
     sf_support.count_elec_num(args)
     # auto set some args

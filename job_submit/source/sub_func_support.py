@@ -29,9 +29,9 @@ def check_optional_arg(args):
         SigExit("Terminated: arg[charge] not integer\n")
     elif float(args.charge) > (args._elec_num + float(args.charge)):
         SigExit("Terminated: arg[charge] too large\n")
-    if not args.aelec[1] <= 1:
+    if not args.aocc[1] <= 1:
         SigExit("Terminated: arg[aelec] not <= 1\n")
-    if not args.belec[1] <= 1:
+    if not args.bocc[1] <= 1:
         SigExit("Terminated: arg[belec] not <= 1\n")
     if not args.mult.isdigit():
         SigExit("Terminated: arg[mult] not non-negative\n")
@@ -115,19 +115,23 @@ def init_args_basis(args):
             SigWarring(args, "Warning: fitbasis not in normal options")
             s_claims.basis_command_qm4d.update({args._fitbasis:args.fitbasis})
 
-def init_args_abelec(args):
-    aelec = args.aelec
-    belec = args.belec
+def init_args_abocc(args):
+    aocc = args.aocc
+    bocc = args.bocc
     try:
-        aelec[0] = int(aelec[0])
-        aelec[1] = float(aelec[1])
-    except:
-        SigExit("Terminated: arg[aelec] invalid. aelec=[int, float]\n")
+        aocc[0] = int(aocc[0])
+        aocc[1] = float(aocc[1])
+        if int(aocc[1]) == aocc[1]:
+            aocc[1] = int(aooc[1])
+    except ValueError:
+        SigExit("Terminated: arg[aocc] invalid. aocc=[int, float]\n")
     try:
-        belec[0] = int(belec[0])
-        belec[1] = float(belec[1])
-    except:
-        SigExit("Terminated: arg[aelec] invalid. aelec=[int, float]\n")
+        bocc[0] = int(bocc[0])
+        bocc[1] = float(bocc[1])
+        if int(bocc[1]) == bocc[1]:
+            bocc[1] = int(bocc[1])
+    except ValueError:
+        SigExit("Terminated: arg[bocc] invalid. bocc=[int, float]\n")
 
 
 def check_mem(args):
@@ -169,39 +173,40 @@ def write_occ(f, args):
     elec_num = args._elec_num
     aelec_num = elec_num/2 + elec_num % 2
     belec_num = elec_num/2
-    aelec = args.aelec
-    belec = args.belec
+    aocc = args.aocc
+    bocc = args.bocc
     # set real elec_num for spin alpha and beta
-    if aelec[0] <= 0:
-        real_aelec_num = aelec_num -1 + aelec[1]
+    if aocc[0] <= 0:
+        real_aelec_num = aelec_num -1 + aocc[1]
     else:
-        real_aelec_num = aelec_num + aelec[1]
-    if belec[0] <= 0:
-        real_belec_num = belec_num -1 + belec[1]
+        real_aelec_num = aelec_num + aocc[1]
+    if bocc[0] <= 0:
+        real_belec_num = belec_num -1 + bocc[1]
     else:
-        real_belec_num = belec_num + belec[1]
+        real_belec_num = belec_num + bocc[1]
+    # check aelec_num and belec_num
     if real_aelec_num < real_belec_num:
         SigExit("Terminated: aelec < belec\n")
-    a_occ = aelec_num
-    b_occ = belec_num
+    a_occ_num = aelec_num
+    b_occ_num = belec_num
     # check aelec and belec
-    if (a_occ+aelec[0]) <= 0:
-        SigExit("Terminated: aelec[position] too negative, a_occ<=0\n")
-    if (b_occ+belec[0]) <= 0:
-        SigExit("Terminated: belec[position] too negative, b_occ<=0\n")
+    if (a_occ_num+aocc[0]) <= 0:
+        SigExit("Terminated: aocc[position] too negative, a_occ<=0\n")
+    if (b_occ_num+bocc[0]) <= 0:
+        SigExit("Terminated: bocc[position] too negative, b_occ<=0\n")
     # set alpha and beta occupation
-    if aelec[0] > 0: # occ at LUMO or above
-        a_occ += aelec[0]
-    if belec[0] > 0: # occ at LUMO or above
-        b_occ += belec[0]
+    if aocc[0] > 0: # occ at LUMO or above
+        a_occ_num += aocc[0]
+    if bocc[0] > 0: # occ at LUMO or above
+        b_occ_num += bocc[0]
     # write 'aelec' and 'belec' command
     print >>f, 'aelec  ' + str(real_aelec_num)
     print >>f, 'belec  ' + str(real_belec_num)
     # print ruler line for alpha occ
     string = ''
     for i in range(10):
-        if i == aelec_num + aelec[0] - 1:
-            length = len(str(aelec[1]))
+        if i == aelec_num + aocc[0] - 1:
+            length = len(str(aocc[1]))
             string += str(i)
             for j in range(length):
                 string += ' '
@@ -210,35 +215,35 @@ def write_occ(f, args):
     print >>f, '#************************'+string
     # write 'guess occ set alpha' command
     string = ''
-    for i in range(a_occ):
-        if i == aelec_num + aelec[0] - 1:
-            string = string + str(aelec[1]) + ' '
+    for i in range(a_occ_num):
+        if i == aelec_num + aocc[0] - 1:
+            string = string + str(aocc[1]) + ' '
         elif i > aelec_num - 1:
             string += '0 '
         else:
             string += '1 '
-    print >>f, 'guess occ set alpha {:<5d}'.format(a_occ)\
-            + string
+    print >>f, 'guess occ set alpha {:<5d}'.format(a_occ_num)\
+            + string.rstrip()
    # write 'guess occ set beta' command
     string = ''
-    for i in range(b_occ):
-        if i == belec_num + belec[0] - 1:
-            string = string + str(belec[1]) + ' '
+    for i in range(b_occ_num):
+        if i == belec_num + bocc[0] - 1:
+            string = string + str(bocc[1]) + ' '
         elif i > belec_num - 1:
             string += '0 '
         else:
             string += '1 '
-    print >>f, 'guess occ set beta  {:<5d}'.format(b_occ)\
-            + string
+    print >>f, 'guess occ set beta  {:<5d}'.format(b_occ_num)\
+            + string.rstrip()
     # print ruler line for beta occ
     string = ''
     for i in range(10):
-        if i == belec_num + belec[0] - 1:
-            length = len(str(belec[1]))
+        if i == belec_num + bocc[0] - 1:
+            length = len(str(bocc[1]))
             string += str(i)
             for j in range(length):
                 string += ' '
-            #string += str(belec[1]) + ' '
+            #string += str(bocc[1]) + ' '
         else:
             string += str(i) + ' '
     print >>f, '#************************'+string

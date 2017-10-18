@@ -1,12 +1,12 @@
 $qm
 xyz    1.xyz
 spin   2
-aelec  0.5
-belec  0.1
-#************************0   1 2 3 4 5 6 7 8 9 
-guess occ set alpha 1    0.5 
-guess occ set beta  1    0.1 
-#************************0   1 2 3 4 5 6 7 8 9 
+aelec  1.4
+belec  1
+#************************0 1 2 3   4 5 6 7 8 9 
+guess occ set alpha 4    1 0 0 0.4
+guess occ set beta  1    1
+#************************0 1 2 3 4 5 6 7 8 9 
 method  dft
 xcfunc b3lyp
 guess  atom
