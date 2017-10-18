@@ -12,14 +12,14 @@ def main():
     sf_support.init_args_slurm_val(args)
     sf_support.init_args_basis(args)
     # get total system elec_num
-    elec_num = sf_support.count_elec_num(args)
+    sf_support.count_elec_num(args)
     # auto set some args
-    sf_support.auto_set_mem(args, elec_num) # auto_set arg[mem]
-    sf_support.auto_set_mult(args, elec_num) # auto_set arg[mult]
+    sf_support.auto_set_mem(args) # auto_set arg[mem]
+    sf_support.auto_set_mult(args) # auto_set arg[mult]
     # Check if all the args are valid
     sf_support.check_optional_arg(args)
     # Start writing the input file
-    print args
+    # print args
     args._func(args)
 
 

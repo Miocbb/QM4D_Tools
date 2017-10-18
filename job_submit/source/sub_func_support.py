@@ -25,8 +25,10 @@ def check_optional_arg(args):
     """
     if args.spin not in {'1','2'}:
         SigExit("Terminated: arg[spin] not in {1,2}\n")
-    if not is_number(args.charge):
-        SigExit("Terminated: arg[charge] not number\n")
+    if not is_integer(args.charge):
+        SigExit("Terminated: arg[charge] not integer\n")
+    elif float(args.charge) > (args._elec_num + float(args.charge)):
+        SigExit("Terminated: arg[charge] too large\n")
     if not args.mult.isdigit():
         SigExit("Terminated: arg[mult] not non-negative\n")
     if args.guess != 'atom' and \
@@ -224,9 +226,9 @@ def count_elec_num(args):
     for i in element:
         elec_num += s_claims.element_table[i]
     elec_num -= float(args.charge)
-    return elec_num
+    args._elec_num = elec_num
 
-def auto_set_mem(args, elec_num):
+def auto_set_mem(args):
     """
     memory requst is based on the total number of
     system electron and used basis set.
@@ -234,6 +236,7 @@ def auto_set_mem(args, elec_num):
     With other customized basis, the request memory has
     to time a corresponding factor.
     """
+    elec_num = args._elec_num
     if args.mem == '-1': # using default mem setting
         memory = (int(elec_num)/40) * 2 + 2
         memory *= s_claims.basis_mem_level[args._basis]
@@ -243,16 +246,17 @@ def auto_set_mem(args, elec_num):
                     format(args.mem))
 
 
-def auto_set_mult(args, elec_num):
+def auto_set_mult(args):
     """
     set the 'mult' command based on total elec_num
     odd:  mult=2
     even: mult=1
     """
+    elec_num = args._elec_num
     if args.mult == '-1': # using default mult setting
         args.mult = str(int(elec_num) % 2 + 1)
-    if elec_num != int(elec_num):
-        SigWarring(args, "Warning: fractional charged case, reset '-mult'")
+    #if elec_num != int(elec_num):
+    #    SigWarring(args, "Warning: fractional charged case, reset '-mult'")
 
 
 def SigExit(*string):
@@ -275,6 +279,15 @@ def is_number(string):
     test = string.replace('+','',1).replace('-','',1).\
             replace('.','',1)
     return test.isdigit()
+
+def is_integer(string):
+    """
+    int and float sign and unsigned integer is checked as True
+    3 3.0 +3 +3.0: True
+    """
+    if is_number(string):
+        return int(float(string)) == float(string)
+    return False
 
 def is_positive_int(string):
     """

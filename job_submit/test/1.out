@@ -1,0 +1,156 @@
+
+The input file (LINESIZE= 4096) is 1.inp: 
+
+==>
+$qm
+xyz    1.xyz
+spin   2
+charge 1
+mult   1
+method  dft
+xcfunc b3lyp
+guess  atom
+iter      300
+dentol    1.0E-004
+etol      1.0E-008
+print     1
+directvee
+diis      12  0.30
+basis    H H.cc-pVTZ
+end
+$doqm
+
+<==
+
+Total number of atoms in 1.xyz : 1 
+func set here 0
+func set here b3lyp
+func set here 0
+
+The path of GTO library is /home/ym95/program/QM4D/gtolib/. 
+Filename of this basis set= H.cc-pVTZ with type H
+Number of CGTO is 15.
+Element Symbol is H.
+Details of No Name :
+ CGTO  PGTO    SC              Exp.             Coef.     x^n  y^n  z^n 
+   1    1     1.00000        33.870000         0.006068    0    0    0  
+   1    2     1.00000         5.095000         0.045308    0    0    0  
+   1    3     1.00000         1.159000         0.202822    0    0    0  
+   2    1     1.00000         0.325800         1.000000    0    0    0  
+   3    1     1.00000         0.102700         1.000000    0    0    0  
+   4    1     1.00000         1.407000         1.000000    1    0    0  
+   5    1     1.00000         1.407000         1.000000    0    1    0  
+   6    1     1.00000         1.407000         1.000000    0    0    1  
+   7    1     1.00000         0.388000         1.000000    1    0    0  
+   8    1     1.00000         0.388000         1.000000    0    1    0  
+   9    1     1.00000         0.388000         1.000000    0    0    1  
+  10    1     1.00000         1.057000         1.000000    2    0    0  
+  11    1     1.00000         1.057000         1.000000    1    1    0  
+  12    1     1.00000         1.057000         1.000000    1    0    1  
+  13    1     1.00000         1.057000         1.000000    0    2    0  
+  14    1     1.00000         1.057000         1.000000    0    1    1  
+  15    1     1.00000         1.057000         1.000000    0    0    2  
+
+Show information of molecule and basis set (ANG):
+Atom Ele  zNuc             X         Y         Z        Basis     CGTO PGTO  SEG
+   1  H   1.00 (  1.00)   0.00000   0.00000   0.00000    H.cc-pVTZ   15   17    6
+
+Total Number of atoms     :     1 
+Total Number of elec.     :    0.000 
+Total Number of charges   :    1.000 
+Total Number of core elec.:    0.000 
+
+Total Number of CGTO   :     15 
+Total Number of PGTO   :     17 
+Total Number of Shell  :      6 
+
+Multiplicity (=   1) is used to calculate alpha and beta electrons.
+Alpha electrons =      0.000 Beta electrons =      0.000
+
+MOs are used to calculate density.
+Alpha occupied orbitals=      0 Beta occupied orbitals =      0
+Alpha virtual orbitals=     15 Beta virtual orbitals =     15
+
+Total Number of one-electron integrals : 120 
+Total Number of two-electron integrals : 7260 (after screening)
+Memory cost for two-electron integrals :      0 (MB)
+
+Information of SCF Options:
+DIIS is used and the dimension of DIIS is : 12 
+Energy difference threshold of DIIS: 0.300000 
+(Only if the energy difference is smaller than the above value, DIIS will be activated.) 
+
+Criteria of  SCF Convergence: 
+   Energy difference is less than 1.000e-08. 
+   And density matrix difference is less than 1.000e-04. 
+   Maximum number of iterations is less than  300. 
+
+This is DFT calculation with open shell.
+
+ The xc functional is b3lyp.
+
+ Factor of HF exact exchange :     0.2000.
+
+All ERIs are calculated when needed.
+
+Values of basis sets are stored in memory.
+
+The part of MM charges will be calculated from analytic integrals and used in SCF.
+
+External electric field information: 
+ X= 0.00000000 Y=0.00000000 Z=0.00000000 
+The contribution from external electric fields will be added into the core Hamiltonian.
+The energy contribution will be added into the ENQ term.
+
+One-electron integrals are being calculated.
+Overlap Matrix Z is being calculated.
+Overlap Matrix Y is being calculated.
+Overlap Matrix X is being calculated.
+Atomic density guess is used.
+Total energy of all atoms :         -0.5021597483
+
+Nuclear-Nuclear repulsion energy   =         0.0000000000
+Nuclear-Charge energy (with Field) =         0.0000000000
+Charge-Charge energy               =         0.0000000000
+
+Grids are pruned. Cut-off of Becke weights for pruning is 1.0000e-09.
+
+SG1 grids are used here.
+Total number of grids = 2714.
+    1     1     2714
+
+CalcGridBasis is called. iBasGrad=1 isGGA=1
+
+ITER=   1  Energy=        -0.4450164602 DeltaE= -4.45016e-01 DP=  0.00000e+00 PairTol= -1.000e+00
+ E(Core)=        -0.4994887154 ET =         0.4982189118 ENE =        -0.9977076272 
+ EJ     =         0.3092168799 EK =        -0.0309216880 Exc =        -0.2238229367 
+ EQE    =         0.0000000000 EVT=        -0.9432353719 -V/T=         1.893
+ EEE+ENE=        -0.4450164602 ENN=         0.0000000000 EVex=         0.0000000000
+SCFInfo: Damping=-1.000 Shift= 0.000 lDamping=0 lShift=0 lDIIS=1 lODA=0 lODAV=0 isLast=0
+
+The accumulated memory usages are:
+      MALLOCED      0 (MB); FREED      0 (MB)
+
+                          TIME RECORD (seconds)
+|-----------------------------------------------------------------------|
+|              F U N C T I O N              |    C P U    |   W A L L   |
+|-----------------------------------------------------------------------|
+|                                 QM4D (0)   |       0.330 |       0.600 |
+|                     DoQMCalculations (1)   |       0.000 |       0.000 |
+|               CalcOneElecBasisMatrix (0)   |       0.000 |       0.100 |
+|                   CalcOverlapMatrixZ (0)   |       0.000 |       0.000 |
+|                   CalcOverlapMatrixY (0)   |       0.000 |       0.000 |
+|                   CalcOverlapMatrixX (0)   |       0.000 |       0.000 |
+|                 DoQMCalculationsAtom (0)   |       0.320 |       0.390 |
+|                            DoSCFAtom (0)   |       0.310 |       0.340 |
+|                        GenGridPoints (0)   |       0.000 |       0.010 |
+|                        CalcGridBasis (0)   |       0.010 |       0.000 |
+|                                DoSCF (1)   |       0.000 |       0.000 |
+|                             DoSCF-JK (1)   |       0.000 |       0.000 |
+|                             DoSCF-XC (0)   |       0.000 |       0.000 |
+|                       DiagFockMatrix (0)   |       0.000 |       0.000 |
+|-----------------------------------------------------------------------|
+
+
+ QM4D exit with some errors.
+

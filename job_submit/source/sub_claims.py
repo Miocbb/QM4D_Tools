@@ -219,5 +219,6 @@ parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
                            _f_slurm_name=None, _job_name=None,
                            _basis=None, _fitbasis=None,
                            _func=None, _method=None,
+                           _elec_num=0,
                            _sys_warning=0)
 
