@@ -172,8 +172,8 @@ Boys Anal   20
 dentol      1.0E-004
 etol        1.0E-008
 print       1
-directvee
-diis        12  0.30""")
+diis        12  0.30
+directvee""")
 
 #for dft and hf methods
 inp_temp =(
@@ -181,8 +181,8 @@ inp_temp =(
 dentol    1.0E-004
 etol      1.0E-008
 print     1
-directvee
-diis      12  0.30""")
+diis      12  0.30
+directvee""")
 
 # Create parent parser
 # Necessary arguments to write inp file

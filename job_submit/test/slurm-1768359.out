@@ -1,0 +1,5 @@
+QM4D compiling date/time: 10:58:12 // Sep 26 2017
+QM4D running host: node082
+QM4D starting time: Wed Oct 18 11:12:37 2017
+
+slurmstepd: error: *** JOB 1768359 ON node082 CANCELLED AT 2017-10-18T11:13:09 ***

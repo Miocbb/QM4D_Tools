@@ -122,7 +122,7 @@ def init_args_abocc(args):
         aocc[0] = int(aocc[0])
         aocc[1] = float(aocc[1])
         if int(aocc[1]) == aocc[1]:
-            aocc[1] = int(aooc[1])
+            aocc[1] = int(aocc[1])
     except ValueError:
         SigExit("Terminated: arg[aocc] invalid. aocc=[int, float]\n")
     try:

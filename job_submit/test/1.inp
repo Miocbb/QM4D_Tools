@@ -1,21 +1,30 @@
 $qm
 xyz    1.xyz
 spin   2
-aelec  1.4
-belec  1
-#************************0 1 2 3   4 5 6 7 8 9 
-guess occ set alpha 4    1 0 0 0.4
-guess occ set beta  1    1
-#************************0 1 2 3 4 5 6 7 8 9 
+charge 0
+mult   1
 method  dft
-xcfunc b3lyp
+xfunc  xb88
+cfunc  clyp
 guess  atom
-iter      300
-dentol    1.0E-004
-etol      1.0E-008
-print     1
+POSTSCF LMOSC Boys 1000 1.e-10
+LOEnergy  -30  10
+iter        300
+LOSC_r0     2.7
+LOSC_eta    3.0
+LOSC_eps    2.50
+LOSC_gamma  2.0
+LOSC_exf    1.23780
+LOSC_pow    2.0
+Boys Anal   20
+dentol      1.0E-004
+etol        1.0E-008
+print       1
+diis        12  0.30
 directvee
-diis      12  0.30
 basis    H H.cc-pVTZ
+basis    O O.cc-pVTZ
+fitbasis H H.aug-cc-pVTZ
+fitbasis O O.aug-cc-pVTZ
 end
 $doqm
