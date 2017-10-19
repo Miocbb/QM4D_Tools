@@ -1,11 +1,14 @@
 $qm
 xyz    1.xyz
 spin   2
-charge 0
-mult   1
+aelec  5.5
+belec  4.3
+#************************0 1 2 3 4   5 6 7 8 9 
+guess occ set alpha 6    1 1 1 1 0.5 1
+guess occ set beta  5    1 1 1 1 0.3
+#************************0 1 2 3 4   5 6 7 8 9 
 method  dft
-xfunc  xb88
-cfunc  clyp
+xcfunc b3lyp
 guess  atom
 POSTSCF LMOSC Boys 1000 1.e-10
 LOEnergy  -30  10

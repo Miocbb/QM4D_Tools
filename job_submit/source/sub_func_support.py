@@ -173,6 +173,7 @@ def write_occ(f, args):
     elec_num = args._elec_num
     aelec_num = elec_num/2 + elec_num % 2
     belec_num = elec_num/2
+    #aelec_num, belec_num = set_elec_configure(args)
     aocc = args.aocc
     bocc = args.bocc
     # set real elec_num for spin alpha and beta
@@ -361,8 +362,34 @@ def auto_set_mult(args):
     elec_num = args._elec_num
     if args.mult == '-1': # using default mult setting
         args.mult = str(int(elec_num) % 2 + 1)
+    elif not is_integer(args.mult):
+        SigExit('Terminated: arg[mult] is not an integer\n')
+    else: # check customized 'mult' based on current elec_num then use it
+        if int(args.mult) <= 0:
+            SigExit('Terminated: arg[mult] has to > 0\n')
+        if int(args.mult)%2 and elec_num%2:
+            SigExit('Terminated: arg[mult] has to be even\n')
+        if (not int(args.mult)%2) and (not elec_num%2):
+            SigExit('Terminated: arg[mult] has to be odd\n')
+
+
     #if elec_num != int(elec_num):
     #    SigWarring(args, "Warning: fractional charged case, reset '-mult'")
+
+def set_elec_configure(args):
+    """
+    return the (aelec_num, belec_num)
+
+    supposed that current args.elec_num has been initialed.
+    args.charge is checked: integer
+    args.mult is checked: non-negative integer and verified
+                          with current elec_num
+    """
+    elec_num = args._elec_num
+    mult = int(args.mult)
+    belec_num = (elec_num + 1 - mult)/2
+    aelec_num = belec_num + mult -1
+    return aelec_num, belec_num
 
 
 def SigExit(*string):

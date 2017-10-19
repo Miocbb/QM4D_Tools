@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name 1.losc.blyp
+#SBATCH --job-name 1.losc.b3lyp
 #SBATCH --time=10000
 #SBATCH --nodes=1
 #SBATCH --mem=2G
