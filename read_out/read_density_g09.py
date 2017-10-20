@@ -1,4 +1,21 @@
 #!/usr/bin/python
+"""
+Description:
+1. This python script is used to extract densitry (dst) matrix
+from g09 output.
+2. [dst].txt file is created under the dir of current execute path
+and can be used as 'guess read' file for QM4D.
+
+Note:
+1. g09.chk file is required to execute this script.
+
+Work flow illustration:
+g09.chk --> check g09.log normal terminated
+--> g09.fchk (formchk) --> [dst].txt
+
+Author: Yuncai Mei
+Date:   2017/10/20
+"""
 
 import argparse
 import os.path
@@ -9,7 +26,7 @@ from subprocess import Popen, PIPE
 def main():
     # setting argument parser
     parser = argparse.ArgumentParser(description=
-            """Exact the density file from g09
+            """Extract the density file from g09
             output file.
             """)
     parser.add_argument('f_chk', help='g09.chk file')
@@ -61,6 +78,11 @@ def formchk(args):
 
 
 def extract_density(args):
+    """
+    Extract densitry matrix from g09.fchk file
+    string 'Total S', 'Spin' and 'Mulliken' are
+    the parttens for locate the density matrix data
+    """
     f_fchk = args.f_chk_name[0:-4] + '.fchk'
     f_txt  = args.f_txt_name
     partten_1 = 'Total S' # Start: Total Spin
