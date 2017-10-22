@@ -23,7 +23,7 @@ Date:   2017/10/20
 import sys
 import os.path
 import argparse
-from subprocess import Popen, PIPE
+#from subprocess import Popen, PIPE
 
 def SigExit(*string):
     for i in string:
