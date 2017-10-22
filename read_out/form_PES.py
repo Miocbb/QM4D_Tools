@@ -32,7 +32,8 @@ def main():
     eig_dft, eig_losc = load_eig(args)
     # generate spectrum data
     step  = 0.02
-        # standard functional spectrum
+
+    # standard functional spectrum
     start = math.floor(eig_dft[0]) - 0.5
     end   = math.ceil(eig_dft[-1]) + 0.5
     row   = int((end-start)/step)
@@ -43,7 +44,8 @@ def main():
         table_dft[i, 0] = x
         for j in range(1, col+1):
             table_dft[i,j]=G_distribution(x, eig_dft[j-1], float(args.sigma))
-        # losc spectrum
+
+    # losc spectrum
     start = math.floor(eig_losc[0]) - 0.5
     end   = math.ceil(eig_losc[-1]) + 0.5
     row   = int((end-start)/step)

@@ -1,7 +1,7 @@
 $qm
 xyz    1.xyz
 spin   2
-charge 0
+charge 1
 mult   2
 method  dft
 xcfunc b3lyp
@@ -22,6 +22,8 @@ print       1
 diis        12  0.30
 directvee
 basis    H H.cc-pVTZ
+basis    O O.cc-pVTZ
 fitbasis H H.aug-cc-pVTZ
+fitbasis O O.aug-cc-pVTZ
 end
 $doqm

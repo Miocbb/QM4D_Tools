@@ -28,7 +28,7 @@ import argparse
 def SigExit(*string):
     for i in string:
         print i
-    sys.eixt()
+    sys.exit()
 
 def set_parser():
     """
@@ -149,6 +149,8 @@ def main():
     for i in alpha_eig: print >>f, i
     for i in beta_eig:  print >>f, i
     f.close()
+
+    print "Create eigenvalue file: {:s}".format(args._f_eig)
     return
 
 

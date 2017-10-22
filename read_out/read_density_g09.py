@@ -55,6 +55,7 @@ def main():
     # extract density file
     extract_density(args)
     print '\n Succeed to write "%s" density file' %args.f_txt_name
+    return
 
 
 def check_terminattion(args):
