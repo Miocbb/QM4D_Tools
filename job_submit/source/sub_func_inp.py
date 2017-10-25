@@ -57,7 +57,7 @@ def losc_inp(args):
     print >>f, s_claims.inp_temp_losc
     f.close()
     # write 'basis' and 'fitbasis' command
-    element = sf_support.read_elements(f_xyz)
+    element = sf_support.read_elements(args)
     sf_support.write_basis(f_inp, element, basis)
     sf_support.write_fitbasis(f_inp, element, fitbasis)
     f = open(f_inp, 'a')
@@ -94,7 +94,7 @@ def dft_inp_qm4d(args):
     print >>f, s_claims.inp_temp
     f.close()
     # write 'basis' command
-    element = sf_support.read_elements(f_xyz)
+    element = sf_support.read_elements(args)
     sf_support.write_basis(f_inp, element, basis)
     f = open(f_inp, 'a')
     print >>f, 'end'
@@ -162,7 +162,7 @@ def hf_inp_qm4d(args):
     print >>f, s_claims.inp_temp
     f.close()
     # write 'basis' command
-    element = sf_support.read_elements(args.f_xyz)
+    element = sf_support.read_elements(args)
     sf_support.write_basis(f_inp, element, basis)
     f = open(f_inp, 'a')
     print >>f, 'end'

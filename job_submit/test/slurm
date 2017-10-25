@@ -2,7 +2,7 @@
 #SBATCH --job-name 1.losc.b3lyp
 #SBATCH --time=10000
 #SBATCH --nodes=1
-#SBATCH --mem=2G
+#SBATCH --mem=1G
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=mei3
 #SBATCH --mail-type=FAIL

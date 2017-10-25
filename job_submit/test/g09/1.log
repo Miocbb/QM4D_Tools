@@ -2,8 +2,8 @@
  Input=1.com
  Output=1.log
  Initial command:
- /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-81914.inp" -scrdir="/scr/"
- Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     81917.
+ /home/software/GAUSSIAN/g09.D.01/g09/l1.exe "/scr/Gau-31424.inp" -scrdir="/scr/"
+ Entering Link 1 = /home/software/GAUSSIAN/g09.D.01/g09/l1.exe PID=     31425.
   
  Copyright (c) 1988,1990,1992,1993,1995,1998,2003,2009,2013,
             Gaussian, Inc.  All Rights Reserved.
@@ -76,18 +76,18 @@
  
  ******************************************
  Gaussian 09:  ES64L-G09RevD.01 24-Apr-2013
-                17-Oct-2017 
+                25-Oct-2017 
  ******************************************
  %chk=1.chk
  %nprocshared=8
  Will use up to    8 processors via shared memory.
- %mem=4gb
- -----------------------------------------------------
- # blyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
- -----------------------------------------------------
+ %mem=2gb
+ --------------------------------------------------
+ # b3lyp/cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm
+ --------------------------------------------------
  1/38=1/1;
  2/12=2,15=1,17=6,18=5,40=1/2;
- 3/5=16,6=1,7=10,8=22,11=2,16=1,25=1,30=1,60=-1,74=402/1,2,3;
+ 3/5=16,6=1,8=22,11=2,16=1,25=1,30=1,60=-1,74=-5/1,2,3;
  4//1;
  5/5=2,38=5/2;
  6/7=2,8=2,9=2,10=2,28=1/1;
@@ -96,53 +96,53 @@
  1
  -
  Symbolic Z-matrix:
- Charge = -2 Multiplicity = 2
- H                     0.        0.        0. 
+ Charge =  0 Multiplicity = 1
+ C                     0.        0.        0. 
  
                           Input orientation:                          
  ---------------------------------------------------------------------
  Center     Atomic      Atomic             Coordinates (Angstroms)
  Number     Number       Type             X           Y           Z
  ---------------------------------------------------------------------
-      1          1           0        0.000000    0.000000    0.000000
+      1          6           0        0.000000    0.000000    0.000000
  ---------------------------------------------------------------------
  Symmetry turned off by external request.
- Stoichiometry    H(2-,2)
- Framework group  OH[O(H)]
+ Stoichiometry    C
+ Framework group  OH[O(C)]
  Deg. of freedom     0
  Full point group                 OH      NOp  48
- Standard basis: Aug-CC-pVTZ (6D, 10F)
-    25 basis functions,    27 primitive gaussians,    25 cartesian basis functions
-     2 alpha electrons        1 beta electrons
+ Standard basis: CC-pVTZ (6D, 10F)
+    35 basis functions,    55 primitive gaussians,    35 cartesian basis functions
+     3 alpha electrons        3 beta electrons
        nuclear repulsion energy         0.0000000000 Hartrees.
  NAtoms=    1 NActive=    1 NUniq=    1 SFac= 1.00D+00 NAtFMM=   60 NAOKFM=F Big=F
  Integral buffers will be    131072 words long.
  Raffenetti 2 integral format.
  Two-electron integral symmetry is turned off.
  One-electron integrals computed using PRISM.
- NBasis=    25 RedAO= T EigKep=  6.12D-03  NBF=    25
- NBsUse=    25 1.00D-06 EigRej= -1.00D+00 NBFU=    25
- ExpMin= 2.53D-02 ExpMax= 3.39D+01 ExpMxC= 3.39D+01 IAcc=3 IRadAn=         5 AccDes= 0.00D+00
- Harris functional with IExCor=  402 and IRadAn=       5 diagonalized for initial guess.
- HarFok:  IExCor=  402 AccDes= 0.00D+00 IRadAn=         5 IDoV= 1 UseB2=F ITyADJ=14
+ NBasis=    35 RedAO= T EigKep=  2.89D-03  NBF=    35
+ NBsUse=    35 1.00D-06 EigRej= -1.00D+00 NBFU=    35
+ ExpMin= 1.21D-01 ExpMax= 8.24D+03 ExpMxC= 2.81D+02 IAcc=1 IRadAn=         1 AccDes= 0.00D+00
+ Harris functional with IExCor=  402 and IRadAn=       1 diagonalized for initial guess.
+ HarFok:  IExCor=  402 AccDes= 0.00D+00 IRadAn=         1 IDoV= 1 UseB2=F ITyADJ=14
  ICtDFT=  3500011 ScaDFX=  1.000000  1.000000  1.000000  1.000000
  FoFCou: FMM=F IPFlag=           0 FMFlag=      100000 FMFlg1=           0
          NFxFlg=           0 DoJE=T BraDBF=F KetDBF=T FulRan=T
          wScrn=  0.000000 ICntrl=     500 IOpCl=  0 I1Cent=   200000004 NGrid=           0
          NMat0=    1 NMatS0=      1 NMatT0=    0 NMatD0=    1 NMtDS0=    0 NMtDT0=    0
  Symmetry not used in FoFCou.
- Initial guess <Sx>= 0.0000 <Sy>= 0.0000 <Sz>= 0.5000 <S**2>= 0.7500 S= 0.5000
- Keep J ints in memory in canonical form, NReq=933300.
+ Keep R1 ints in memory in canonical form, NReq=2175162.
  Requested convergence on RMS density matrix=1.00D-08 within 128 cycles.
  Requested convergence on MAX density matrix=1.00D-06.
  Requested convergence on             energy=1.00D-06.
  No special actions if energy rises.
- SCF Done:  E(UB-LYP) = -0.329340978949     A.U. after   11 cycles
-            NFock= 11  Conv=0.28D-08     -V/T= 1.5368
- <Sx>= 0.0000 <Sy>= 0.0000 <Sz>= 0.5000 <S**2>= 0.7586 S= 0.5043
- <L.S>= 0.000000000000E+00
- Annihilation of the first spin contaminant:
- S**2 before annihilation     0.7586,   after     0.7500
+ Integral accuracy reduced to 1.0D-05 until final iterations.
+ Initial convergence to 1.0D-05 achieved.  Increase integral accuracy.
+ DSYEVD-2 returned Info=          71 IAlg= 4 N=    35 NDim=    35 NE2=     7663207 trying  DSYEV.
+ DSYEVD-2 returned Info=          71 IAlg= 4 N=    35 NDim=    35 NE2=     7663207 trying  DSYEV.
+ DSYEVD-2 returned Info=          71 IAlg= 4 N=    35 NDim=    35 NE2=     7663207 trying  DSYEV.
+ SCF Done:  E(RB3LYP) =  -37.7931326763     A.U. after  101 cycles
+            NFock=101  Conv=0.86D-09     -V/T= 2.0071
 
  **********************************************************************
 
@@ -150,87 +150,52 @@
 
  **********************************************************************
 
- Alpha  occ. eigenvalues --    0.17527   0.24449
- Alpha virt. eigenvalues --    0.47316   0.47316   0.47316   0.58056   1.04297
- Alpha virt. eigenvalues --    1.04297   1.04297   1.04297   1.04297   1.20512
- Alpha virt. eigenvalues --    1.21486   1.21486   1.21486   3.02191   3.95711
- Alpha virt. eigenvalues --    3.95711   3.95711   3.95711   3.95711   4.12183
- Alpha virt. eigenvalues --    4.12183   4.12183   5.55616
-  Beta  occ. eigenvalues --    0.20786
-  Beta virt. eigenvalues --    0.27755   0.46314   0.46314   0.46314   0.58393
-  Beta virt. eigenvalues --    1.05276   1.05276   1.05276   1.05276   1.05276
-  Beta virt. eigenvalues --    1.23100   1.25083   1.25083   1.25083   3.08389
-  Beta virt. eigenvalues --    4.02759   4.02759   4.02759   4.02759   4.02759
-  Beta virt. eigenvalues --    4.21757   4.21757   4.21757   5.63144
+ Alpha  occ. eigenvalues --  -10.32768  -0.54904  -0.21651
+ Alpha virt. eigenvalues --   -0.15294  -0.15294   0.17816   0.28835   0.28835
+ Alpha virt. eigenvalues --    0.29152   0.65972   0.65972   0.67477   0.67477
+ Alpha virt. eigenvalues --    0.68891   1.05534   1.56675   1.56675   1.58087
+ Alpha virt. eigenvalues --    2.63237   2.63237   2.64971   2.64971   2.67303
+ Alpha virt. eigenvalues --    2.67304   2.67831   2.90196   2.90196   2.91586
+ Alpha virt. eigenvalues --    2.91586   2.93874   3.55496   3.55496   3.58578
+ Alpha virt. eigenvalues --    5.36963   7.41384
           Condensed to atoms (all electrons):
                1
-     1  H    3.000000
-          Atomic-Atomic Spin Densities.
+     1  C    6.000000
+ Mulliken charges:
                1
-     1  H    1.000000
- Mulliken charges and spin densities:
-               1          2
-     1  H   -2.000000   1.000000
- Sum of Mulliken charges =  -2.00000   1.00000
- Mulliken charges and spin densities with hydrogens summed into heavy atoms:
-               1          2
- Electronic spatial extent (au):  <R**2>=             79.1624
- Charge=             -2.0000 electrons
+     1  C    0.000000
+ Sum of Mulliken charges =   0.00000
+ Mulliken charges with hydrogens summed into heavy atoms:
+               1
+     1  C    0.000000
+ Electronic spatial extent (au):  <R**2>=             14.4234
+ Charge=              0.0000 electrons
  Dipole moment (field-independent basis, Debye):
     X=              0.0000    Y=              0.0000    Z=              0.0000  Tot=              0.0000
  Quadrupole moment (field-independent basis, Debye-Ang):
-   XX=            -35.4920   YY=            -35.4920   ZZ=            -35.4920
-   XY=              0.0000   XZ=              0.0000   YZ=              0.0000
+   XX=             -5.5066   YY=             -7.9103   ZZ=             -5.9831
+   XY=              1.1509   XZ=             -0.6586   YZ=              1.6401
  Traceless Quadrupole moment (field-independent basis, Debye-Ang):
-   XX=              0.0000   YY=              0.0000   ZZ=              0.0000
-   XY=              0.0000   XZ=              0.0000   YZ=              0.0000
+   XX=              0.9600   YY=             -1.4436   ZZ=              0.4836
+   XY=              1.1509   XZ=             -0.6586   YZ=              1.6401
  Octapole moment (field-independent basis, Debye-Ang**2):
   XXX=              0.0000  YYY=              0.0000  ZZZ=              0.0000  XYY=              0.0000
   XXY=              0.0000  XXZ=              0.0000  XZZ=              0.0000  YZZ=              0.0000
   YYZ=              0.0000  XYZ=              0.0000
  Hexadecapole moment (field-independent basis, Debye-Ang**3):
- XXXX=           -343.6155 YYYY=           -343.6155 ZZZZ=           -343.6155 XXXY=              0.0000
- XXXZ=              0.0000 YYYX=              0.0000 YYYZ=              0.0000 ZZZX=              0.0000
- ZZZY=              0.0000 XXYY=           -114.5385 XXZZ=           -114.5385 YYZZ=           -114.5385
- XXYZ=              0.0000 YYXZ=              0.0000 ZZXY=              0.0000
- N-N= 0.000000000000D+00 E-N=-1.524867174785D+00  KE= 6.134789256372D-01
-                          Isotropic Fermi Contact Couplings
-        Atom                 a.u.       MegaHertz       Gauss      10(-4) cm-1
-     1  H(1)               0.15990     714.71160     255.02686     238.40213
- --------------------------------------------------------
-       Center         ----  Spin Dipole Couplings  ----
-                      3XX-RR        3YY-RR        3ZZ-RR
- --------------------------------------------------------
-     1   Atom        0.000000      0.000000      0.000000
- --------------------------------------------------------
-                        XY            XZ            YZ
- --------------------------------------------------------
-     1   Atom        0.000000      0.000000      0.000000
- --------------------------------------------------------
+ XXXX=             -6.2294 YYYY=            -11.6692 ZZZZ=             -7.3099 XXXY=              1.3058
+ XXXZ=             -0.7473 YYYX=              1.2988 YYYZ=              1.8509 ZZZX=             -0.7465
+ ZZZY=              1.8589 XXYY=             -2.9833 XXZZ=             -2.2559 YYZZ=             -3.1602
+ XXYZ=              0.6190 YYXZ=             -0.2446 ZZXY=              0.4330
+ N-N= 0.000000000000D+00 E-N=-8.789334375692D+01  KE= 3.752511947880D+01
+ 1\1\GINC-NODE084\SP\RB3LYP\CC-pVTZ\C1\YM95\25-Oct-2017\0\\# b3lyp/cc-p
+ VTZ 6d 10f Int=NoBasisTransform NoSymm\\1\\0,1\C,0,0.,0.,0.\\Version=E
+ S64L-G09RevD.01\HF=-37.7931327\RMSD=8.566e-10\Dipole=0.,0.,0.\Quadrupo
+ le=0.7137484,-1.0732934,0.359545,0.8556326,-0.4896661,1.2193402\PG=OH 
+ [O(C1)]\\@
 
 
- ---------------------------------------------------------------------------------
-              Anisotropic Spin Dipole Couplings in Principal Axis System
- ---------------------------------------------------------------------------------
-
-       Atom             a.u.   MegaHertz   Gauss  10(-4) cm-1        Axes
-
-              Baa     0.0000     0.000     0.000     0.000  0.0000  0.0000  1.0000
-     1 H(1)   Bbb     0.0000     0.000     0.000     0.000  0.0000  1.0000  0.0000
-              Bcc     0.0000     0.000     0.000     0.000  1.0000  0.0000  0.0000
- 
-
- ---------------------------------------------------------------------------------
-
- 1\1\GINC-NODE018\SP\UBLYP\Aug-CC-pVTZ\H1(2-,2)\YM95\17-Oct-2017\0\\# b
- lyp/aug-cc-pVTZ 6d 10f Int=NoBasisTransform NoSymm\\1\\-2,2\H,0,0.,0.,
- 0.\\Version=ES64L-G09RevD.01\HF=-0.329341\S2=0.758648\S2-1=0.\S2A=0.75
- \RMSD=2.758e-09\Dipole=0.,0.,0.\Quadrupole=0.,0.,0.,0.,0.,0.\PG=OH [O(
- H1)]\\@
-
-
- SOME PEOPLE TRY TO PULL THE WOOL OVER YOUR EYES
- USING THE WRONG YARN.
- Job cpu time:       0 days  0 hours  0 minutes 10.8 seconds.
+ THE CAUTIOUS SELDOM ERR...CONFUCIUS                   
+ Job cpu time:       0 days  0 hours  0 minutes 11.8 seconds.
  File lengths (MBytes):  RWF=      5 Int=      0 D2E=      0 Chk=      2 Scr=      1
- Normal termination of Gaussian 09 at Tue Oct 17 01:57:22 2017.
+ Normal termination of Gaussian 09 at Wed Oct 25 14:56:17 2017.

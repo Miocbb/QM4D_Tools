@@ -1,12 +1,8 @@
 $qm
 xyz    1.xyz
 spin   2
-aelec  5.5
-belec  4.3
-#************************0 1 2 3 4   5 6 7 8 9 
-guess occ set alpha 6    1 1 1 1 0.5 1
-guess occ set beta  5    1 1 1 1 0.3
-#************************0 1 2 3 4   5 6 7 8 9 
+charge 0
+mult   1
 method  dft
 xcfunc b3lyp
 guess  atom
@@ -25,9 +21,7 @@ etol        1.0E-008
 print       1
 diis        12  0.30
 directvee
-basis    H H.cc-pVTZ
-basis    O O.cc-pVTZ
-fitbasis H H.aug-cc-pVTZ
-fitbasis O O.aug-cc-pVTZ
+basis    C C.6-311G_2df_2pd
+fitbasis C C.aug-cc-pVTZ
 end
 $doqm

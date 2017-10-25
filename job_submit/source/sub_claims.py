@@ -1,13 +1,28 @@
 import argparse
 
+# QM4D basis library path
+QM4D_GTOLIB="/home/ym95/program/QM4D/gtolib/"
+
+# keyword for specifing basis type and number of
+# functions for QM4D. (6D, 10F) was used in QM4D.
+# {keyword : num of component}
+# e.g.
+# {S : 1;  P : 3; D : 6}
+QM4D_PGTO = {
+'S' : 1,
+'P' : 3,
+'SP': 4,
+'D' : 6,
+'F' : 10}
+
 # qm4d supported functionals
-dfa_qm4d={'b3lyp', 'blyp', 'lda', 'pbe'}
+dfa_qm4d=('b3lyp', 'blyp', 'lda', 'pbe')
 
 # g09 supported  functionals
-dfa_g09={'b3lyp', 'blyp', 'lda', 'pbe'}
+dfa_g09=('b3lyp', 'blyp', 'lda', 'pbe')
 
 # input option for basis of fitbasis
-basis_input_option={
+basis_input_option=(
 'STO-3G', '6-31G', '6-31GS', '6-31GSS',
 '6-311GS', '6-311++G_3DF_3PD',
 'CC-PVDZ', 'CC-PVTZ', 'CC-PVQZ',
@@ -15,7 +30,7 @@ basis_input_option={
 'AUG-CC-PVDZ', 'AUG-CC-PVTZ',
 'AUG-CC-PVQZ', 'AUG-CC-PV5Z',
 'AUG-CC-PV6Z'
-}
+)
 
 # basis or fitbasis command for qm4d
 basis_command_qm4d={

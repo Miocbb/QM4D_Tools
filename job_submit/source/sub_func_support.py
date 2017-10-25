@@ -5,7 +5,15 @@ import sys
 import os
 import os.path
 import argparse
+import math
 import sub_claims as s_claims
+
+# global var to store the all the element
+# showing in the f_xyz.xyz file.
+# e.g: 
+# element_list = [H, H, O]
+ELEMENT_LIST= []
+
 
 def check_position_args(args):
     """
@@ -139,31 +147,11 @@ def check_mem(args):
     check if args[mem] is valid or not
     """
     if int(args.mem) > s_claims.partition_mem[args.partition]:
-        SigExit('Terminated: arg[mem] oversize, mem={}, max_mem={}G\n'
-                .format(args.mem, s_claims.partition_mem[args.partition]))
+        SigExit('Terminated: max_mem for partition "{}" is {}G. '
+                'Requested mem {}G oversized.\n'
+                .format(s_claims.partition_name[args.partition],
+                    s_claims.partition_mem[args.partition], args.mem))
 
-
-def read_elements(f_xyz):
-    """
-    read out the elements from xyz file;
-    reading is based on the coordinates line;
-
-    return:  list elements[];
-    """
-    element = []
-    f =open(f_xyz)
-    count = 0
-    for line in f:
-        line_split = line.split()
-        if len(line_split) > 0: #skip the emmty line
-            if line_split[0].startswith('#') != True:
-                count += 1
-            if count >= 3: # start read the element
-                if len(line_split[0]) >= 3:
-                    element.append(line_split[0][0:2])
-                else:
-                    element.append(line_split[0])
-    return list(set(element))
 
 def write_occ(f, args):
     """
@@ -295,7 +283,7 @@ def write_xyz_g09(f_inp, f_xyz):
         if len(line_split) > 0: #skip the emmty line
             if line_split[0].startswith('#') != True:
                 count += 1
-            if count >= 3: # start write coordinates
+            if count >= 3 and (not line_split[0].startswith('#')): # start write coordinates
                 # check if coordinate is complete
                 if len(line_split) != 4:
                     print "terminated: xyz file missing data for coordinates"
@@ -309,35 +297,151 @@ def write_xyz_g09(f_inp, f_xyz):
     f1.close()
     f2.close()
 
+def get_element_list(args):
+    """
+    collect the list of all the element
+    and inital the global var "ELEMENT_LIST".
+    """
+    global ELEMENT_LIST
+    if len(ELEMENT_LIST) == 0:
+        f_xyz = args.f_xyz
+        f =open(f_xyz)
+        count = 0
+        for line in f:
+            line_split = line.split()
+            if len(line_split) > 0: #skip the emmty line
+                if line_split[0].startswith('#') != True:
+                    count += 1
+                # start read the element
+                if count >= 3 and ( not line_split[0].startswith('#') ):
+                    if len(line_split[0]) >= 3:
+                        ELEMENT_LIST.append(line_split[0][0:2])
+                    else:
+                        ELEMENT_LIST.append(line_split[0])
+        f.close()
+ 
+
 def count_elec_num(args):
     """
-    count the total electron number of the input system
+    count the total electron number (charge couuts)
+    of the input system
     """
     f_xyz = args.f_xyz
     # collect the list of all the element
-    element = []
-    f =open(f_xyz)
-    count = 0
-    for line in f:
-        line_split = line.split()
-        if len(line_split) > 0: #skip the emmty line
-            if line_split[0].startswith('#') != True:
-                count += 1
-            if count >= 3: # start read the element
-                if len(line_split[0]) >= 3:
-                    element.append(line_split[0][0:2])
-                else:
-                    element.append(line_split[0])
+    #element = []
+    global ELEMENT_LIST
+    if len(ELEMENT_LIST) == 0:
+        get_element_list(args)
     # start count electron num
     elec_num = 0
-    for i in element:
+    for i in ELEMENT_LIST:
         elec_num += s_claims.element_table[i]
     elec_num -= float(args.charge)
     args._elec_num = int(elec_num)
 
+
+def read_elements(args):
+    """
+    read out the elements from xyz file;
+    reading is based on the coordinates line;
+
+    return:  list elements[] without duplicated terms;
+    """
+    global ELEMENT_LIST
+    if len(ELEMENT_LIST) ==  0:
+        get_element_list(args)
+    return list(set(ELEMENT_LIST)) # delete duplicated element
+
+
+def count_total_cgto(args):
+    """
+    count how many CGTO functions are going to be
+    used in the QM4D calculation.
+
+    return: int(num of CGTO)
+    """
+    global ELEMENT_LIST
+    if len(ELEMENT_LIST) == 0:
+        get_element_list(args)
+    element_dic = {x : ELEMENT_LIST.count(x) for x in ELEMENT_LIST}
+    element_name = element_dic.keys()
+    num_CGTO = 0
+    for i in element_name:
+        basis_name = s_claims.basis_command_qm4d[args._basis]
+        num_CGTO += count_basis_cgot(i, basis_name) * element_dic[i]
+    return num_CGTO
+
+def count_basis_cgot(element_name, basis_name):
+    """
+    count the CGTO number for a specific gaussian basis.
+    The counting is based on basis set file in QM4D_GTOLIB.
+
+    return: int(number of CGTO)
+    """
+    QM4D_GTOLIB = s_claims.QM4D_GTOLIB
+    QM4D_PGTO   = s_claims.QM4D_PGTO
+    basis = element_name + '.' + basis_name
+    CGTO_key = s_claims.QM4D_PGTO.keys()
+    if not os.path.isfile(QM4D_GTOLIB+basis):
+        SigExit("Terminated: basis {:s} does not exist in GTOLIB\n".format(basis))
+    f = open(QM4D_GTOLIB+basis, 'r')
+    num_CGTO = 0
+    # find the start line in f.
+    # In basis file, the info for CGTO is start from
+    # the line that start with the name of element.
+    for line in f:
+        if len(line.split()) == 0: # skip empty line
+            continue
+        if line.lstrip().startswith(element_name):
+            break
+
+    for line in f:
+        line_split = line.split()
+        if len(line_split) == 0: # skip empty line
+            continue
+        elif line_split[0].isalpha(): # get the line specified CGTO
+            CGTO = line_split[0].upper()
+            try:
+                num_CGTO += QM4D_PGTO[CGTO]
+            except:
+                SigExit("Terminated: key error, Please update 'QM4D_PGTO' var in"
+                        "'sub_claims' source file with CGTO name {s}\n".format(CGTO))
+    f.close()
+    return num_CGTO
+
 def auto_set_mem(args):
     """
-    memory requst is based on the total number of
+    auot set requsted memory for qm4d and g09 calculation.
+    QM4D: based on number of CGTO from QM4D_GTOLIB.
+    g09: based on total electron number and basis type.
+    """
+    if args._method in ('dft', 'hf'):
+        if args.g09 == True:
+            auto_set_mem_g09(args)
+        else:
+            auto_set_mem_qm4d(args)
+    if args._method in ('losc'):
+        auto_set_mem_qm4d(args)
+
+def auto_set_mem_qm4d(args):
+    """
+    auto requst memory for calculation with QM4D package
+    40 CGTO = 1G memory
+    """
+    num_CGTO = count_total_cgto(args)
+    print "Total Number of CGTO: ", num_CGTO
+    if args.mem == '-1': # using default mem seting
+        memory = int(math.ceil(num_CGTO/40.0))
+        if memory > 29:
+            SigWarring(args, "Warning: request mem {d}G >= 30G"
+                    .format(memory))
+        args.mem = str(memory)
+
+def auto_set_mem_g09(args):
+    """
+    Auto requst memory for calculation with g09 package.
+
+    Memory requst is based on the total number of
     system electron and used basis set.
     40 electron is request 2G memory with cc-pVTZ basis.
     With other customized basis, the request memory has
@@ -347,10 +451,10 @@ def auto_set_mem(args):
     if args.mem == '-1': # using default mem setting
         memory = (int(elec_num)/40) * 2 + 2
         memory *= s_claims.basis_mem_level[args._basis]
+        if memory > 29:
+            SigWarring(args, "Warning: request mem {} > 30G"
+                    .format(args.mem))
         args.mem = str( memory )
-    if int(args.mem) > 30:
-        SigWarring(args, "Warning: request mem {} > 30G".
-                    format(args.mem))
 
 
 def auto_set_mult(args):
