@@ -433,7 +433,7 @@ def auto_set_mem_qm4d(args):
     if args.mem == '-1': # using default mem seting
         memory = int(math.ceil(num_CGTO/40.0))
         if memory > 29:
-            SigWarring(args, "Warning: request mem {d}G >= 30G"
+            SigWarring(args, "Warning: request mem {:d}G >= 30G"
                     .format(memory))
         args.mem = str(memory)
 
