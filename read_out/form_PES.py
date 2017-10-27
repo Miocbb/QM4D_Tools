@@ -95,12 +95,13 @@ def set_parser():
     parser = argparse.ArgumentParser(description=
             "Generate PhotoEmission Spectrum from DFT "
             "eigenvalues of standard and LOSC functional "
-            "by Gaussian expansion.")
+            "by Gaussian expansion. Standard eigenvalue "
+            "file is required for execution.")
     parser.add_argument('f_eig', help='file name for standard eig file')
     parser.add_argument('-name', '-n', dest='f_spec', default=None,
             help='Default=f_eig.spec; file name for spectrum file')
     parser.add_argument('-start', '-s', dest='start', default=-20,
-            help='Default=-20; value used to locate left-most peak at PES')
+            help='Default=-20 eV; value used to locate left-most peak at PES')
     parser.add_argument('-sigma', dest='sigma', default=0.2,
             help='Default=0.2; standard deviation for Gaussian expansion')
     parser.set_defaults(_f_eig=None, _f_spec_dft=None, _f_spec_losc=None)

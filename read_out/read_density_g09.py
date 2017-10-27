@@ -74,7 +74,8 @@ def check_terminattion(args):
 
 def formchk(args):
     f_chk_name = args.f_chk_name
-    cmd = [ 'formchk', f_chk_name ]
+    f_fchk_name = f_chk_name[0:-4] + '.fchk'
+    cmd = [ 'formchk', f_chk_name, f_fchk_name ]
     subp.call(cmd)
 
 
