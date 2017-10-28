@@ -34,9 +34,9 @@ def main():
     step  = 0.02
 
     # standard functional spectrum
-    start = math.floor(eig_dft[0]) - 0.5
-    end   = math.ceil(eig_dft[-1]) + 0.5
-    row   = int((end-start)/step)
+    start = math.floor(eig_dft[0]) - 1
+    end   = math.ceil(eig_dft[-1]) + 1
+    row   = int(math.ceil((end-start)/step))
     col   = len(eig_dft)
     table_dft = np.zeros((row, col+1), dtype=np.float64)
     for i in range(row):
@@ -46,8 +46,8 @@ def main():
             table_dft[i,j]=G_distribution(x, eig_dft[j-1], float(args.sigma))
 
     # losc spectrum
-    start = math.floor(eig_losc[0]) - 0.5
-    end   = math.ceil(eig_losc[-1]) + 0.5
+    start = math.floor(eig_losc[0]) - 1
+    end   = math.ceil(eig_losc[-1]) + 1
     row   = int((end-start)/step)
     col   = len(eig_losc)
     table_losc=np.zeros((row, col+1), dtype=np.float64)
@@ -138,30 +138,46 @@ def load_eig(args):
     eig_origin = np.loadtxt(f_eig, skiprows=1)
     aelec = eig_origin[0,1]
     belec = eig_origin[1,1]
-    # extract to alpha LUMO orbital
-    eig_dft  = list(eig_origin[2:3+aelec, 2])
-    eig_losc = list(eig_origin[2:3+aelec, 3])
-    if aelec != belec: # open shell case
-        del eig_dft[-1]
-        del eig_losc[-1]
-        for i in range(2, len(eig_origin)):
-            if eig_origin[i, 0] == 1:
-                count = i-2
+
+    #eig = [x for x in eig_origin[2:,:] if ((x[0]==0 and x[1] < aelec)
+    #        or (x[0] == 1 and x[1] < belec) )]
+
+    # extract orbitals which are lumo or lumo below
+    eig = []
+    lumo = []
+    for x in eig_origin[2:, :]:
+        if x[0] == 0:
+            if x[1] < aelec:
+                eig.append(x)
+            elif x[1] == aelec:
+                lumo.append(x)
+            else:
+                continue
+        if x[0] == 1:
+            if x[1] < belec:
+                eig.append(x)
+            elif x[1] == belec:
+                lumo.append(x)
+            else:
                 break
-        eig_dft  += list(eig_origin[2+count:3+count+belec, 2])
-        eig_losc += list(eig_origin[2+count:3+count+belec, 3])
-    eig_dft_select=[]
-    eig_losc_select=[]
-    for i in range(len(eig_dft)):
-        if eig_dft[i] >= float(args.start):
-            eig_dft_select.append(eig_dft[i])
-    for i in range(len(eig_losc)):
-        if eig_losc[i] >= float(args.start):
-            eig_losc_select.append(eig_losc[i])
+    if len(lumo) == 2:
+        if lumo[0][2] < lumo[1][2]:
+            lumo.remove(lumo[1])
+        else:
+            lumo.remove(lumo[0])
+    eig += lumo
+
+    # get std dft orbitals and losc orbitals
+    eig_dft  = [x[2] for x in eig]
+    eig_losc = [x[3] for x in eig]
+
+    # select orbitals which is bigger than args.start
+    eig_dft_select  = [x for x in eig_dft  if x>= float(args.start)]
+    eig_losc_select = [x for x in eig_losc if x>= float(args.start)]
+
     eig_dft_select.sort()
     eig_losc_select.sort()
     return eig_dft_select, eig_losc_select
-
 
 def G_distribution(x, miu, sigma):
    return 1/( math.sqrt(2*math.pi)*sigma )\
