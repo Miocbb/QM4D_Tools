@@ -30,24 +30,21 @@ import smtplib
 from subprocess import Popen, PIPE
 from email.mime.text import MIMEText
 
-# path to store jobs_status cache
-PATH = os.environ['JOB_SVLN_PATH']
+# root path for job_surveillance dir
+PATH = None
 # user name
-USER = os.environ['JOB_SVLN_USER']
+USER = None
 # user email address
-USER_EMAIL = os.environ['JOB_SVLN_USER_EMAIL']
-
-# et-mail fake email address
-MEI_EMAIL = os.environ['JOB_SVLN_MEI_EMAIL']
-
-# monitoring frequence in seconds
-# check jobs status every 15 min
-TIME_INTERVAL = int(os.environ['JOB_SVLN_INTERVAL'])
-
-# complete jobs pool
+USER_EMAIL = None
+# fake email address from which sending email
+# to users.
+MEI_EMAIL = None
+# check jobs status every JOB_SVLN_INTERVAL seconds.
+TIME_INTERVAL = None
 
 def main():
     # INITIALATION SETTING
+    init_environ()
     # set old info for jobs_status
     jobs_status_old = get_running_jobs()
     # used to save complete jobs when the user is not login
@@ -68,9 +65,28 @@ def main():
                 send_email(complete)
         jobs_status_old = jobs_status_new
 
+def SigExit(*string):
+    for i in string:
+        print i,
+    sys.exit()
+
+
 def sleep():
     global TIME_INTERVAL
     time.sleep(TIME_INTERVAL)
+
+
+def init_environ():
+    PATH = os.environ['JOB_SVLN_PATH']
+    if not os.path.isdir(PATH):
+        SigExit("Terminated: JOB_SVLN_PATH is not valid!\n")
+    USER = os.environ['JOB_SVLN_USER']
+    USER_EMAIL = os.environ['JOB_SVLN_USER_EMAIL']
+    MEI_EMAIL = os.environ['JOB_SVLN_MEI_EMAIL']
+    try:
+        TIME_INTERVAL = int(float(os.environ['JOB_SVLN_INTERVAL']))
+    except ValueError:
+        SigExit("Terminated: JOB_SVLN_INTERVAL is not a number\n")
 
 
 def send_msg(terminal_id, complete_jobs):
@@ -232,13 +248,6 @@ def check_jobs(jobs_status_old, jobs_status_new):
         if jobid not in jobid_new: # this jobs finished
             complete_jobs.append(job)
     return complete_jobs
-
-#def update_jobs_status(jobs_status_old, complete_jobs):
-#    """
-#    update var jobs_status_old, that means delete
-#    the jobs which is finished from jobs_status_old.
-#    """
-#    return list(set(jobs_status_old)-set(complete_jobs))
 
 if __name__ == '__main__':
     main()
