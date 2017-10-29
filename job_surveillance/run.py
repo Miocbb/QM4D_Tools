@@ -77,6 +77,8 @@ def sleep():
 
 
 def init_environ():
+    global PATH, USER, USER_EMAIL
+    global MEI_EMAIL, TIME_INTERVAL
     PATH = os.environ['JOB_SVLN_PATH']
     if not os.path.isdir(PATH):
         SigExit("Terminated: JOB_SVLN_PATH is not valid!\n")
