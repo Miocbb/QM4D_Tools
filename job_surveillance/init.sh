@@ -38,20 +38,25 @@ then
         python $exe &
         tmux detach
         echo "-------------------------------------------"
-        echo "Notice: jobs_surveillance is on."
+        echo "Attention: jobs_surveillance is on."
+        if [ $(($JOB_SVLN_INTERVAL / 60)) -ne 0 ];then
+            echo "           check jobs every" $(($JOB_SVLN_INTERVAL / 60)) min $(($JOB_SVLN_INTERVAL % 60)) sec.
+        else
+            echo "           check jobs every" $(($JOB_SVLN_INTERVAL % 60)) sec.
+        fi
         echo " "
-        echo "Turn off command: JOB_SVLN_KILL"
+        echo "Turn-off:  JOB_SVLN_KILL"
         echo "-------------------------------------------"
     fi
 else
-    # re-start the jobs_surveillance every time when user login.
-    kill $(ps aux | grep "[p]ython ${JOB_SVLN_PATH}run.py" | awk '{print $2}')
-    tmux new -s jobs_surveillance
-    python $exe &
-    tmux detach
     echo "-------------------------------------------"
-    echo "Notice: jobs_surveillance is on."
+    echo "Attention: jobs_surveillance is on."
+    if [ $(($JOB_SVLN_INTERVAL / 60)) -ne 0 ];then
+        echo "           check jobs every" $(($JOB_SVLN_INTERVAL / 60)) min $(($JOB_SVLN_INTERVAL % 60)) sec.
+    else
+        echo "           check jobs every" $(($JOB_SVLN_INTERVAL % 60)) sec.
+    fi
     echo " "
-    echo "Turn off command: JOB_SVLN_KILL"
+    echo "Turn-off:  JOB_SVLN_KILL"
     echo "-------------------------------------------"
 fi
