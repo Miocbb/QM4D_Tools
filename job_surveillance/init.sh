@@ -46,6 +46,7 @@ then
         fi
         echo " "
         echo "Turn-off:  JOB_SVLN_KILL"
+        echo "Resetting: Trun off first to reset"
         echo "-------------------------------------------"
     fi
 else
@@ -58,5 +59,6 @@ else
     fi
     echo " "
     echo "Turn-off:  JOB_SVLN_KILL"
+    echo "Resetting: Trun off first to reset"
     echo "-------------------------------------------"
 fi

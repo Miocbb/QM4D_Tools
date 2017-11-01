@@ -1,7 +1,8 @@
 1. Description:
 Monitor the status of submitted jobs every INTERVL mins.
-When the jobs are completed, notify the user by sending
-a message or an email.
+This script is based on command "qstat" to check the status
+of running jobs. When the jobs are completed, notify the
+user by sending a message or an email.
 
 2. Needed external program in linux:
     python 2

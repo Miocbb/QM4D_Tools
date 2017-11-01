@@ -79,7 +79,8 @@ def sleep():
 def init_environ():
     global PATH, USER, USER_EMAIL
     global MEI_EMAIL, TIME_INTERVAL
-    PATH = os.environ['JOB_SVLN_PATH']
+    PATH = os.environ['JOB_SVLN_PATH'].rstrip('/')+'/'
+    PATH = os.path.expanduser(PATH)
     if not os.path.isdir(PATH):
         SigExit("Terminated: JOB_SVLN_PATH is not valid!\n")
     USER = os.environ['JOB_SVLN_USER']
@@ -114,11 +115,6 @@ def send_msg(terminal_id, complete_jobs):
             .format('-'*15, '-'*15, '-'*25, '-'*5).rstrip()
     f.close()
 
-    if len(terminal_id) <= 1:
-        cmd = string_combine('write', USER, '<', PATH+'tmp.txt')
-        os.system(cmd)
-        os.remove(PATH+'tmp.txt')
-        return
     for ID in terminal_id:
         cmd = string_combine('write', USER, ID, '<', PATH+'tmp.txt')
         os.system(cmd)
