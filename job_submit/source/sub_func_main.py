@@ -59,7 +59,8 @@ def Parser():
     parser_losc.add_argument('-fitbasis', default = 'aug-cc-pVTZ',
                     dest='fitbasis', help='Default=aug-cc-pVTZ')
     parser_losc.add_argument('-window', default = '-30  10', dest='window',
-                    help='Default="-30 10", [set LOSC calculation wimdow]')
+                    help='Default="-30 10", [set LOSC calculation wimdow, set\
+                    0 to close window option.]')
     parser_losc.add_argument('-postSCF', default = '1', dest='postSCF',
                     help='Default=1 [1:POSTSCF  0:SCF]')
     parser_losc.set_defaults(_func=losc_main, _method='losc')

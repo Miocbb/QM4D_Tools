@@ -7,6 +7,7 @@ def main():
     args = sf_main.Parser()
     # check position args validity
     sf_support.check_position_args(args)
+    sf_support.standardize_xyz(args)
     # init args
     sf_support.init_args_f_name(args)
     sf_support.init_args_slurm_val(args)

@@ -14,6 +14,10 @@ import sub_claims as s_claims
 # element_list = [H, H, O]
 ELEMENT_LIST= []
 
+def combine_xyz_string(string_list):
+    rst = "{:<3s} {:<22s} {:<22s} {:<22s}".format(string_list[0],
+            string_list[1], string_list[2], string_list[3])
+    return rst.rstrip()
 
 def check_position_args(args):
     """
@@ -25,7 +29,39 @@ def check_position_args(args):
         SigExit("Terminated: not a coordinate file\n")
     if args.partition not in s_claims.partition_name:
         SigExit("Terminated: not a partition name\n")
- 
+
+def standardize_xyz(args):
+    """
+    starndardize xyz file.
+    convert element number to elment lable,
+    if the case is encounted.
+    """
+    f = open(args.f_xyz, "r+")
+    content = f.readlines()
+    f.seek(0)
+    line_count = 0
+    for i in range(len(content)):
+        if not content[i].lstrip(): # skip empty line
+            continue
+        elif content[i].lstrip().startswith('#'):
+            continue # skip empty and comment line
+        line_count += 1
+        if line_count == 1: # check first line of xyz file
+            if not content[i].strip().isdigit():
+                SigExit("Terminated: invalid total atom number in xyz.")
+        if line_count >= 3: #start coordinates
+            line_split = content[i].split()
+            if len(line_split) <4:
+                SigExit("Terminated: invalid coordinates in xyz.")
+            if line_split[0].isdigit():
+                line_split[0] = s_claims.number_to_element[line_split[0]]
+                content[i] = combine_xyz_string(line_split) + '\n'
+
+    # rewrite xyz file 
+    for line in content:
+        f.write(line)
+    f.close()
+
 
 def check_optional_arg(args):
     """
