@@ -36,6 +36,7 @@ def main():
     # standard functional spectrum
     start = math.floor(eig_dft[0]) - 1
     end   = math.ceil(eig_dft[-1]) + 1
+    print "dft peaks ", eig_dft[0], eig_dft[-1]
     row   = int(math.ceil((end-start)/step))
     col   = len(eig_dft)
     table_dft = np.zeros((row, col+1), dtype=np.float64)
@@ -48,6 +49,7 @@ def main():
     # losc spectrum
     start = math.floor(eig_losc[0]) - 1
     end   = math.ceil(eig_losc[-1]) + 1
+    print "losc peaks: ", eig_losc[0], eig_losc[-1]
     row   = int((end-start)/step)
     col   = len(eig_losc)
     table_losc=np.zeros((row, col+1), dtype=np.float64)
@@ -104,6 +106,8 @@ def set_parser():
             help='Default=-20 eV; value used to locate left-most peak at PES')
     parser.add_argument('-sigma', dest='sigma', default=0.2,
             help='Default=0.2; standard deviation for Gaussian expansion')
+    parser.add_argument('-homo', dest='HOMO', action='store_true',
+            help='only using HOMO and below orbitals to get PES')
     parser.set_defaults(_f_eig=None, _f_spec_dft=None, _f_spec_losc=None)
     return parser.parse_args()
 
@@ -160,12 +164,13 @@ def load_eig(args):
                 lumo.append(x)
             else:
                 break
-    if len(lumo) == 2:
-        if lumo[0][2] < lumo[1][2]:
-            lumo.remove(lumo[1])
-        else:
-            lumo.remove(lumo[0])
-    eig += lumo
+    if not args.HOMO:
+        if len(lumo) == 2:
+            if lumo[0][2] < lumo[1][2]:
+                lumo.remove(lumo[1])
+            else:
+                lumo.remove(lumo[0])
+        eig += lumo
 
     # get std dft orbitals and losc orbitals
     eig_dft  = [x[2] for x in eig]
