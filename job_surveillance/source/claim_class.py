@@ -35,7 +35,7 @@ class Job():
                command "qstat". It is sperated by whitespace.
                E.g.
                 job_id   user  par   job_name      **  *  *  **  *****  status time
-               "1786514  ym95  mei3  12.losc-lda   --  1  1  --  166:4  Q      00:00"
+               "1786514  USER  mei3  12.losc-lda   --  1  1  --  166:4  Q      00:00"
         Output: <type: class Job> Job
         """
         line = qstat_line.split()
@@ -376,7 +376,7 @@ class EmailMan():
     # time to start work (in minutes):
     _start_time = config.EMAIL_START_TIME # 06:00
     # time to go back home (in minute):
-    _end_time   = config.EMAIL_START_TIME # 23:59
+    _end_time   = config.EMAIL_END_TIME # 23:59
     # time record when the EmailMan finds the JobOffice._email_box is
     # not empty at the first time. The EmailMan will hold for AN HOUR
     # to wait for more job packages thrown into JobOffice._email_box, then
@@ -462,7 +462,7 @@ class EmailMan():
             USER = claim_environ.USER
             PATH = claim_environ.PATH
             USER_EMAIL = claim_environ.USER_EMAIL
-            MEI_EMAIL  = claim_environ.MEI_EMAIL
+            SERVER_EMAIL  = claim_environ.SERVER_EMAIL
             # write email content into a tmp file
             f = open(PATH+'tmp.txt', 'w')
             print >>f,  "-"*62 + '\n'
@@ -498,7 +498,7 @@ class EmailMan():
             msg = MIMEText(f.read())
             f.close()
             msg['Subject'] = 'et-mei: Job finished!'
-            msg['From'] = MEI_EMAIL
+            msg['From'] = SERVER_EMAIL
             msg['To'] = USER_EMAIL
             s =  smtplib.SMTP('localhost')
             s.sendmail(msg['From'], msg['To'], msg.as_string())
@@ -517,8 +517,4 @@ class EmailMan():
 
 
 if __name__ == "__main__":
-    qstat=["1786514  ym95  mei3  12.losc-lda   --  1  1  --  166:4  Q      01:01"]
-    office = JobOffice()
-    collector = CollectMan(office)
-    collector.collect(qstat)
-    print office
+    pass

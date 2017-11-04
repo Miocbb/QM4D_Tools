@@ -13,7 +13,7 @@ USER = None
 USER_EMAIL = None
 # fake email address from which sending email
 # to users.
-MEI_EMAIL = None
+SERVER_EMAIL = None
 
 
 # initial environment var
@@ -25,4 +25,4 @@ if not os.path.isdir(PATH):
 
 USER       = os.environ['JOB_SVLN_USER']
 USER_EMAIL = os.environ['JOB_SVLN_USER_EMAIL']
-MEI_EMAIL  = os.environ['JOB_SVLN_MEI_EMAIL']
+SERVER_EMAIL  = os.environ['JOB_SVLN_SERVER_EMAIL']

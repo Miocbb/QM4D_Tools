@@ -29,7 +29,7 @@ export JOB_SVLN_USER="user_name"
 # contact email of user
 export JOB_SVLN_USER_EMAIL="user_email"
 # set your own email of sending side
-export JOB_SVLN_MEI_EMAIL="jobs_surveillance_email"
+export JOB_SVLN_SERVER_EMAIL="jobs_surveillance_email"
 # alias for turn off jobs_surveillance
 alias JOB_SVLN_KILL="kill \$(ps aux | grep \"[p]ython \${JOB_SVLN_PATH}run.py\" | awk '{print \$2}')"
 
