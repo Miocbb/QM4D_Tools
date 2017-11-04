@@ -39,26 +39,12 @@ then
         tmux detach
         echo "-------------------------------------------"
         echo "Attention: jobs_surveillance is on."
-        if [ $(($JOB_SVLN_INTERVAL / 60)) -ne 0 ];then
-            echo "           check jobs every" $(($JOB_SVLN_INTERVAL / 60)) min $(($JOB_SVLN_INTERVAL % 60)) sec.
-        else
-            echo "           check jobs every" $(($JOB_SVLN_INTERVAL % 60)) sec.
-        fi
-        echo " "
         echo "Turn-off:  JOB_SVLN_KILL"
-        echo "Resetting: Trun off first to reset"
         echo "-------------------------------------------"
     fi
 else
     echo "-------------------------------------------"
     echo "Attention: jobs_surveillance is on."
-    if [ $(($JOB_SVLN_INTERVAL / 60)) -ne 0 ];then
-        echo "           check jobs every" $(($JOB_SVLN_INTERVAL / 60)) min $(($JOB_SVLN_INTERVAL % 60)) sec.
-    else
-        echo "           check jobs every" $(($JOB_SVLN_INTERVAL % 60)) sec.
-    fi
-    echo " "
     echo "Turn-off:  JOB_SVLN_KILL"
-    echo "Resetting: Trun off first to reset"
     echo "-------------------------------------------"
 fi

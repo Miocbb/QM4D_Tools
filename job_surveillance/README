@@ -1,17 +1,19 @@
 1. Description:
-Monitor the status of submitted jobs every INTERVL mins.
-This script is based on command "qstat" to check the status
-of running jobs. When the jobs are completed, notify the
-user by sending a message or an email.
+This program is designed to monitor the status of submitted jobs
+on a server every second, and it will automatically notify the
+user when there are jobs finished, by writing a message on the
+screen or sendind an email.
 
-2. Needed external program in linux:
+2. This program is based on serveral external programs which are normally
+installed on linux system. In particular, "qstat" is the main
+external program used to gather jobs' information.
+
+External program list:
     python 2
     tmux
     write
     qstat
     who
-
-
 
 3. Usage:
 (1). clone this project to any place you like.
@@ -28,8 +30,6 @@ export JOB_SVLN_USER="user_name"
 export JOB_SVLN_USER_EMAIL="user_email"
 # set your own email of sending side
 export JOB_SVLN_MEI_EMAIL="jobs_surveillance_email"
-# checking interval in second
-export JOB_SVLN_INTERVAL="900"
 # alias for turn off jobs_surveillance
 alias JOB_SVLN_KILL="kill \$(ps aux | grep \"[p]ython \${JOB_SVLN_PATH}run.py\" | awk '{print \$2}')"
 
@@ -39,9 +39,6 @@ bash $exe
 #}}}
 #************************
 
-!!!!!!!!!!!!!!!!!!!!!!!!!
-NOTE: Once the jobs_surveillance is on, and you want
-to change the environmental variables setting, you have to
-kill jobs_surveillance manually first, then change the settings
-in your .bashrc or .zshrc, then re-login to make changes
-effective immediately.
+(3). To change configuration, go to /root_path/source/config.py
+To make changes effective, you have to manually kill
+this running process at first, then re-login.
