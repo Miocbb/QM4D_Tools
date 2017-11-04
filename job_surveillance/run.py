@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import time
-import source.claim_func as s_func
 import source.claim_class as s_class
 import source.claim_environ as s_environ
 import source.config as s_config
