@@ -46,7 +46,7 @@ class Job():
         self.status    = line[9]
         # convert time info into minutes.
         _time = line[10].split(':')
-        self.time = str( int(_time[0])*60 + int(_time[1]) )
+        self.time = int(_time[0])*60 + int(_time[1])
 
     def islongrun(self):
         """
@@ -76,7 +76,7 @@ class Job():
     def __str__(self):
         return "<Class: Job>: \n"+"{} {} {} {} {} {}"\
                 .format(self.job_id, self.user, self.partition,
-                        self.job_name, self.status, self.time)
+                        self.job_name, self.status, str(self.time))
 
 
 class JobOffice():
@@ -395,7 +395,8 @@ class EmailMan():
         Output: <type: bool>
         """
         if self._working_job_office._email_box:
-            self._hold_time = datetime.now()
+            if self._hold_time == None: # initial time counting for holding time.
+                self._hold_time = datetime.now()
             return True
         else:
             return False
