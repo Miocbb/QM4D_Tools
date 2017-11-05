@@ -27,7 +27,9 @@ class Job():
     _byemail  = None # <type: bool> lable if the job is added in the
                      # _email_box.
                      # This var will be only updated by MessageMan.
-
+    _finish_time = None # <type: str>
+                        # record the time when the job is finished.
+                        # This var will be assigned by CollectMan.
     def __init__(self, qstat_line):
         """
         Input: <type: str> qstat_line.
@@ -151,8 +153,8 @@ class CollectMan():
     """
     A specific JobOffice has to associated to this man.
     This man will collect completed jobs which
-    meet the collection requirement, and add collected jobs
-    into the associated JobOffice.
+    meet the collection requirement, process these jobs
+    and add collected jobs into the associated JobOffice.
 
     Completed jobs collection requirement:
     1. the status of job is completed.
@@ -174,8 +176,9 @@ class CollectMan():
     def collect(self):
         """
         Functionality:
-        add completed job packages which meet the collection
-        requirement to the related JobOffice.
+        Collect completed jobs packages which meet the collection
+        requirement, make a time stamp on it and add them to the
+        related JobOffice.
 
         Output: None
         """
@@ -223,9 +226,12 @@ class CollectMan():
         # get complete jobs_id.
         complete_jobs_id = set( self._job_old.keys() ) - set( self._job_new.keys() )
         # add complete jobs into JobOffice.
+        time = datetime.now().strftime('%H:%M')
         for i in complete_jobs_id:
             job = self._job_old[i]
             if job.islongrun():
+                job._finish_time = time
+                job.status = 'C'
                 self._working_job_office.add(job)
         # update old jobs list.
         self._job_old = self._job_new
@@ -298,19 +304,20 @@ class MessageMan():
             USER = claim_environ.USER
             PATH = claim_environ.PATH
             f = open(PATH+'tmp.txt', 'w')
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('Job ID', 'Partition', 'Job Name', 'Stutas').rstrip()
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('-'*15, '-'*15, '-'*25, '-'*5).rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             IDs = [ int(x) for x in message_box.keys() ]
             IDs.sort()
             IDs = [ str(x) for x in IDs]
             for i in IDs:
-                print >>f, "{:15s} {:15s} {:25s} {:5s}"\
+                print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
                         .format(i, message_box[i].partition,
-                                message_box[i].job_name, 'C').rstrip()
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('-'*15, '-'*15, '-'*25, '-'*5).rstrip()
+                                message_box[i].job_name, 'C',
+                                message_box[i]._finish_time).rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             f.close()
             for ID in terminal_id:
                 cmd = sf.string_combine('write', USER, ID, '<', PATH+'tmp.txt')
@@ -466,6 +473,8 @@ class EmailMan():
             SERVER_EMAIL  = claim_environ.SERVER_EMAIL
             # write email content into a tmp file
             f = open(PATH+'tmp.txt', 'w')
+
+
             print >>f,  "-"*62 + '\n'
             print >>f, ("This is an automatical email from et-mei sever in Yang's\n"
                         "Goup at Department of Chemistry, Duke University.\n"
@@ -474,19 +483,20 @@ class EmailMan():
             print >>f,  "Dear " + USER + ':\n'
             print >>f, ("Here is a notification that you have new job(s) completed.\n"
                         "Below are the details.\n")
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('Job ID', 'Partition', 'Job Name', 'Stutas').rstrip()
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('-'*15, '-'*15, '-'*25, '-'*5).rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             IDs = [ int(x) for x in email_box.keys() ]
             IDs.sort()
             IDs = [ str(x) for x in IDs]
             for i in IDs:
-                print >>f, "{:15s} {:15s} {:25s} {:5s}"\
+                print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
                         .format(i, email_box[i].partition,
-                                email_box[i].job_name, 'C').rstrip()
-            print >>f, "{:15s} {:15s} {:25s} {:5s}"\
-                    .format('-'*15, '-'*15, '-'*25, '-'*5).rstrip()
+                                email_box[i].job_name, 'C',
+                                email_box[i]._finish_time).rstrip()
+            print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
+                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             print >>f,  "\nHave a good day!\n"
             print >>f, ("Best,\n"
                         "From et-mei\n\n"
