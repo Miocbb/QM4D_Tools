@@ -122,14 +122,14 @@ partition_mem = {
 
 # {args.partition : max_time}
 partition_time = {
-'mei11950' : 10000,
-'mei1super': 10000,
-'mei1blade': 10000,
-'mei2'     : 10000,
-'mei3'     : 10000,
+'mei11950' : 86000,
+'mei1super': 86000,
+'mei1blade': 86000,
+'mei2'     : 40000,
 'mei2med'  : 40000,
 'mei2big'  : 40000,
-'mei2hug'  : 40000}
+'mei2hug'  : 40000,
+'mei3'     : 10000}
 
 # {args.partition : partition_name}
 partition_name = {
