@@ -1,20 +1,29 @@
 #!/usr/bin/python
 """
 Description:
-1. This is python script is used to extract all the eigenvales
-from LOSC functional calculation by QM4D.
-2. [eig].eig file is created under the dir of current execute
-path.
-3. The format of [eig].eig file is sperated columns, shown as
-below:
-"spin    orbital    eig_prev    eig_losc".
+    This is python script is used to extract all the eigenvales
+    from LOSC functional calculation from QM4D package. A file with
+    ".eig" extension will be genearted. The format of [eig].eig file
+    is sperated columns, shown as below:
+    "spin    orbital    eig_prev    eig_losc".
+
+Usage:
+    f_out     QM4D output file. Do not accept "*" expression.
+              Only specify one output file at one executation.
+    -h        show help information then exit.
+    -n        specified a customized output name with user-defined path to
+              save output file.
 
 Note:
-1. qm4d.out output file is required to execute this script.
-1. eigenvalues is extracted based on the "eig_proj" key word.
+    if '-n' flag is not specified, [eig].eig file is defaultly
+    created under the same directory where the QM4D output file is located.
+    Otherwise, it will be created under the specified directory with costumized
+    name.
+
+    Eigenvalues are extracted based on the "eig_proj" key word.
 
 Work flow:
-qm4d.out check normal terminated --> [eig].eig
+    qm4d.out check normal terminated --> [eig].eig
 
 Author: Yuncai Mei
 Date:   2017/10/20
@@ -39,11 +48,14 @@ def set_parser():
     -name, -n: [eig].eig file name
     """
     parser = argparse.ArgumentParser(description =
-            "Extract the all the eigenvales from "
-            "losc qm4d.out file.")
-    parser.add_argument('f_out', help='qm4d.out file')
+    'Extract all the eigenvales from LOSC functional calculation '
+    'using QM4D package. A file with extension (".eig") will be genearted.')
+    parser.add_argument('f_out', help='QM4D output file. Do not accept\
+                        "*" expression. Only specify one output file\
+                        at one executation.')
     parser.add_argument('-n', '-name', default=0, dest='f_eig',
-                        help='[eig].eig file name')
+                        help='specified a customized output name with a\
+                        user-defined path to save output file.')
     parser.set_defaults(_f_out=None, _f_eig=None)
     return parser.parse_args()
 
@@ -52,20 +64,20 @@ def init_args(args):
     if args.f_eig == 0:
         args._f_eig = args.f_out + '.eig'
     else:
-        args._f_eig = args.f_eig
+        args._f_eig = args.f_eig + '.eig'
 
 def check_args(args):
     """
-    !if _f_eig file is existed, it will
-    !be re-wrote with new data
+    Only check the existence of args.f_out. Not check if the
+    file is a QM4D output or not.
     """
     if not os.path.isfile(args._f_out):
         SigExit("Terminated: qm4d out file not existed\n")
 
 def check_normal_termination(args):
     """
-    Return 1 when qm4d is normally terminated and
-    SCF convergence is reached. otherwise return 0
+    Return True when qm4d is normally terminated and
+    SCF convergence is reached. otherwise return False
     """
     f_out = args._f_out
     partern1 = 'SCF converged'
