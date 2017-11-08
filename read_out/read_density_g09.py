@@ -4,6 +4,8 @@ Description:
     This python script is used to extract densitry (dst) matrix
     from g09 output. A file with ".txt" extension will be generated
     which can be used directly as "guess read" file for QM4D package.
+    The density file will be created under the same folder as g09 output
+    directory, if "-n" flag is not specified.
 
 Usage:
     f_chk   g09 output file. Do not accept "*" expression.
@@ -37,7 +39,8 @@ def main():
     parser = argparse.ArgumentParser(description=
     """Extract densitry matrix from g09 output. A density file with ".txt"
     extension will be generated which can be used directly as "guess read"
-    file for QM4D package.""")
+    file for QM4D package. The density file will be created under the same
+    directory with the g09 output file, if "-n" flag is not specified.""")
     parser.add_argument('f_chk', help='g09 output file. Do not accept "*"\
                         expression. Only specify one output file at one execution.')
     parser.add_argument('-n', '-name', default='-1', dest='name',
