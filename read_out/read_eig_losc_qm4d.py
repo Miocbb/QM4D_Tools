@@ -3,19 +3,19 @@
 Description:
     This is python script is used to extract all the eigenvales
     from LOSC functional calculation from QM4D package. A file with
-    ".eig" extension will be genearted. The format of [eig].eig file
+    ".eig" extension will be generated. The format of [eig].eig file
     is sperated columns, shown as below:
     "spin    orbital    eig_prev    eig_losc".
 
 Usage:
     f_out     QM4D output file. Do not accept "*" expression.
-              Only specify one output file at one executation.
+              Only specify one output file at one execution.
     -h        show help information then exit.
-    -n        specified a customized output name with user-defined path to
+    -n        specified a customized output name with a user-defined path to
               save output file.
 
 Note:
-    if '-n' flag is not specified, [eig].eig file is defaultly
+    if '-n' flag is not specified, eigenvalue.eig file is defaultly
     created under the same directory where the QM4D output file is located.
     Otherwise, it will be created under the specified directory with costumized
     name.
@@ -48,8 +48,8 @@ def set_parser():
     -name, -n: [eig].eig file name
     """
     parser = argparse.ArgumentParser(description =
-    'Extract all the eigenvales from LOSC functional calculation '
-    'using QM4D package. A file with extension (".eig") will be genearted.')
+    """Extract all the eigenvales from LOSC functional calculation
+    using QM4D package. A file with extension (".eig") will be genearted.""")
     parser.add_argument('f_out', help='QM4D output file. Do not accept\
                         "*" expression. Only specify one output file\
                         at one executation.')

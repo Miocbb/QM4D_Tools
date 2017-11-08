@@ -1,13 +1,22 @@
 #!/usr/bin/python
 """
 Description:
-1. This python script is used to extract densitry (dst) matrix
-from g09 output.
-2. [dst].txt file is created under the dir of current execute path
-and can be used as 'guess read' file for QM4D.
+    This python script is used to extract densitry (dst) matrix
+    from g09 output. A file with ".txt" extension will be generated
+    which can be used directly as "guess read" file for QM4D package.
 
+Usage:
+    f_chk   g09 output file. Do not accept "*" expression.
+            Only specify one output file at one execution.
+    -h      show help information then exit.
+    -n      specified a customized output name with a user-defined
+            path to save output file.
 Note:
-1. g09.chk file is required to execute this script.
+    1. g09.chk file is required to execute this script.
+    2. if '-n' flag is not specified, density.txt file is defaultly
+    created under the same directory where the g09 output file is located.
+    Otherwise, it will be created under the specified directory with costumized
+    name.
 
 Work flow illustration:
 g09.chk --> check g09.log normal terminated
@@ -26,12 +35,14 @@ from subprocess import Popen, PIPE
 def main():
     # setting argument parser
     parser = argparse.ArgumentParser(description=
-            """Extract the density file from g09
-            output file.
-            """)
-    parser.add_argument('f_chk', help='g09.chk file')
-    parser.add_argument('-name', '-n', default='-1',
-                        help='density.txt file name')
+    """Extract densitry matrix from g09 output. A density file with ".txt"
+    extension will be generated which can be used directly as "guess read"
+    file for QM4D package.""")
+    parser.add_argument('f_chk', help='g09 output file. Do not accept "*"\
+                        expression. Only specify one output file at one execution.')
+    parser.add_argument('-n', '-name', default='-1', dest='name',
+                        help='specified a customized output name with a\
+                        user-defined path to save output file.')
     parser.set_defaults(f_chk_name=None, f_log_name=None,
                         f_txt_name=None)
     args = parser.parse_args()
@@ -58,6 +69,13 @@ def main():
     return
 
 
+def init_default_var(args):
+    args.f_chk_name = args.f_chk
+    args.f_log_name = args.f_chk[0:-4] + '.log'
+    args.f_txt_name = args.f_chk[0:-4] + '.txt'
+    if args.name != '-1': # customize f_txt_name
+        args.f_txt_name = args.name + '.txt'
+
 def check_terminattion(args):
     """
     check if g09.log terminate normally
@@ -78,7 +96,6 @@ def formchk(args):
     cmd = [ 'formchk', f_chk_name, f_fchk_name ]
     subp.call(cmd)
 
-
 def extract_density(args):
     """
     Extract densitry matrix from g09.fchk file
@@ -90,7 +107,7 @@ def extract_density(args):
     partten_1 = 'Total S' # Start: Total Spin
     partten_2 = 'Spin'    # Spin: for open shell case
     partten_3 = 'Mulliken'# End
-    
+
     start = False
     f1 = open(f_fchk, 'r')
     f2 = open(f_txt,  'w')
@@ -105,16 +122,6 @@ def extract_density(args):
             start = True
     f1.close()
     f2.close()
-
-
-
-def init_default_var(args):
-    args.f_chk_name = args.f_chk
-    args.f_log_name = args.f_chk[0:-4] + '.log'
-    args.f_txt_name = args.f_chk[0:-4] + '.txt'
-    if args.name != '-1': # customize f_txt_name
-        args.f_txt_name = args.name
-
 
 
 if __name__ == '__main__':
