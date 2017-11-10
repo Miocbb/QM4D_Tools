@@ -1,7 +1,8 @@
 import argparse
+import os
 
 # QM4D basis library path
-QM4D_GTOLIB="/home/ym95/program/QM4D/gtolib/"
+QM4D_GTOLIB=os.environ['QM4D_GTOLIB']
 
 # keyword for specifing basis type and number of
 # functions for QM4D. (6D, 10F) was used in QM4D.
@@ -42,9 +43,9 @@ basis_command_qm4d={
 '6-311++G_3DF_3PD': '6-311++G_3df_3pd',
 'CC-PVDZ': 'cc-pVDZ',
 'CC-PVTZ': 'cc-pVTZ',
-'CC-PVQZ': 'cc-pQTZ',
-'CC-PV5Z': 'cc-p5TZ',
-'CC-PV6Z': 'cc-p6TZ',
+'CC-PVQZ': 'cc-pVQZ',
+'CC-PV5Z': 'cc-pV5Z',
+'CC-PV6Z': 'cc-pV6Z',
 'AUG-CC-PVDZ': 'aug-cc-pVDZ',
 'AUG-CC-PVTZ': 'aug-cc-pVTZ',
 'AUG-CC-PVQZ': 'aug-cc-pVQZ',
@@ -62,9 +63,9 @@ basis_command_g09={
 '6-311++G_3DF_3PD': '6-311++g(3df,3pd)',
 'CC-PVDZ': 'cc-pVDZ',
 'CC-PVTZ': 'cc-pVTZ',
-'CC-PVQZ': 'cc-pQTZ',
-'CC-PV5Z': 'cc-p5TZ',
-'CC-PV6Z': 'cc-p6TZ',
+'CC-PVQZ': 'cc-pVQZ',
+'CC-PV5Z': 'cc-pV5Z',
+'CC-PV6Z': 'cc-pV6Z',
 'AUG-CC-PVDZ': 'aug-cc-pVDZ',
 'AUG-CC-PVTZ': 'aug-cc-pVTZ',
 'AUG-CC-PVQZ': 'aug-cc-pVQZ',
