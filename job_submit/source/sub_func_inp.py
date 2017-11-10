@@ -114,7 +114,7 @@ def dft_inp_g09(args):
     # match 'dfa' command for g09 inp file
     dfa =  s_claims.dfa_xcfunc_g09[args.dfa]
     # generator command line in g09 inp file
-    command  = '# ' + dfa + '/'
+    command  = '#p ' + dfa + '/'
     command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # put all g09 ralted files in g09 dir
@@ -180,7 +180,7 @@ def hf_inp_g09(args):
     f_xyz_name = args.f_xyz[0:-4]
     basis = s_claims.basis_command_g09[args._basis]
     # generate command line in g09 inp file
-    command  = '# ' + 'hf/'
+    command  = '#p ' + 'hf/'
     command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # collect all g09 related files in g09 dir
