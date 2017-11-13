@@ -173,12 +173,35 @@ class CollectMan():
     def __init__(self, JobOffice):
         self._working_job_office = JobOffice
 
+    def get_terminal(self):
+        """
+        Get terminal ID in which the uesr is log-in.
+        This function is based on linux 'who' command.
+
+        Input: None
+        Output: <type: list> terminal_id. Each element in
+                terminal_id is a string.
+        """
+        cmd = ['who']
+        p = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        stdout, stderr = p.communicate()
+        stdout = filter(None, stdout.split('\n'))
+        terminal_id = []
+        for line in stdout:
+            line_split = line.split()
+            if claim_environ.USER in line_split:
+                terminal_id.append(line_split[1])
+        return terminal_id
+
     def collect(self):
         """
         Functionality:
         Collect completed jobs packages which meet the collection
         requirement, make a time stamp on it and add them to the
         related JobOffice.
+
+        collection requirement: completed job's finish time is longer than specified
+        number or the user is not log-in at that collcetion moment.
 
         Output: None
         """
@@ -227,12 +250,22 @@ class CollectMan():
         complete_jobs_id = set( self._job_old.keys() ) - set( self._job_new.keys() )
         # add complete jobs into JobOffice.
         time = datetime.now().strftime('%H:%M')
-        for i in complete_jobs_id:
-            job = self._job_old[i]
-            if job.islongrun():
-                job._finish_time = time
-                job.status = 'C'
-                self._working_job_office.add(job)
+        # start collect completed jobs.
+        log_in = bool(self.get_terminal())
+        if log_in:
+            job_list = [ self._job_old[i] for i in complete_jobs_id if self._job_old[i].islongrun() ]
+        else:
+            job_list = [ self._job_old[i] for i in complete_jobs_id ]
+        for job in job_list:
+            job._finish_time = time
+            job.status = 'C'
+            self._working_job_office.add(job)
+        #for i in complete_jobs_id:
+        #    job = self._job_old[i]
+        #    if job.islongrun():
+        #        job._finish_time = time
+        #        job.status = 'C'
+        #        self._working_job_office.add(job)
         # update old jobs list.
         self._job_old = self._job_new
         return
