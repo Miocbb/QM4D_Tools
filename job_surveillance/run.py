@@ -24,7 +24,7 @@ def main():
     messager  = s_class.MessageMan(joboffice)
     emailer   = s_class.EmailMan(joboffice)
     while True:
-        time.sleep(1)
+        time.sleep(10)
         collector.collect()
         messager.send_msg()
         emailer.send_email()
