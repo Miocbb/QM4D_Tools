@@ -451,10 +451,8 @@ class EmailMan():
         record = self._hold_time
         if record == None:
             return False
-        time = datetime.now()
-        time_now = time.hour*60 + time.minute
-        time_record = record.hour*60 + record.minute
-        return (time_now - time_record) > config.EMAIL_HOLD_TIME
+        holding_time = datetime.now() - record
+        return (holding_time.second // 60) > config.EMAIL_HOLD_TIME
 
     def isworking(self):
         """
