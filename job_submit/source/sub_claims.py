@@ -17,10 +17,10 @@ QM4D_PGTO = {
 'F' : 10}
 
 # qm4d supported functionals
-dfa_qm4d=('b3lyp', 'blyp', 'lda', 'pbe')
+dfa_qm4d=('camb3lyp','b3lyp', 'blyp', 'lda', 'pbe')
 
 # g09 supported  functionals
-dfa_g09=('b3lyp', 'blyp', 'lda', 'pbe')
+dfa_g09=('camb3lyp','b3lyp', 'blyp', 'lda', 'pbe')
 
 # input option for basis of fitbasis
 basis_input_option=(
@@ -97,18 +97,20 @@ basis_mem_level={
 # For qm4d inp file
 # {args.dfa : dfa_command}
 dfa_xcfunc_qm4d = {
-'blyp' : 'xfunc  xb88\ncfunc  clyp',
-'pbe'  : 'xfunc  xpbe\ncfunc  cpbe',
-'b3lyp': 'xcfunc b3lyp',
-'lda'  : 'xfunc  xlda\ncfunc  clda' }
+'camb3lyp': 'xcfunc camb3lyp',
+'blyp'    : 'xfunc  xb88\ncfunc  clyp',
+'pbe'     : 'xfunc  xpbe\ncfunc  cpbe',
+'b3lyp'   : 'xcfunc b3lyp',
+'lda'     : 'xfunc  xlda\ncfunc  clda' }
 
 # For g09 inp file
 # {args.dfa : dfa_command }
 dfa_xcfunc_g09 = {
-'blyp' : 'blyp',
-'pbe'  : 'pbepbe',
-'b3lyp': 'b3lyp',
-'lda'  : 'lsda' }
+'camb3lyp': 'cam-b3lyp',
+'blyp'    : 'blyp',
+'pbe'     : 'pbepbe',
+'b3lyp'   : 'b3lyp',
+'lda'     : 'lsda' }
 
 # {args.partition : max_mem}
 partition_mem = {
@@ -119,7 +121,8 @@ partition_mem = {
 'mei3'     : 29,
 'mei2med'  : 60,
 'mei2big'  : 120,
-'mei2hug'  : 250}
+'mei2hug'  : 250,
+'mei3debug': 29}
 
 # {args.partition : max_time}
 partition_time = {
@@ -130,7 +133,8 @@ partition_time = {
 'mei2med'  : 40000,
 'mei2big'  : 40000,
 'mei2hug'  : 40000,
-'mei3'     : 10000}
+'mei3'     : 10000,
+'mei3debug': 100}
 
 # {args.partition : partition_name}
 partition_name = {
@@ -139,6 +143,7 @@ partition_name = {
 'mei1blade': 'mei1_dell_blade',
 'mei2'     : 'mei2',
 'mei3'     : 'mei3',
+'mei3debug': 'mei3_debug',
 'mei2med'  : 'mei2_medmem',
 'mei2big'  : 'mei2_bigmem',
 'mei2hug'  : 'mei2_hugmem'}
@@ -240,7 +245,8 @@ directvee""")
 parent_parser = argparse.ArgumentParser(add_help=False)
 parent_parser.add_argument('f_xyz',  help = 'coordinate file')
 parent_parser.add_argument('partition', help='choose partition: mei11950,\
-                mei1super, mei1blade, mei2, mei3, mei2med, mei2big, mei2hug')
+                mei1super, mei1blade, mei2, mei2med, mei2big, mei2hug, mei3,\
+                mei3debug')
 parent_parser.add_argument('-in', default='-1', dest='inp_name',
                 help='Default=f_xyz.inp(.com); [customized inp file name]')
 parent_parser.add_argument('-on', default='-1', dest='out_name',
@@ -265,8 +271,8 @@ parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
                 help='Default="cc-pVTZ"')
 parent_parser.add_argument('-guess',  default='atom', dest='guess',
                 help='Default=atom; [inital guess option]',)
-parent_parser.add_argument('-cpu', default='8', dest='cpu',
-        help='Default=1(qm4d), 8(g09)')
+parent_parser.add_argument('-cpu', default='1', dest='cpu',
+        help='Default=1')
 parent_parser.add_argument('-mem', default='-1', dest='mem',
                 help='Default=auto_set; [based on elec_num and basis]')
 parent_parser.add_argument('-mult',  default = '-1', dest='mult',
