@@ -30,17 +30,17 @@ def hf_slurm(args):
     print >>f, '#SBATCH --time=' +\
             str(s_claims.partition_time[args.partition])
     print >>f, '#SBATCH --nodes=1'
+    print >>f, '#SBATCH --ntasks=' + args.cpu
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
-    print >>f, '#SBATCH --cpus-per-task=1'
+    #print >>f, '#SBATCH --cpus-per-task=1'
     print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
     # write slurm command line
     if args.g09 == True:
-        print >>f, '#SBATCH --ntasks-per-node=' + args.cpu
         print >>f, 'g09 ' + f_com_name
     else:
-        print >>f, '#SBATCH --ntasks-per-node=1'
+        print >>f, 'export OMP_NUM_THREADS=' + args.cpu
         print >>f, 'qm4d_omp ' + f_inp_name +\
                 ' > ' + f_out_name
     # finished wrting slurm
@@ -66,17 +66,17 @@ def dft_slurm(args):
     print >>f, '#SBATCH --time=' +\
             str(s_claims.partition_time[args.partition])
     print >>f, '#SBATCH --nodes=1'
+    print >>f, '#SBATCH --ntasks=' + args.cpu
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
-    print >>f, '#SBATCH --cpus-per-task=1'
+    #print >>f, '#SBATCH --cpus-per-task=1'
     print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
     # write slurm command line
     if args.g09 == True:
-        print >>f, '#SBATCH --ntasks-per-node=' + args.cpu
         print >>f, 'g09 ' + f_com_name
     else:
-        print >>f, '#SBATCH --ntasks-per-node=1'
+        print >>f, 'export OMP_NUM_THREADS=' + args.cpu
         print >>f, 'qm4d_omp ' + f_inp_name +\
                 ' > ' + f_out_name
     # finished wrting slurm
@@ -97,10 +97,11 @@ def losc_slurm(args):
             str(s_claims.partition_time[args.partition])
     print >>f, '#SBATCH --nodes=1'
     print >>f, '#SBATCH --mem=' + args.mem + 'G'
-    print >>f, '#SBATCH --cpus-per-task=1'
+    print >>f, '#SBATCH --ntasks=' + args.cpu
     print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
+    print >>f, 'export OMP_NUM_THREADS=' + args.cpu
     print >>f, 'qm4d_omp ' + f_inp_name + ' > ' + f_out_name
     # finished wrting slurm
 
