@@ -41,7 +41,7 @@ def hf_slurm(args):
         print >>f, 'g09 ' + f_com_name
     else:
         print >>f, '#SBATCH --ntasks-per-node=1'
-        print >>f, 'qm4d_git ' + f_inp_name +\
+        print >>f, 'qm4d_omp ' + f_inp_name +\
                 ' > ' + f_out_name
     # finished wrting slurm
 
@@ -77,7 +77,7 @@ def dft_slurm(args):
         print >>f, 'g09 ' + f_com_name
     else:
         print >>f, '#SBATCH --ntasks-per-node=1'
-        print >>f, 'qm4d_git ' + f_inp_name +\
+        print >>f, 'qm4d_omp ' + f_inp_name +\
                 ' > ' + f_out_name
     # finished wrting slurm
 
@@ -101,7 +101,7 @@ def losc_slurm(args):
     print >>f, '#SBATCH --partition=' + partition
     print >>f, '#SBATCH --mail-type=FAIL'
     print >>f, '#SBATCH --mail-user=ym95'
-    print >>f, 'qm4d_git ' + f_inp_name + ' > ' + f_out_name
+    print >>f, 'qm4d_omp ' + f_inp_name + ' > ' + f_out_name
     # finished wrting slurm
 
 
