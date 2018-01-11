@@ -1,8 +1,0 @@
-QM4D compiling date/time: 10:58:12 // Sep 26 2017
-QM4D running host: node082
-QM4D starting time: Tue Oct 17 21:22:57 2017
-
-Waringing message printed at file "/home/ym95/program/qm4d/source/SCF/update_pair_screen.c" line "82"
-Maximum pair tol=    0.00000000000000
-Fatal error message printed at file "/home/ym95/program/qm4d/source/SCF/update_pair_screen.c" line "83"
-No pair left!

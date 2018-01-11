@@ -1,6 +1,0 @@
-QM4D compiling date/time: 10:58:12 // Sep 26 2017
-QM4D running host: node081
-QM4D starting time: Wed Oct 25 13:49:05 2017
-
-Fatal error message printed at file "/home/ym95/program/qm4d/source/BASIS/read_basis_file.c" line "66"
-Basis File "C.6-311G++G_3df_3pd" is not readable. The path of GTO library is "/home/ym95/program/QM4D/gtolib/". 
