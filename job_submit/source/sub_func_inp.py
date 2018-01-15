@@ -49,7 +49,7 @@ def losc_inp(args):
     if args.postSCF == '1':
         print >>f, 'POSTSCF LMOSC Boys 1000 1.e-10'
     else:
-        print >>f, 'SCF LOSC Boys 1000 1.e-10'
+        print >>f, 'LOSC Boys 1000 1.e-10'
     # write 'LOEnergy' command
     if args.window != '0':
         print >>f, 'LOEnergy  ' + args.window
