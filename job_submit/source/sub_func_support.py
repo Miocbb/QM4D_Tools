@@ -465,7 +465,8 @@ def auto_set_mem_qm4d(args):
     40 CGTO = 1G memory
     """
     num_CGTO = count_total_cgto(args)
-    print "Total Number of CGTO: ", num_CGTO
+    if args.nomsg != True:
+        print "Total Number of CGTO: ", num_CGTO
     if args.mem == '-1': # using default mem seting
         memory = int(math.ceil(num_CGTO/40.0))
         if memory > 29:

@@ -141,7 +141,8 @@ def real_sbatch(args):
     return 1
 
 def sbatch(args):
-    print "Request memory: %s G" %args.mem # show mem information
+    if args.nomsg != True:
+        print "Request memory: %s G" %args.mem # show mem information
     if args._sys_warning:
         SigExit("Create inp files. Check before submit jobs!")
     status = real_sbatch(args)

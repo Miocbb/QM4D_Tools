@@ -272,11 +272,13 @@ parent_parser.add_argument('-basis', default = 'cc-pVTZ', dest='basis',
 parent_parser.add_argument('-guess',  default='atom', dest='guess',
                 help='Default=atom; [inital guess option]',)
 parent_parser.add_argument('-cpu', default='1', dest='cpu',
-        help='Default=1')
+                help='Default=1')
 parent_parser.add_argument('-mem', default='-1', dest='mem',
                 help='Default=auto_set; [based on elec_num and basis]')
 parent_parser.add_argument('-mult',  default = '-1', dest='mult',
                 help ='Default=auto_set; [based on elec_num]')
+parent_parser.add_argument('-nomsg', action='store_true', dest='nomsg',
+                help='enable or disable showing message')
 parent_parser.set_defaults(_f_inp_name=None, _f_out_name=None,
                            _f_com_name=None, _f_chk_name=None,
                            _f_slurm_name=None, _job_name=None,
