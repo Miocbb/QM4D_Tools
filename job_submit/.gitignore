@@ -1,4 +1,0 @@
-# ignore all *.pyc
-*.pyc
-# ignore all files in test dir
-test/
