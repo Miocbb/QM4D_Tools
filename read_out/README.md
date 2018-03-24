@@ -63,3 +63,24 @@ if `-n` flag is not specified, eigenvalue.eig file is defaultly created under th
 
 ##### Work flow:
     qm4d.out check normal terminated --> [eig].eig
+
+*
+### calcxyz.py
+##### Description
+a script used to calculate the distance between two atoms, the bond angle of
+three atoms.
+
+##### usage:
+```shell
+    python3 calcxzy.py xyz_file [-dist num1, num2] [-angle num1, num2, num3]
+```
+
+1. The xyz_file are the path (absolute or relative path) to the xyz file.
+   Each line in the xyz file start with a atom name and followed by three
+   number (x, y and z coordinates).
+
+2. num1, num2, num3 are the line number of each atoms in the xyz file.
+
+3. the center atom in angle calculation is atom2 (num2).
+*
+
