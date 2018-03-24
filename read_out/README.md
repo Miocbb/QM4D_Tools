@@ -40,7 +40,7 @@ f_chk:  g09 output file. Do not accept "*" expression.
 ##### Work flow illustration:
     g09.chk --> check g09.log normal terminated --> g09.fchk (formchk) --> [dst].txt
 
-******************
+*******************
 ### read_eig_losc_qm4d.py
 ##### Description:
 This is python script is used to extract all the eigenvales from LOSC functional calculation from QM4D package. A file with ".eig" extension will be generated. The eigenvalue file will be created under the same flder as QM4D output file, if `-n` flag is not specifed. The format of [eig].eig file is sperated columns, shown as below:
@@ -63,3 +63,24 @@ if `-n` flag is not specified, eigenvalue.eig file is defaultly created under th
 
 ##### Work flow:
     qm4d.out check normal terminated --> [eig].eig
+
+**
+### calcxyz.py
+##### Description
+a script used to calculate the distance between two atoms, the bond angle of
+three atoms.
+
+##### usage:
+```shell
+    python3 calcxzy.py xyz_file [-dist num1, num2] [-angle num1, num2, num3]
+```
+
+1. The xyz_file are the path (absolute or relative path) to the xyz file.
+   Each line in the xyz file start with a atom name and followed by three
+   number (x, y and z coordinates).
+
+2. num1, num2, num3 are the line number of each atoms in the xyz file.
+
+3. the center atom in angle calculation is atom2 (num2).
+
+
