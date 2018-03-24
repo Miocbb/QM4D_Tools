@@ -64,7 +64,7 @@ if `-n` flag is not specified, eigenvalue.eig file is defaultly created under th
 ##### Work flow:
     qm4d.out check normal terminated --> [eig].eig
 
-**
+*******************
 ### calcxyz.py
 ##### Description
 a script used to calculate the distance between two atoms, the bond angle of
