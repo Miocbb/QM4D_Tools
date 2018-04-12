@@ -23,6 +23,6 @@ if not os.path.isdir(PATH):
     print "Terminated: JOB_SVLN_PATH is not valid!\n"
     sys.eixt()
 
-USER       = os.environ['JOB_SVLN_USER']
+USER = os.environ['JOB_SVLN_USER']
 USER_EMAIL = os.environ['JOB_SVLN_USER_EMAIL']
-SERVER_EMAIL  = os.environ['JOB_SVLN_SERVER_EMAIL']
+SERVER_EMAIL = os.environ['JOB_SVLN_SERVER_EMAIL']

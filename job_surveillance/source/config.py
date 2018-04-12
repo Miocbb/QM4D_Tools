@@ -13,7 +13,7 @@ RUNTIME_THRESHOLD = 15
 # <type: int>
 # 06:00 to 23:59 is suggested.
 EMAIL_START_TIME = 360  # 06:00
-EMAIL_END_TIME   = 1439 # 23:59
+EMAIL_END_TIME = 1439  # 23:59
 
 # How long time should the sending email process hold, so that
 # it can wait for more finished jobs to be sent at one time.
