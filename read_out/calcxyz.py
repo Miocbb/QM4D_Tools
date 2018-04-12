@@ -28,8 +28,9 @@ def make_parser():
     parse.add_argument('-dist', help='calc distance of two atoms. [line1, line2]',
                        nargs='+', type=int, dest='dist')
     parse.add_argument('-angle', help='calc angle of formed form atoms  A-B-C. \
-                       [line_A, line_B, line_C]', nargs='+',type=int, dest='angle')
+                       [line_A, line_B, line_C]', nargs='+', type=int, dest='angle')
     return parse.parse_args()
+
 
 def get_xyz(args):
     """
@@ -51,6 +52,7 @@ def get_xyz(args):
     f.close()
     return xyz_dict
 
+
 def calc_angle(xyz_dict, three_atoms):
     '''
     input: <type: list [int]> three_atoms
@@ -58,14 +60,16 @@ def calc_angle(xyz_dict, three_atoms):
     atomA = three_atoms[0]
     atomB = three_atoms[1]
     atomC = three_atoms[2]
-    dist_a =  calc_dist(xyz_dict, [atomB, atomC])
-    dist_b =  calc_dist(xyz_dict, [atomA, atomC])
-    dist_c =  calc_dist(xyz_dict, [atomA, atomB])
-    cosB = (math.pow(dist_c,2) + math.pow(dist_a,2) -math.pow(dist_b,2))/(2*dist_a*dist_c)
-    angle = math.acos(cosB)/math.pi *180
+    dist_a = calc_dist(xyz_dict, [atomB, atomC])
+    dist_b = calc_dist(xyz_dict, [atomA, atomC])
+    dist_c = calc_dist(xyz_dict, [atomA, atomB])
+    cosB = (math.pow(dist_c, 2) + math.pow(dist_a, 2) -
+            math.pow(dist_b, 2))/(2*dist_a*dist_c)
+    angle = math.acos(cosB)/math.pi * 180
     if angle > 180:
         angle = 360 - angle
     return angle
+
 
 def calc_dist(xyz_dict, two_atoms):
     '''
@@ -78,19 +82,20 @@ def calc_dist(xyz_dict, two_atoms):
         SUM += math.pow(atom1[i]-atom2[i], 2)
     return math.sqrt(SUM)
 
+
 def main():
     args = make_parser()
     args.xyz = os.path.abspath(args.xyz)
-    if not (args.dist != None or args.angle != None):
+    if not (args.dist is not None or args.angle is not None):
         print("Terminated: please specify what you want to calc, distance or angle")
         sys.exit()
     xyz_dict = get_xyz(args)
-    if args.dist != None:
+    if args.dist is not None:
         if len(args.dist) != 2:
             print('Terminated: 2 atoms are needed for distance calc.')
             sys.exit()
         print('distance: ', calc_dist(xyz_dict, args.dist))
-    if args.angle != None:
+    if args.angle is not None:
         if len(args.angle) != 3:
             print('Terminated: 3 atoms are needed for angle calc.')
             sys.exit()
