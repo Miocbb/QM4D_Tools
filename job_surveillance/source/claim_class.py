@@ -371,7 +371,7 @@ class MessageMan():
             else:
                 # copy package to JobOffice._email_box
                 for i in office._message_box.keys():
-                    if office._message_box[i]._byemail != True:
+                    if office._message_box[i]._byemail is not True:
                         office.add_to_emailbox(office._message_box[i])
                         office._message_box[i]._byemail = True
         return
