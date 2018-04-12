@@ -34,12 +34,13 @@ Date:   2017/10/20
 import sys
 import os.path
 import argparse
-#from subprocess import Popen, PIPE
+
 
 def SigExit(*string):
     for i in string:
         print i
     sys.exit()
+
 
 def set_parser():
     """
@@ -49,8 +50,7 @@ def set_parser():
     Optional arugment
     -name, -n: [eig].eig file name
     """
-    parser = argparse.ArgumentParser(description =
-    """Extract all the eigenvales from LOSC functional calculation
+    parser = argparse.ArgumentParser(description="""Extract all the eigenvales from LOSC functional calculation
     using QM4D package. A file with extension (".eig") will be genearted
     under the same directory with the QM4D output file, if "-n" flag is
     not specified.""")
@@ -63,12 +63,14 @@ def set_parser():
     parser.set_defaults(_f_out=None, _f_eig=None)
     return parser.parse_args()
 
+
 def init_args(args):
     args._f_out = args.f_out
     if args.f_eig == 0:
         args._f_eig = args.f_out + '.eig'
     else:
         args._f_eig = args.f_eig + '.eig'
+
 
 def check_args(args):
     """
@@ -77,6 +79,7 @@ def check_args(args):
     """
     if not os.path.isfile(args._f_out):
         SigExit("Terminated: qm4d out file not existed\n")
+
 
 def check_normal_termination(args):
     """
@@ -90,10 +93,13 @@ def check_normal_termination(args):
     status2 = 0
     f = open(f_out, 'r')
     for line in f:
-        if line.find(partern1): status1 = 1
-        elif line.find(partern2): status2 = 1
+        if line.find(partern1):
+            status1 = 1
+        elif line.find(partern2):
+            status2 = 1
     f.close()
     return (status1 and status2)
+
 
 def read_elec_num(args):
     """
@@ -126,17 +132,17 @@ def extract_eig(args):
     f = open(f_out, 'r')
     for line in f:
         if partern in line:
-            #item = line.replace('=', ' ').split()
-            match_line.append( line.replace('=', ' ').split() )
+            # item = line.replace('=', ' ').split()
+            match_line.append(line.replace('=', ' ').split())
     f.close()
-    #print match_line
-    eig = {'0': [], '1':[]}
+    # print match_line
+    eig = {'0': [], '1': []}
     for item in match_line:
-            string = "{:<7s}{:<6s}{:<16s}{:<16s}"\
-                    .format(item[1], item[3], item[5], item[7])\
-                    .rstrip()
-            eig[item[1]].append(string)
-    #print eig['0'], eig['1']
+        string = "{:<7s}{:<6s}{:<16s}{:<16s}"\
+            .format(item[1], item[3], item[5], item[7])\
+            .rstrip()
+        eig[item[1]].append(string)
+    # print eig['0'], eig['1']
     return eig['0'], eig['1']
 
 
@@ -144,13 +150,13 @@ def main():
     args = set_parser()
     init_args(args)
     check_args(args)
-    #print args
+    # print args
     if not check_normal_termination(args):
         SigExit("Terminated: qm4d.out not normal terminated\n")
     aelec_num, belec_num = read_elec_num(args)
-    alpha_eig, beta_eig  = extract_eig(args)
+    alpha_eig, beta_eig = extract_eig(args)
     title_str = "{:<7s}{:<6s}{:<16s}{:<16s}"\
-                .format('spin','orb','eig_prev','eig_losc')\
+                .format('spin', 'orb', 'eig_prev', 'eig_losc')\
                 .rstrip()
     str_aelec = "{:<7d}{:<6d}{:<16d}{:<16d}"\
                 .format(0, int(aelec_num), 0, 0)\
@@ -162,8 +168,10 @@ def main():
     print >>f, title_str
     print >>f, str_aelec
     print >>f, str_belec
-    for i in alpha_eig: print >>f, i
-    for i in beta_eig:  print >>f, i
+    for i in alpha_eig:
+        print >>f, i
+    for i in beta_eig:
+        print >>f, i
     f.close()
 
     print "Create eigenvalue file: {:s}".format(args._f_eig)

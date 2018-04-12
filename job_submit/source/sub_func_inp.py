@@ -9,21 +9,21 @@ import sub_func_support as sf_support
 
 
 def hf_inp(args):
-    if args.g09 == True:
+    if args.g09 is True:
         hf_inp_g09(args)
     else:
         hf_inp_qm4d(args)
 
 
 def dft_inp(args):
-    if args.g09 == True:
+    if args.g09 is True:
         dft_inp_g09(args)
     else:
         dft_inp_qm4d(args)
 
 
 def losc_inp(args):
-    #f_inp = args.f_xyz[0:-4] + '.inp'
+    # f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
     basis = s_claims.basis_command_qm4d[args._basis]
@@ -32,7 +32,7 @@ def losc_inp(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aocc == [0,1] and args.bocc == [0,1]:
+    if args.aocc == [0, 1] and args.bocc == [0, 1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:
@@ -67,9 +67,8 @@ def losc_inp(args):
     # finished writing
 
 
-
 def dft_inp_qm4d(args):
-    #f_inp = args.f_xyz[0:-4] + '.inp'
+    # f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
     basis = s_claims.basis_command_qm4d[args._basis]
@@ -77,7 +76,7 @@ def dft_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aocc == [0,1] and args.bocc == [0,1]:
+    if args.aocc == [0, 1] and args.bocc == [0, 1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:
@@ -103,24 +102,23 @@ def dft_inp_qm4d(args):
     # finished writing
 
 
-
 def dft_inp_g09(args):
-    #f_inp = args.f_xyz[0:-4]+ '.com'
+    # f_inp = args.f_xyz[0:-4]+ '.com'
     f_com = args._f_com_name
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = f_xyz[0:-4]
     basis = s_claims.basis_command_g09[args._basis]
     # match 'dfa' command for g09 inp file
-    dfa =  s_claims.dfa_xcfunc_g09[args.dfa]
+    dfa = s_claims.dfa_xcfunc_g09[args.dfa]
     # generator command line in g09 inp file
-    command  = '#p ' + dfa + '/'
+    command = '#p ' + dfa + '/'
     command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # put all g09 ralted files in g09 dir
     if not os.path.isdir('g09'):
         os.makedirs('g09')
-    f = open('g09/'+ f_com, 'w')
+    f = open('g09/' + f_com, 'w')
     print >>f, '%chk=' + f_chk
     print >>f, '%nprocshared=' + args.cpu
     print >>f, '%mem=' + args.mem + 'gb'
@@ -139,7 +137,7 @@ def dft_inp_g09(args):
 
 
 def hf_inp_qm4d(args):
-    #f_inp = args.f_xyz[0:-4] + '.inp'
+    # f_inp = args.f_xyz[0:-4] + '.inp'
     f_inp = args._f_inp_name
     f_xyz = args.f_xyz
     basis = s_claims.basis_command_qm4d[args._basis]
@@ -147,7 +145,7 @@ def hf_inp_qm4d(args):
     print >>f, '$qm'
     print >>f, 'xyz    ' + f_xyz
     print >>f, 'spin   ' + args.spin
-    if args.aocc == [0,1] and args.bocc == [0,1]:
+    if args.aocc == [0, 1] and args.bocc == [0, 1]:
         print >>f, 'charge ' + args.charge
         print >>f, 'mult   ' + args.mult
     else:
@@ -171,16 +169,15 @@ def hf_inp_qm4d(args):
     # finished writing
 
 
-
 def hf_inp_g09(args):
-    #f_inp = args.f_xyz[0:-4]+ '.com'
+    # f_inp = args.f_xyz[0:-4]+ '.com'
     f_com = args._f_com_name
     f_chk = args._f_chk_name
     f_xyz = args.f_xyz
     f_xyz_name = args.f_xyz[0:-4]
     basis = s_claims.basis_command_g09[args._basis]
     # generate command line in g09 inp file
-    command  = '#p ' + 'hf/'
+    command = '#p ' + 'hf/'
     command += basis
     command += ' 6d 10f Int=NoBasisTransform NoSymm'
     # collect all g09 related files in g09 dir
@@ -202,8 +199,3 @@ def hf_inp_g09(args):
     print >>f, ''
     f.close()
     # finished writing
-
-#*************************
-if __name__ == "__main__":
-    print count_elec_num('1.xyz')
-

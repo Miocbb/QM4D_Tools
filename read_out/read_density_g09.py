@@ -34,10 +34,10 @@ import sys
 import subprocess as subp
 from subprocess import Popen, PIPE
 
+
 def main():
     # setting argument parser
-    parser = argparse.ArgumentParser(description=
-    """Extract densitry matrix from g09 output. A density file with ".txt"
+    parser = argparse.ArgumentParser(description="""Extract densitry matrix from g09 output. A density file with ".txt"
     extension will be generated which can be used directly as "guess read"
     file for QM4D package. The density file will be created under the same
     directory with the g09 output file, if "-n" flag is not specified.""")
@@ -68,7 +68,7 @@ def main():
     formchk(args)
     # extract density file
     extract_density(args)
-    print '\n Succeed to write "%s" density file' %args.f_txt_name
+    print '\n Succeed to write "%s" density file' % args.f_txt_name
     return
 
 
@@ -76,8 +76,9 @@ def init_default_var(args):
     args.f_chk_name = args.f_chk
     args.f_log_name = args.f_chk[0:-4] + '.log'
     args.f_txt_name = args.f_chk[0:-4] + '.txt'
-    if args.name != '-1': # customize f_txt_name
+    if args.name != '-1':  # customize f_txt_name
         args.f_txt_name = args.name + '.txt'
+
 
 def check_terminattion(args):
     """
@@ -93,11 +94,13 @@ def check_terminattion(args):
     else:
         return False
 
+
 def formchk(args):
     f_chk_name = args.f_chk_name
     f_fchk_name = f_chk_name[0:-4] + '.fchk'
-    cmd = [ 'formchk', f_chk_name, f_fchk_name ]
+    cmd = ['formchk', f_chk_name, f_fchk_name]
     subp.call(cmd)
+
 
 def extract_density(args):
     """
@@ -106,10 +109,10 @@ def extract_density(args):
     the parttens for locate the density matrix data
     """
     f_fchk = args.f_chk_name[0:-4] + '.fchk'
-    f_txt  = args.f_txt_name
-    partten_1 = 'Total S' # Start: Total Spin
+    f_txt = args.f_txt_name
+    partten_1 = 'Total S'  # Start: Total Spin
     partten_2 = 'Spin'    # Spin: for open shell case
-    partten_3 = 'Mulliken'# End
+    partten_3 = 'Mulliken'  # End
 
     start = False
     f1 = open(f_fchk, 'r')
@@ -117,7 +120,7 @@ def extract_density(args):
     for line in f1:
         if partten_3 in line:
             break
-        if start: #start write density
+        if start:  # start write density
             # only collect data number
             if partten_2 not in line:
                 f2.write(line)

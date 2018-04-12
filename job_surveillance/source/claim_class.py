@@ -12,24 +12,26 @@ import claim_environ
 import claim_func as sf
 import config
 
+
 class Job():
     """
     Package up all the information of a job.
     """
 
-    job_id    = None # <type: str>
-    job_name  = None # <type: str>
-    user      = None # <type: str>
-    time      = None # <type: int> unit in minutes.
-    status    = None # <type: str>
-    partition = None # <type: str>
+    job_id = None  # <type: str>
+    job_name = None  # <type: str>
+    user = None  # <type: str>
+    time = None  # <type: int> unit in minutes.
+    status = None  # <type: str>
+    partition = None  # <type: str>
 
-    _byemail  = None # <type: bool> lable if the job is added in the
-                     # _email_box.
-                     # This var will be only updated by MessageMan.
-    _finish_time = None # <type: str>
-                        # record the time when the job is finished.
-                        # This var will be assigned by CollectMan.
+    _byemail = None  # <type: bool> lable if the job is added in the
+    # _email_box.
+    # This var will be only updated by MessageMan.
+    _finish_time = None  # <type: str>
+    # record the time when the job is finished.
+    # This var will be assigned by CollectMan.
+
     def __init__(self, qstat_line):
         """
         Input: <type: str> qstat_line.
@@ -41,11 +43,11 @@ class Job():
         Output: <type: class Job> Job
         """
         line = qstat_line.split()
-        self.job_id    = line[0]
-        self.user      = line[1]
+        self.job_id = line[0]
+        self.user = line[1]
         self.partition = line[2]
-        self.job_name  = line[3]
-        self.status    = line[9]
+        self.job_name = line[3]
+        self.status = line[9]
         # convert time info into minutes.
         _time = line[10].split(':')
         self.time = int(_time[0])*60 + int(_time[1])
@@ -77,8 +79,8 @@ class Job():
 
     def __str__(self):
         return "<Class: Job>: \n"+"{} {} {} {} {} {}"\
-                .format(self.job_id, self.user, self.partition,
-                        self.job_name, self.status, str(self.time))
+            .format(self.job_id, self.user, self.partition,
+                    self.job_name, self.status, str(self.time))
 
 
 class JobOffice():
@@ -99,7 +101,7 @@ class JobOffice():
     # jobs in this box will be copied from "_message_box".
     # !!!
     # _email_box is a subset of _message_box
-    _email_box   = {}
+    _email_box = {}
 
     def add(self, job):
         """
@@ -109,7 +111,7 @@ class JobOffice():
         Input: <type: class Job> job
         Output: None
         """
-        self._message_box[job.job_id]=job
+        self._message_box[job.job_id] = job
 
     def delete(self, job):
         """
@@ -127,7 +129,7 @@ class JobOffice():
         Input: <type: class Job> job
         Output: None
         """
-        self._email_box[job.job_id]=job
+        self._email_box[job.job_id] = job
 
     def find(self, job_id):
         """
@@ -166,9 +168,9 @@ class CollectMan():
     _working_job_office = None
 
     # old jobs record
-    _job_old = None # <type: dict>
+    _job_old = None  # <type: dict>
     # new jobs record
-    _job_new = None # <type: dict>
+    _job_new = None  # <type: dict>
 
     def __init__(self, JobOffice):
         self._working_job_office = JobOffice
@@ -213,10 +215,10 @@ class CollectMan():
             Input: None
             Output: <type: list> stdout. Each element is a string.
             """
-            cmd = [ 'qstat', '-u', claim_environ.USER]
+            cmd = ['qstat', '-u', claim_environ.USER]
             p = Popen(cmd, stdout=PIPE, stderr=PIPE)
             stdout, stderr = p.communicate()
-            stdout = filter( None, stdout.split('\n') )
+            stdout = filter(None, stdout.split('\n'))
             if stdout:
                 return stdout[4:]
             # return a empty list when stdout is empty.
@@ -238,7 +240,7 @@ class CollectMan():
 
         qstat = get_qstat()
         # init old and new job info list.
-        if self._job_old == None:
+        if self._job_old is None:
             self._job_old = {}
             for i in get_running_jobs(qstat):
                 self._job_old[i.job_id] = i
@@ -247,20 +249,22 @@ class CollectMan():
         for i in get_running_jobs(qstat):
             self._job_new[i.job_id] = i
         # get complete jobs_id.
-        complete_jobs_id = set( self._job_old.keys() ) - set( self._job_new.keys() )
+        complete_jobs_id = set(self._job_old.keys()) - \
+            set(self._job_new.keys())
         # add complete jobs into JobOffice.
         time = datetime.now().strftime('%H:%M')
         # start collect completed jobs.
         log_in = bool(self.get_terminal())
         if log_in:
-            job_list = [ self._job_old[i] for i in complete_jobs_id if self._job_old[i].islongrun() ]
+            job_list = [self._job_old[i]
+                        for i in complete_jobs_id if self._job_old[i].islongrun()]
         else:
-            job_list = [ self._job_old[i] for i in complete_jobs_id ]
+            job_list = [self._job_old[i] for i in complete_jobs_id]
         for job in job_list:
             job._finish_time = time
             job.status = 'C'
             self._working_job_office.add(job)
-        #for i in complete_jobs_id:
+        # for i in complete_jobs_id:
         #    job = self._job_old[i]
         #    if job.islongrun():
         #        job._finish_time = time
@@ -270,6 +274,7 @@ class CollectMan():
         self._job_old = self._job_new
         return
 
+
 class MessageMan():
     """
     This man will write message to the user, when it is the case.
@@ -277,7 +282,7 @@ class MessageMan():
     This man has to be associated with a specific JobOffice.
     """
     # the office for which this man is working for.
-    _working_job_office = None # <type: class JobOffice>
+    _working_job_office = None  # <type: class JobOffice>
 
     def __init__(self, JobOffice):
         """
@@ -312,9 +317,9 @@ class MessageMan():
         Every time when the JobOffice._message_box is not empty, MessageMan
         will try to write a message to the user. If the writing message is
         successful, he will clean and empty the JobOffice._message_box and
-        JobOffice._email_box. Otherwise, that is in the case the user is not login,
-        MessageMan will link the job package into JobOffice._email_box, and
-        lable the job's Job._byemail with "True", then return.
+        JobOffice._email_box. Otherwise, that is in the case the user is not
+        login, MessageMan will link the job package into JobOffice._email_box,
+        and lable the job's Job._byemail with "True", then return.
 
         Input: None
         Output: None
@@ -338,19 +343,19 @@ class MessageMan():
             PATH = claim_environ.PATH
             f = open(PATH+'tmp.txt', 'w')
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
+                .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
-            IDs = [ int(x) for x in message_box.keys() ]
+                .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
+            IDs = [int(x) for x in message_box.keys()]
             IDs.sort()
-            IDs = [ str(x) for x in IDs]
+            IDs = [str(x) for x in IDs]
             for i in IDs:
                 print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                        .format(i, message_box[i].partition,
-                                message_box[i].job_name, 'C',
-                                message_box[i]._finish_time).rstrip()
+                    .format(i, message_box[i].partition,
+                            message_box[i].job_name, 'C',
+                            message_box[i]._finish_time).rstrip()
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
+                .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             f.close()
             for ID in terminal_id:
                 cmd = sf.string_combine('write', USER, ID, '<', PATH+'tmp.txt')
@@ -371,7 +376,7 @@ class MessageMan():
             else:
                 # copy package to JobOffice._email_box
                 for i in office._message_box.keys():
-                    if office._message_box[i]._byemail != True:
+                    if office._message_box[i]._byemail is not True:
                         office.add_to_emailbox(office._message_box[i])
                         office._message_box[i]._byemail = True
         return
@@ -414,28 +419,28 @@ class EmailMan():
     # the JobOffice for which EmailMan is working.
     _working_job_office = None
     # time to start work (in minutes):
-    _start_time = config.EMAIL_START_TIME # 06:00
+    _start_time = config.EMAIL_START_TIME  # 06:00
     # time to go back home (in minute):
-    _end_time   = config.EMAIL_END_TIME # 23:59
+    _end_time = config.EMAIL_END_TIME  # 23:59
     # time record when the EmailMan finds the JobOffice._email_box is
     # not empty at the first time. The EmailMan will hold for AN HOUR
     # to wait for more job packages thrown into JobOffice._email_box, then
     # start to send email.
-    _hold_time = None # datetime.now()
+    _hold_time = None  # datetime.now()
 
     def __init__(self, JobOffice):
         self._working_job_office = JobOffice
-    
+
     def check_email_box(self):
         """
         check email_box is empty or not.
         If email_box is not empty, record current time to self._hold_time.
-        
+
         Intput: None
         Output: <type: bool>
         """
         if self._working_job_office._email_box:
-            if self._hold_time == None: # initial time counting for holding time.
+            if self._hold_time == None:  # initial time counting for holding time.
                 self._hold_time = datetime.now()
             return True
         else:
@@ -449,7 +454,7 @@ class EmailMan():
         Output: <type: bool>
         """
         record = self._hold_time
-        if record == None:
+        if record is None:
             return False
         holding_time = datetime.now() - record
         return (holding_time.second // 60) > config.EMAIL_HOLD_TIME
@@ -463,7 +468,7 @@ class EmailMan():
         # get current local time.
         get_time = datetime.now()
         time = get_time.hour*60 + get_time.minute
-        return (self._start_time <= time <=  self._end_time)
+        return (self._start_time <= time <= self._end_time)
 
     def del_email_box(self):
         """
@@ -496,38 +501,37 @@ class EmailMan():
             real function for sending email.
 
             Input: <type: list> email_box. The same as JobOffice._email_box.
-            Output: None 
+            Output: None
             """
             USER = claim_environ.USER
             PATH = claim_environ.PATH
             USER_EMAIL = claim_environ.USER_EMAIL
-            SERVER_EMAIL  = claim_environ.SERVER_EMAIL
+            SERVER_EMAIL = claim_environ.SERVER_EMAIL
             # write email content into a tmp file
             f = open(PATH+'tmp.txt', 'w')
-
 
             print >>f,  "-"*62 + '\n'
             print >>f, ("This is an automatical email from et-mei sever in Yang's\n"
                         "Goup at Department of Chemistry, Duke University.\n"
                         "Do not reply this email!\n")
-            print >>f,  "-"*62  + '\n'
+            print >>f,  "-"*62 + '\n'
             print >>f,  "Dear " + USER + ':\n'
             print >>f, ("Here is a notification that you have new job(s) completed.\n"
                         "Below are the details.\n")
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
+                .format('Job ID', 'Queue', 'Job Name', 'Stutas', 'time').rstrip()
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
-            IDs = [ int(x) for x in email_box.keys() ]
+                .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
+            IDs = [int(x) for x in email_box.keys()]
             IDs.sort()
-            IDs = [ str(x) for x in IDs]
+            IDs = [str(x) for x in IDs]
             for i in IDs:
                 print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                        .format(i, email_box[i].partition,
-                                email_box[i].job_name, 'C',
-                                email_box[i]._finish_time).rstrip()
+                    .format(i, email_box[i].partition,
+                            email_box[i].job_name, 'C',
+                            email_box[i]._finish_time).rstrip()
             print >>f, "{:15s} {:8s} {:25s} {:5s} {:6s}"\
-                    .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
+                .format('-'*15, '-'*8, '-'*25, '-'*5, '-'*6).rstrip()
             print >>f,  "\nHave a good day!\n"
             print >>f, ("Best,\n"
                         "From et-mei\n\n"
@@ -542,7 +546,7 @@ class EmailMan():
             msg['Subject'] = 'et-mei: Job finished!'
             msg['From'] = SERVER_EMAIL
             msg['To'] = USER_EMAIL
-            s =  smtplib.SMTP('localhost')
+            s = smtplib.SMTP('localhost')
             s.sendmail(msg['From'], msg['To'], msg.as_string())
             s.quit()
             os.remove(PATH+'tmp.txt')
@@ -555,7 +559,6 @@ class EmailMan():
                 self.del_email_box()
                 self._hold_time = None
         return
-
 
 
 if __name__ == "__main__":

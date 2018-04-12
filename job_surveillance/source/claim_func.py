@@ -1,13 +1,14 @@
 """
 supporting functions
 """
-import os
 import sys
+
 
 def SigExit(*string):
     for i in string:
         print i,
     sys.exit()
+
 
 def string_combine(*string):
     """
