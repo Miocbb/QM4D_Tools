@@ -8,20 +8,21 @@ Description:
     directory, if "-n" flag is not specified.
 
 Usage:
-    f_com   g09 input file. Do not accept "*" expression.
-            Only specify one input file at one execution.
+    f_inp   g09 file (can only by either g09.com or g09.log). Do not accept
+            "*" expression. Only specify one input file at one execution.
     -h      show help information then exit.
     -n      specified a customized output name with a user-defined
             path to save output file.
 Note:
-    1. g09.com file is required to execute this script.
+    1. a g09 file (CAN ONLY BE EITHER g09.com or g09.log) is required to
+    execute this script.
     2. if '-n' flag is not specified, density.txt file is defaultly
     created under the same directory where the g09 output file is located.
     Otherwise, it will be created under the specified directory with costumized
     name.
 
 Work flow illustration:
-g09.com --> check g09.log normal terminated --> g09.chk
+g09.com/g09.log --> check g09.log normal terminated --> g09.chk
 --> g09.fchk (formchk) --> [dst].txt
 
 Author: Yuncai Mei
@@ -41,14 +42,14 @@ def main():
     extension will be generated which can be used directly as "guess read"
     file for QM4D package. The density file will be created under the same
     directory with the g09 output file, if "-n" flag is not specified.""")
-    parser.add_argument('f_com', help='g09 input file. Do not accept "*"\
+    parser.add_argument('f_inp', help='g09 input file. Do not accept "*"\
                         expression. Only specify one input file at one\
                         execution.')
     parser.add_argument('-n', '-name', default='-1', dest='name',
                         help='specified a customized output name with a\
                         user-defined path to save output file.')
     parser.set_defaults(f_chk_name=None, f_log_name=None,
-                        f_txt_name=None, f_com_name=None)
+                        f_txt_name=None, f_inp_name=None)
     args = parser.parse_args()
 
     # initial default valuable based on args
@@ -74,22 +75,22 @@ def main():
 
 
 def init_default_var(args):
-    args.f_com_name = args.f_com
-    if not os.path.isfile(args.f_com_name):
-        print 'Terminated: g09.com file not existed'
+    args.f_inp_name = args.f_inp
+    if not os.path.isfile(args.f_inp_name):
+        print 'Terminated: input file not existed'
         sys.exit()
-    # get chk file name from g09.com file.
-    f = open(args.f_com_name, 'r')
+    # get chk file name from g09 input file (g09.com or g09.log).
+    f = open(args.f_inp_name, 'r')
     for line in f:
         line = line.lstrip().rstrip()
         if line.startswith('%chk='):
             args.f_chk_name = line.split('=')[1]
             break
     if args.f_chk_name is None:
-        print 'Terminated: no chk file can be found'
+        print 'Terminated: no chk file information can be found in input file'
         sys.exit()
     # initial other vars.
-    args.f_log_name = args.f_com_name[0:-4] + '.log'
+    args.f_log_name = args.f_inp_name[0:-4] + '.log'
     args.f_txt_name = args.f_chk_name[0:-4] + '.txt'
     if args.name != '-1':  # customize f_txt_name
         args.f_txt_name = args.name + '.txt'
