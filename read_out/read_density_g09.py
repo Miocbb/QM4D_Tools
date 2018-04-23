@@ -8,20 +8,20 @@ Description:
     directory, if "-n" flag is not specified.
 
 Usage:
-    f_chk   g09 output file. Do not accept "*" expression.
-            Only specify one output file at one execution.
+    f_com   g09 input file. Do not accept "*" expression.
+            Only specify one input file at one execution.
     -h      show help information then exit.
     -n      specified a customized output name with a user-defined
             path to save output file.
 Note:
-    1. g09.chk file is required to execute this script.
+    1. g09.com file is required to execute this script.
     2. if '-n' flag is not specified, density.txt file is defaultly
     created under the same directory where the g09 output file is located.
     Otherwise, it will be created under the specified directory with costumized
     name.
 
 Work flow illustration:
-g09.chk --> check g09.log normal terminated
+g09.com --> check g09.log normal terminated --> g09.chk
 --> g09.fchk (formchk) --> [dst].txt
 
 Author: Yuncai Mei
