@@ -80,7 +80,7 @@ def calc_dist(xyz_dict, two_atoms):
     SUM = 0
     for i in range(3):
         SUM += math.pow(atom1[i]-atom2[i], 2)
-    return math.sqrt(SUM)
+    return math.sqrt(SUM) * 100
 
 
 def main():
