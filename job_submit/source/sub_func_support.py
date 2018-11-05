@@ -423,12 +423,11 @@ def count_basis_cgot(element_name, basis_name):
 
     return: int(number of CGTO)
     """
-    QM4D_GTOLIB = s_claims.QM4D_GTOLIB
+    QM4D_GTOLIB = s_claims.QM4D_GTOLIB.rstrip("/") + "/"
     QM4D_PGTO = s_claims.QM4D_PGTO
     basis = element_name + '.' + basis_name
     if not os.path.isfile(QM4D_GTOLIB+basis):
-        SigExit(
-            "Terminated: basis {:s} does not exist in GTOLIB\n".format(basis))
+        SigExit("QM4D_GTOLIB={:s}\nTerminated: basis {:s} does not exist in GTOLIB\n".format(QM4D_GTOLIB, basis))
     f = open(QM4D_GTOLIB+basis, 'r')
     num_CGTO = 0
     # find the start line in f.

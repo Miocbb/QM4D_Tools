@@ -19,6 +19,7 @@ import math
 import sys
 import os
 import argparse
+import numpy as np
 
 
 def make_parser():
@@ -29,6 +30,8 @@ def make_parser():
                        nargs='+', type=int, dest='dist')
     parse.add_argument('-angle', help='calc angle of formed form atoms  A-B-C. \
                        [line_A, line_B, line_C]', nargs='+', type=int, dest='angle')
+    parse.add_argument('-dihedral', help='calc dihedral angle of formed form atoms  A-B-C-D. \
+                       [line_A, line_B, line_C, line_D]', nargs='+', type=int, dest='dihedral')
     return parse.parse_args()
 
 
@@ -83,12 +86,33 @@ def calc_dist(xyz_dict, two_atoms):
     return math.sqrt(SUM) * 100
 
 
+def norm(v):
+    return math.sqrt(sum([x**2 for x in v]))
+
+def calc_dihedral(xyz_dict, four_atoms):
+    '''
+    input: <type: list [int]> four_atoms
+    '''
+    atom = [xyz_dict[i] for i in four_atoms]
+    v1 = [ atom[1][i] - atom[0][i] for i in range(3)]
+    v2 = [ atom[2][i] - atom[1][i] for i in range(3)]
+    v3 = [ atom[2][i] - atom[3][i] for i in range(3)]
+    n1 = np.cross(v1, v2)
+    n2 = np.cross(v2, v3)
+    n1_l = norm(n1)
+    n2_l = norm(n2)
+
+    cos = np.dot(n1, n2) / (n1_l * n2_l)
+    angle = math.acos(cos)
+    return np.degrees(angle)
+
 def main():
     args = make_parser()
     args.xyz = os.path.abspath(args.xyz)
-    if not (args.dist is not None or args.angle is not None):
-        print("Terminated: please specify what you want to calc, distance or angle")
-        sys.exit()
+    #if not (args.dist is not None or args.angle is not None or angs.dihedral is not None):
+    #    print("Terminated: please specify what you want to calc, distance or\
+    #            bond-angle or dihedral angle")
+    #    sys.exit()
     xyz_dict = get_xyz(args)
     if args.dist is not None:
         if len(args.dist) != 2:
@@ -100,6 +124,12 @@ def main():
             print('Terminated: 3 atoms are needed for angle calc.')
             sys.exit()
         print('angle: ', calc_angle(xyz_dict, args.angle))
+    if args.dihedral is not None:
+        if len(args.dihedral) != 4:
+            print('Terminated: 4 atoms are needed for angle calc.')
+            sys.exit()
+        print('dihedral: ', calc_dihedral(xyz_dict, args.dihedral))
+
 
 
 if __name__ == '__main__':
