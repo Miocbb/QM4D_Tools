@@ -118,17 +118,17 @@ def main():
         if len(args.dist) != 2:
             print('Terminated: 2 atoms are needed for distance calc.')
             sys.exit()
-        print('distance: ', calc_dist(xyz_dict, args.dist))
+        print(calc_dist(xyz_dict, args.dist))
     if args.angle is not None:
         if len(args.angle) != 3:
             print('Terminated: 3 atoms are needed for angle calc.')
             sys.exit()
-        print('angle: ', calc_angle(xyz_dict, args.angle))
+        print(calc_angle(xyz_dict, args.angle))
     if args.dihedral is not None:
         if len(args.dihedral) != 4:
             print('Terminated: 4 atoms are needed for angle calc.')
             sys.exit()
-        print('dihedral: ', calc_dihedral(xyz_dict, args.dihedral))
+        print(calc_dihedral(xyz_dict, args.dihedral))
 
 
 
