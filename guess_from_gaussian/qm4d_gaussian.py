@@ -39,14 +39,26 @@ Basis_Gaussian = {'STO-3G':  'sto-3g',
 
 def main():
     parser = argparse.ArgumentParser(description="""Utility for QM4D package. Feed QM4D
-    with the density from Gaussian package to speed up SCF process.""")
+    with the density from Gaussian package to speed up SCF process.
+    ATTENTION: QM4D CAN ONLY READ DENSITY FILE WITH SUFFIX AS '.TXT'""")
     parser.add_argument('finp', help='input file for QM4D.')
     parser.add_argument('--qm4d', default='qm4d_force', help='command for qm4d. Default="qm4d_force"')
+    parser.set_defaults(f_inp_name=None, f_com_name=None,
+                        f_dst_name=None, f_chk_name=None)
     args = parser.parse_args()
 
     if not os.path.isfile(args.finp):
         print('Error: "{:s}" file not existed.'.format(args.finp))
-        exit()
+        sys.exit(1)
+
+    if args.finp[-4:] != '.inp':
+        print('Error: Inp file for QM4D has be *.inp.\n')
+        sys.exit(1)
+    else:
+        args.f_inp_name = args.finp[:-4]
+        args.f_com_name = args.f_inp_name + '.com'
+        args.f_dst_name = args.f_inp_name + '.txt'
+        args.f_chk_name = args.f_inp_name + '.chk'
 
     basis = qm4d_inp_get_basis(args)
     dfa = qm4d_inp_get_dfa(args)
@@ -61,8 +73,8 @@ def main():
     run_QM4D(args)
 
 
-def run_Gaussian(args):  
-    cmd = ['g09', 'tem.com']
+def run_Gaussian(args):
+    cmd = ['g09', args.f_com_name]
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     print("output from g09:\n")
@@ -85,7 +97,7 @@ def get_gaussian_dst(args):
     abs_path = os.path.realpath(abs_path)
     formdst_path = '/'.join(abs_path.split('/')[:-2]) + '/read_out/read_density_g09.py'
     print("path of formdst cmd: ",formdst_path)
-    cmd = ['/usr/bin/python', formdst_path, 'tem.chk', '-n', 'tem.txt']
+    cmd = ['/usr/bin/python', formdst_path, args.f_chk_name, '-n', args.f_dst_name]
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     print("output from formdst:\n")
@@ -99,13 +111,13 @@ def write_g09_inp(basis, dfa, charge, mult, xyz_cont, args):
     except KeyError:
         num_threads = '1'
 
-    finp = open('tem.com', 'w')
-    finp.write('%chk=tem.chk\n')
+    finp = open(args.f_com_name, 'w')
+    finp.write('%chk={:s}\n'.format(args.f_chk_name))
     finp.write('%nprocshared={:s}\n'.format(num_threads))
     finp.write('%mem=29gb\n')
     finp.write('#p {:s}/{:s} 6d 10f Int=NoBasisTransform NoSymm\n'.format(DFA_Gaussian[dfa], Basis_Gaussian[basis]))
     finp.write('\n')
-    finp.write('tem file to give gaussian density\n')
+    finp.write('Gaussian calculation to give converged density\n')
     finp.write('\n')
     finp.write('{:s} {:s}\n'.format(charge, mult))
     for i in xyz_cont:
