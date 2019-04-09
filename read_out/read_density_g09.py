@@ -81,7 +81,7 @@ def init_default_var(args):
         sys.exit()
 
     # dst file
-    args.f_dst_name = args.f_chk_name[0:-4] + '.dst'
+    args.f_dst_name = args.f_chk_name[0:-4] + '.txt'
     if args.name != '-1':  # customize f_txt_name
         args.f_dst_name = args.name
 
