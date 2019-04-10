@@ -20,7 +20,6 @@ import time
 
 DFA_Gaussian = {'blyp': ['blyp', 'ublyp'],
                 'b3lyp': ['b3lyp', 'ub3lyp'],
-                'lda': ['lsda', 'ulsda'],
                 'pbe': ['pbepbe', 'upbepbe']
 }
 
