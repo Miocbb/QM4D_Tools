@@ -69,6 +69,15 @@ def main():
             print("Error: dfa ({:s}) for gaussian calculation is not supportted yet.".format(args.dfa))
             sys.exit(1)
 
+    f = open(args.finp)
+    calc_g09 = False
+    for line in f:
+        if 'guess' in line and 'read' in line:
+            calc_g09 = True
+    if calc_g09 is False:
+        return;
+    f.close()
+
     basis = qm4d_inp_get_basis(args)
     dfa = qm4d_inp_get_dfa(args)
     charge = qm4d_inp_get_charge(args)
