@@ -82,6 +82,7 @@ def main():
         if 'guess' in line and 'read' in line:
             calc_g09 = True
     if calc_g09 is False:
+        print("Error: no gaussian dst is needed in qm4d inp file.")
         return;
     f.close()
 
@@ -110,6 +111,7 @@ def main():
     print("           Time Usage Report")
     print("--------------------------------------------")
     print("| Process                 | Wall Time")
+    print("|-------------------------------------------")
     print("| Gaussian                | {:f}".format(End_Gaussian - Start_Gaussian))
     print("| QM4D                    | {:f}".format(End_QM4D - Start_QM4D))
     print("| Total                   | {:f}".format(End_All - Start_All))
@@ -117,27 +119,21 @@ def main():
 
 
 def run_Gaussian(args):
-    cmd = ['g09', args.f_com_name]
-    p = Popen(cmd, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = p.communicate()
     print("*************************")
     print("Output from Gaussian:")
     print("*************************")
-    print(stdout.decode('utf-8'))
-    print(stderr.decode('utf-8'))
+    cmd = ' '.join(['g09', args.f_com_name])
+    os.system(cmd)
     sys.stdout.flush()
 
 
 def run_QM4D(args):
     print("qm4d cmd: ", args.qm4d)
-    cmd = [args.qm4d, args.finp]
-    p = Popen(cmd, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = p.communicate()
     print("*************************")
     print("Output from QM4D:")
     print("*************************")
-    print(stdout.decode('utf-8'))
-    print(stderr.decode('utf-8'))
+    cmd = ' '.join([args.qm4d, args.finp])
+    os.system(cmd)
     sys.stdout.flush()
 
 
@@ -171,7 +167,7 @@ def write_g09_inp(basis, dfa_qm4d, charge, mult, spin, xyz_cont, args):
     finp = open(args.f_com_name, 'w')
     finp.write('%chk={:s}\n'.format(args.f_chk_name))
     finp.write('%nprocshared={:s}\n'.format(num_threads))
-    finp.write('%mem={:s}gb\n'.format(args.mem))
+    finp.write('%mem={:s}\n'.format(args.mem))
     finp.write('#p {:s}/{:s} 6d 10f Int=NoBasisTransform NoSymm\n'.format(DFA_Gaussian[dfa][spin-1], Basis_Gaussian[basis]))
     finp.write('\n')
     finp.write('Gaussian calculation to give converged density\n')
