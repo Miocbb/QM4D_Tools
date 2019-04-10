@@ -43,6 +43,7 @@ def main():
     with the density from Gaussian package to speed up SCF process.
     ATTENTION: QM4D CAN ONLY READ DENSITY FILE WITH SUFFIX AS '.TXT'""")
     parser.add_argument('finp', help='input file for QM4D.')
+    parser.add_argument('mem', help='mem in GB for g09. E.g. 5GB')
     parser.add_argument('--qm4d', default='qm4d_force', help='qm4d cmd. Default="qm4d_force"')
     parser.add_argument('--dfa', default=None, help='dfa used in Gaussian calculation. Default=the same dfa in qm4d input')
     parser.set_defaults(f_inp_name=None, f_com_name=None,
@@ -62,6 +63,13 @@ def main():
         args.f_dst_name = args.f_inp_name + '.txt'
         args.f_chk_name = args.f_inp_name + '.chk'
         args.f_dst_name = qm4d_inp_get_dst_name(args)
+
+    if not args.mem.upper().endswith("GB"):
+        if args.mem.upper().endswith("G"):
+            args.mem = args.mem.upper() + 'B'
+        else:
+            print('Error: Memory specification wrong.')
+            sys.exit(1)
 
     if args.dfa:
         if args.dfa not in DFA_Gaussian.keys():
@@ -163,7 +171,7 @@ def write_g09_inp(basis, dfa_qm4d, charge, mult, spin, xyz_cont, args):
     finp = open(args.f_com_name, 'w')
     finp.write('%chk={:s}\n'.format(args.f_chk_name))
     finp.write('%nprocshared={:s}\n'.format(num_threads))
-    finp.write('%mem=29gb\n')
+    finp.write('%mem={:s}gb\n'.format(args.mem))
     finp.write('#p {:s}/{:s} 6d 10f Int=NoBasisTransform NoSymm\n'.format(DFA_Gaussian[dfa][spin-1], Basis_Gaussian[basis]))
     finp.write('\n')
     finp.write('Gaussian calculation to give converged density\n')
