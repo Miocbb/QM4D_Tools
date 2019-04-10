@@ -18,10 +18,10 @@ import inspect
 import time
 
 
-DFA_Gaussian = {'blyp': 'blyp',
-                'b3lyp': 'b3lyp',
-                'lda': 'lsda',
-                'pbe': 'pbepbe'
+DFA_Gaussian = {'blyp': ['blyp', 'ublyp'],
+                'b3lyp': ['b3lyp', 'ub3lyp'],
+                'lda': ['lsda', 'ulsda'],
+                'pbe': ['pbepbe', 'upbepbe']
 }
 
 Basis_Gaussian = {'STO-3G':  'sto-3g',
@@ -54,7 +54,7 @@ def main():
         sys.exit(1)
 
     if args.finp[-4:] != '.inp':
-        print('Error: Inp file for QM4D has be *.inp.\n')
+        print('Error: Inp file for QM4D has be *.inp.')
         sys.exit(1)
     else:
         args.f_inp_name = args.finp[:-4]
@@ -68,8 +68,9 @@ def main():
     charge = qm4d_inp_get_charge(args)
     mult = qm4d_inp_get_mult(args)
     xyz_cont = qm4d_inp_get_xyz(args)
+    spin = qm4d_inp_get_spin(args)
 
-    write_g09_inp(basis, dfa, charge, mult, xyz_cont, args)
+    write_g09_inp(basis, dfa, charge, mult, spin, xyz_cont, args)
 
     Start_Gaussian = time.time()
     run_Gaussian(args)
@@ -84,12 +85,13 @@ def main():
     End_All = time.time()
 
     print("\n")
-    print("--------------------------------------------\n")
-    print("| Process                 | Wall Time\n")
-    print("| Gaussian                | {:f}\n".format(End_Gaussian - Start_Gaussian))
-    print("| QM4D                    | {:f}\n".format(End_QM4D - Start_QM4D))
-    print("| Total                   | {:f}\n".format(End_All - Start_All))
-    print("--------------------------------------------\n")
+    print("           Time Usage Report")
+    print("--------------------------------------------")
+    print("| Process                 | Wall Time")
+    print("| Gaussian                | {:f}".format(End_Gaussian - Start_Gaussian))
+    print("| QM4D                    | {:f}".format(End_QM4D - Start_QM4D))
+    print("| Total                   | {:f}".format(End_All - Start_All))
+    print("--------------------------------------------")
 
 
 def run_Gaussian(args):
@@ -97,7 +99,7 @@ def run_Gaussian(args):
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     print("*************************")
-    print("\nOutput from Gaussian:\n")
+    print("Output from Gaussian:")
     print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
@@ -110,7 +112,7 @@ def run_QM4D(args):
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     print("*************************")
-    print("\nOutput from QM4D:\n")
+    print("Output from QM4D:")
     print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
@@ -126,14 +128,14 @@ def get_gaussian_dst(args):
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     print("*************************")
-    print("Output from formdst:\n")
+    print("Output from formdst:")
     print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
     sys.stdout.flush()
 
 
-def write_g09_inp(basis, dfa, charge, mult, xyz_cont, args):
+def write_g09_inp(basis, dfa, charge, mult, spin, xyz_cont, args):
     try:
         num_threads = os.environ['OMP_NUM_THREADS']
     except KeyError:
@@ -143,7 +145,7 @@ def write_g09_inp(basis, dfa, charge, mult, xyz_cont, args):
     finp.write('%chk={:s}\n'.format(args.f_chk_name))
     finp.write('%nprocshared={:s}\n'.format(num_threads))
     finp.write('%mem=29gb\n')
-    finp.write('#p {:s}/{:s} 6d 10f Int=NoBasisTransform NoSymm\n'.format(DFA_Gaussian[dfa], Basis_Gaussian[basis]))
+    finp.write('#p {:s}/{:s} 6d 10f Int=NoBasisTransform NoSymm\n'.format(DFA_Gaussian[dfa][spin-1], Basis_Gaussian[basis]))
     finp.write('\n')
     finp.write('Gaussian calculation to give converged density\n')
     finp.write('\n')
@@ -156,6 +158,19 @@ def write_g09_inp(basis, dfa, charge, mult, xyz_cont, args):
     return;
 
 
+def qm4d_inp_get_spin(args):
+    finp = open(args.finp, 'r')
+    for line in finp:
+        if 'spin' in line:
+            spin = line.split()[-1]
+            break
+    if spin:
+        return int(spin)
+    else:
+        print('Error: no spin is specified.')
+        sys.exit(1)
+
+
 def qm4d_inp_get_dst_name(args):
     finp = open(args.finp, 'r')
     for line in finp:
@@ -165,7 +180,7 @@ def qm4d_inp_get_dst_name(args):
     if dst:
         return dst
     else:
-        print('Error: no density file is specified.\n')
+        print('Error: no density file is specified.')
         sys.exit(1)
 
 
@@ -178,7 +193,7 @@ def qm4d_inp_get_charge(args):
     if charge:
         return charge
     else:
-        print('Error: no charge is specified.\n')
+        print('Error: no charge is specified.')
         sys.exit(1)
 
 
@@ -216,14 +231,14 @@ def qm4d_inp_get_dfa(args):
             elif cfunc == 'b3lyp':
                 dfa = 'b3lyp'
             else:
-                print("Error: specified DFA in qm4d inp file is not supported for now.\n")
+                print("Error: specified DFA in qm4d inp file is not supported for now.")
                 exit()
             break
     finp.close()
     if dfa:
         return dfa
     else:
-        print("Error: no DFA is specified in QM4D inp file.\n")
+        print("Error: no DFA is specified in QM4D inp file.")
 
 
 def qm4d_inp_get_basis(args):
@@ -238,10 +253,10 @@ def qm4d_inp_get_basis(args):
         if len(basis) == 1:
             return basis[0]
         else:
-            print('Error: more than one basis set is used, not supportted yet.\n')
+            print('Error: more than one basis set is used, not supportted yet.')
             exit()
     else:
-        print('Error: no basis is specified.\n')
+        print('Error: no basis is specified.')
         exit()
 
 
@@ -256,7 +271,7 @@ def qm4d_inp_get_xyz(args):
     if os.path.isfile(fxyz):
         return open(fxyz, 'r').readlines()[2:]
     else:
-        print('Error: no xyz file is specifed.\n')
+        print('Error: no xyz file is specifed.')
         exit()
 
 
