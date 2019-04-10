@@ -47,7 +47,8 @@ def main():
     parser.add_argument('--qm4d', default='qm4d_force', help='qm4d cmd. Default="qm4d_force"')
     parser.add_argument('--dfa', default=None, help='dfa used in Gaussian calculation. Default=the same dfa in qm4d input')
     parser.set_defaults(f_inp_name=None, f_com_name=None,
-                        f_dst_name=None, f_chk_name=None)
+                        f_dst_name=None, f_chk_name=None,
+                        f_log_name=None)
     args = parser.parse_args()
 
     if not os.path.isfile(args.finp):
@@ -60,6 +61,7 @@ def main():
     else:
         args.f_inp_name = args.finp[:-4]
         args.f_com_name = args.f_inp_name + '.com'
+        args.f_log_name = args.f_inp_name + '.log'
         args.f_dst_name = args.f_inp_name + '.txt'
         args.f_chk_name = args.f_inp_name + '.chk'
         args.f_dst_name = qm4d_inp_get_dst_name(args)
@@ -125,6 +127,16 @@ def run_Gaussian(args):
     cmd = ' '.join(['g09', args.f_com_name])
     os.system(cmd)
     sys.stdout.flush()
+
+    f = open(args.f_log_name)
+    for line in f:
+        pass
+    lastline = line
+    if 'Normal termination' in lastline:
+        print("Gaussian terminated normally.")
+    else:
+        print("Error: Gaussian terminated with error.")
+        sys.exit(1)
 
 
 def run_QM4D(args):
