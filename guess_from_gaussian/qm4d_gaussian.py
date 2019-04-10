@@ -59,13 +59,13 @@ def main():
         args.f_com_name = args.f_inp_name + '.com'
         args.f_dst_name = args.f_inp_name + '.txt'
         args.f_chk_name = args.f_inp_name + '.chk'
+        args.f_dst_name = qm4d_inp_get_dst_name(args)
 
     basis = qm4d_inp_get_basis(args)
     dfa = qm4d_inp_get_dfa(args)
     charge = qm4d_inp_get_charge(args)
     mult = qm4d_inp_get_mult(args)
     xyz_cont = qm4d_inp_get_xyz(args)
-    dst = qm4d_inp_get_dst_name(args)
 
     write_g09_inp(basis, dfa, charge, mult, xyz_cont, args)
     run_Gaussian(args)
