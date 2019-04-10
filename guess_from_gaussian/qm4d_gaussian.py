@@ -15,6 +15,7 @@ import subprocess as subp
 from subprocess import Popen, PIPE
 import os
 import inspect
+import time
 
 
 DFA_Gaussian = {'blyp': 'blyp',
@@ -38,6 +39,7 @@ Basis_Gaussian = {'STO-3G':  'sto-3g',
 
 
 def main():
+    Start_All = time.time()
     parser = argparse.ArgumentParser(description="""Utility for QM4D package. Feed QM4D
     with the density from Gaussian package to speed up SCF process.
     ATTENTION: QM4D CAN ONLY READ DENSITY FILE WITH SUFFIX AS '.TXT'""")
@@ -68,18 +70,38 @@ def main():
     xyz_cont = qm4d_inp_get_xyz(args)
 
     write_g09_inp(basis, dfa, charge, mult, xyz_cont, args)
+
+    Start_Gaussian = time.time()
     run_Gaussian(args)
+    End_Gaussian = time.time()
+
     get_gaussian_dst(args)
+
+    Start_QM4D = time.time()
     run_QM4D(args)
+    End_QM4D = time.time()
+
+    End_All = time.time()
+
+    print("\n")
+    print("--------------------------------------------\n")
+    print("| Process                 | Wall Time\n")
+    print("| Gaussian                | {:f}\n".format(End_Gaussian - Start_Gaussian))
+    print("| QM4D                    | {:f}\n".format(End_QM4D - Start_QM4D))
+    print("| Total                   | {:f}\n".format(End_All - Start_All))
+    print("--------------------------------------------\n")
 
 
 def run_Gaussian(args):
     cmd = ['g09', args.f_com_name]
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
-    print("output from g09:\n")
+    print("*************************")
+    print("\nOutput from Gaussian:\n")
+    print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
+    sys.stdout.flush()
 
 
 def run_QM4D(args):
@@ -87,9 +109,12 @@ def run_QM4D(args):
     cmd = [args.qm4d, args.finp]
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
-    print("output from QM4D:\n")
+    print("*************************")
+    print("\nOutput from QM4D:\n")
+    print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
+    sys.stdout.flush()
 
 
 def get_gaussian_dst(args):
@@ -100,9 +125,12 @@ def get_gaussian_dst(args):
     cmd = ['/usr/bin/python', formdst_path, args.f_chk_name, '-n', args.f_dst_name]
     p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
-    print("output from formdst:\n")
+    print("*************************")
+    print("Output from formdst:\n")
+    print("*************************")
     print(stdout.decode('utf-8'))
     print(stderr.decode('utf-8'))
+    sys.stdout.flush()
 
 
 def write_g09_inp(basis, dfa, charge, mult, xyz_cont, args):
