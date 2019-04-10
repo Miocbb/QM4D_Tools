@@ -44,7 +44,8 @@ def main():
     with the density from Gaussian package to speed up SCF process.
     ATTENTION: QM4D CAN ONLY READ DENSITY FILE WITH SUFFIX AS '.TXT'""")
     parser.add_argument('finp', help='input file for QM4D.')
-    parser.add_argument('--qm4d', default='qm4d_force', help='command for qm4d. Default="qm4d_force"')
+    parser.add_argument('--qm4d', default='qm4d_force', help='qm4d cmd. Default="qm4d_force"')
+    parser.add_argument('--dfa', default=None, help='dfa used in Gaussian calculation. Default=the same dfa in qm4d input')
     parser.set_defaults(f_inp_name=None, f_com_name=None,
                         f_dst_name=None, f_chk_name=None)
     args = parser.parse_args()
@@ -62,6 +63,11 @@ def main():
         args.f_dst_name = args.f_inp_name + '.txt'
         args.f_chk_name = args.f_inp_name + '.chk'
         args.f_dst_name = qm4d_inp_get_dst_name(args)
+
+    if args.dfa:
+        if args.dfa not in DFA_Gaussian.keys():
+            print("Error: dfa ({:s}) for gaussian calculation is not supportted yet.".format(args.dfa))
+            sys.exit(1)
 
     basis = qm4d_inp_get_basis(args)
     dfa = qm4d_inp_get_dfa(args)
@@ -135,11 +141,16 @@ def get_gaussian_dst(args):
     sys.stdout.flush()
 
 
-def write_g09_inp(basis, dfa, charge, mult, spin, xyz_cont, args):
+def write_g09_inp(basis, dfa_qm4d, charge, mult, spin, xyz_cont, args):
     try:
         num_threads = os.environ['OMP_NUM_THREADS']
     except KeyError:
         num_threads = '1'
+
+    if args.dfa:
+        dfa = args.dfa
+    else:
+        dfa = dfa_qm4d
 
     finp = open(args.f_com_name, 'w')
     finp.write('%chk={:s}\n'.format(args.f_chk_name))
@@ -226,7 +237,7 @@ def qm4d_inp_get_dfa(args):
                 dfa = 'blyp'
             elif cfunc == 'clda' and xfunc == 'xlda':
                 dfa = 'lda'
-            elif cfunc == 'xpbe' and xfunc == 'xpbe':
+            elif cfunc == 'cpbe' and xfunc == 'xpbe':
                 dfa = 'pbe'
             elif cfunc == 'b3lyp':
                 dfa = 'b3lyp'
