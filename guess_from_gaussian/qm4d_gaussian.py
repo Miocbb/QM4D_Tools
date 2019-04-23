@@ -280,7 +280,7 @@ def qm4d_inp_get_basis(args):
     finp = open(args.finp, 'r')
     basis = []
     for line in finp:
-        if 'basis' in line:
+        if 'basis' in line and 'fitbasis' not in line:
             basis_t = line.split()[-1].split('.')[-1]
             basis.append(basis_t)
     basis = list(set(basis))
